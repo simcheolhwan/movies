@@ -55,8 +55,11 @@ th {
 
 button,
 input {
+  background-color: transparent;
+  border: 1px solid silver;
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
   margin: 0;
+  outline: 0;
 }
