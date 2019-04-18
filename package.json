@@ -2,6 +2,7 @@
   "name": "movies",
   "dependencies": {
     "axios": "^0.18.0",
+    "node-sass": "^4.11.0",
     "ramda": "^0.26.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
