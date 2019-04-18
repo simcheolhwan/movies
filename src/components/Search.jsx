@@ -1,103 +1,95 @@
-import React, { Component, Fragment } from 'react'
-import debounce from 'lodash/fp/debounce'
-import { cond, equals } from 'ramda'
-import axios from 'axios'
-import api, { api_key } from '../api'
+import React, { useState, useEffect } from 'react'
+import { cond, equals, sortBy, prop, reverse, compose } from 'ramda'
+import api from '../api'
 
-class Search extends Component {
-  name = 'search'
-  InitialState = { movies: [], error: {}, currentIndex: NaN }
-  state = { [this.name]: '', ...this.InitialState }
+const Search = () => {
+  const [search, setSearch] = useState('')
+  const [movies, setMovies] = useState([])
+  const [error, setError] = useState()
+  const [currentIndex, handleKeyDown] = useCurrent({ max: movies.length })
 
-  /* event */
-  handleChange = event =>
-    this.setState({ [event.target.name]: event.target.value }, () => {
-      // 쿼리를 요청한다. 단, 인풋이 모두 지워지면 데이터도 지운다.
-      const query = this.state[this.name].trim()
-      query ? this.search(query) : this.reset()
-    })
+  useEffect(() => {
+    const query = search.trim()
+    query ? request(query) : reset() // 입력이 비면 내용도 비운다.
+  }, [search])
 
-  handleKeyDown = event =>
+  const reset = () => {
+    setSearch('')
+    setMovies([])
+    setError()
+  }
+
+  /* API */
+  const request = async query => {
+    // TODO: debounce
+    const params = { language: 'ko-KR', region: 'KR', query }
+    try {
+      // TODO: 직전 요청 취소
+      const { data } = await api({ url: 'search/movie', params })
+      const { results } = data
+      results.length && setMovies(sortByVoteCount(results))
+    } catch (error) {
+      setError(error)
+    }
+  }
+
+  /* render */
+  const renderItem = (item, index) => (
+    <li style={{ fontWeight: index === currentIndex && 'bold' }} key={item.id}>
+      {item.title}
+    </li>
+  )
+
+  // TODO: onEnter
+  return (
+    <>
+      <input
+        type="search"
+        name="search"
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+        onKeyDown={handleKeyDown}
+        autoFocus
+      />
+
+      {error
+        ? error.message
+        : !!movies.length && <ul>{movies.map(renderItem)}</ul>}
+    </>
+  )
+}
+
+export default Search
+
+/* utils */
+const sortByVoteCount = compose(
+  reverse,
+  sortBy(prop('vote_count'))
+)
+
+/* hooks */
+const useCurrent = ({ max }) => {
+  const [currentIndex, setCurrentIndex] = useState()
+
+  const handleKeyDown = e =>
     cond([
-      [
-        equals('Enter'),
-        () => console.info(JSON.stringify(this.getCurrentMovie(), null, 2))
-      ],
       [
         equals('ArrowDown'),
         () =>
-          this.setState(prev => {
-            const { currentIndex, movies } = prev
-            const next = Number.isInteger(currentIndex) ? currentIndex + 1 : 0
-            return { currentIndex: next < movies.length ? next : 0 }
+          setCurrentIndex(prev => {
+            const next = Number.isInteger(prev) ? prev + 1 : 0
+            return next < max ? next : 0
           })
       ],
       [
         equals('ArrowUp'),
         () =>
-          this.setState(prev => {
-            const { currentIndex, movies } = prev
-            const next = Number.isInteger(currentIndex)
-              ? currentIndex - 1
-              : movies.length
-            return { currentIndex: next < 0 ? movies.length - 1 : next }
+          setCurrentIndex(prev => {
+            const next = Number.isInteger(prev) ? currentIndex - 1 : max
+            return next < 0 ? max - 1 : next
           })
       ]
-    ])(event.key)
+    ])(e.key)
 
-  /* API */
-  search = debounce(100)(async query => {
-    const url = 'search/movie'
-    const params = { api_key, language: 'ko-KR', region: 'KR', query }
-    const request = { ...api, url, params }
-
-    try {
-      const { data } = await axios(request)
-      const { results = [] } = data
-      const movies = results.sort(sortWith('vote_count'))
-
-      // 응답이 온 후에 인풋이 비어있으면 데이터를 지운다.
-      const isBlank = !this.state[this.name]
-      movies.length && this.setState({ movies }, () => isBlank && this.reset())
-    } catch (error) {
-      this.setState({ error })
-    }
-  })
-
-  /* Data */
-  getCurrentMovie = () => this.state.movies[this.state.currentIndex]
-  reset = () => this.setState(this.InitialState)
-
-  /* render */
-  renderItem = (item, index) => (
-    <li
-      style={{ backgroundColor: index === this.state.currentIndex && 'silver' }}
-      key={item.id}
-    >
-      {item.title}
-    </li>
-  )
-
-  render() {
-    const { movies, error } = this.state
-
-    return (
-      <Fragment>
-        <input
-          name={this.name}
-          value={this.state[this.name]}
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyDown}
-        />
-
-        {error.message ||
-          (!!movies.length && <ul>{movies.map(this.renderItem)}</ul>)}
-      </Fragment>
-    )
-  }
+  return [currentIndex, handleKeyDown]
 }
-
-export default Search
-
-/* Utility */
-const sortWith = key => (a, b) => b[key] - a[key]
