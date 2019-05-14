@@ -2,6 +2,7 @@
   "name": "movies",
   "dependencies": {
     "axios": "^0.18.0",
+    "firebase": "^6.0.2",
     "node-sass": "^4.12.0",
     "ramda": "^0.26.1",
     "react": "^16.8.6",
