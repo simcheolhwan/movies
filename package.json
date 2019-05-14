@@ -2,16 +2,16 @@
   "name": "movies",
   "dependencies": {
     "axios": "^0.18.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "ramda": "^0.26.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "^2.1.8"
+    "react-scripts": "^3.0.1"
   },
   "devDependencies": {
-    "husky": "^1.3.1",
-    "lint-staged": "^8.1.5",
-    "prettier": "^1.17.0"
+    "husky": "^2.2.0",
+    "lint-staged": "^8.1.6",
+    "prettier": "^1.17.1"
   },
   "scripts": {
     "start": "react-scripts start",
