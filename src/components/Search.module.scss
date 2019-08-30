@@ -1,0 +1,43 @@
+.form {
+  input {
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: 0.3rem;
+    width: 100%;
+  }
+}
+
+.results {
+  > .title {
+    font-weight: bold;
+    padding: 5px;
+  }
+
+  .list {
+    display: flex;
+    overflow-x: scroll;
+    padding-bottom: 15px;
+  }
+
+  .item {
+    flex: none;
+    margin-right: 15px;
+  }
+}
+
+.movie {
+  display: flex;
+  align-items: center;
+
+  border-radius: 0.3rem;
+  padding: 5px;
+
+  .title {
+    margin-left: 5px;
+  }
+
+  &:hover {
+    background: lighten(black, 92%);
+  }
+}

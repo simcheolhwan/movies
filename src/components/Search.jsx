@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { cond, equals, sortBy, prop, reverse, compose } from 'ramda'
-import api from '../api'
-import { db } from '../firebase'
+import { searchMovies } from '../api/tmdb'
+import { useActions } from '../api/hooks'
+import Poster from './Poster'
+import styles from './Search.module.scss'
 
 const Search = () => {
   const [search, setSearch] = useState('')
   const [movies, setMovies] = useState([])
   const [error, setError] = useState()
-  const [currentIndex, handleKeyDown] = useCurrent({ max: movies.length })
+
+  const { addMovie } = useActions()
 
   useEffect(() => {
     /* API */
     const request = async query => {
-      // TODO: debounce
-      const params = { language: 'ko-KR', region: 'KR', query }
+      // TODO: debounce, cancel
+      setError(null)
+
       try {
-        // TODO: 직전 요청 취소
-        const { data } = await api({ url: 'search/movie', params })
-        const { results } = data
-        results.length && setMovies(sortByProp('vote_count')(results))
+        const movies = await searchMovies(query)
+        movies.length && setMovies(movies)
       } catch (error) {
         setError(error)
       }
@@ -35,77 +36,44 @@ const Search = () => {
   }
 
   /* actions */
-  const addMovie = e => {
+  const submit = e => {
     e.preventDefault()
-    const movie = movies[currentIndex]
-    db.ref('movies/' + movie.id).set(movie)
+    addMovie(movies[0])
   }
 
   /* render */
-  const renderItem = (item, index) => (
-    <li style={{ fontWeight: index === currentIndex && 'bold' }} key={item.id}>
-      {item.title}
+  const renderItem = ({ id, title, poster_path }, index) => (
+    <li className={styles.item} key={id}>
+      <button onClick={() => addMovie(movies[index])} className={styles.movie}>
+        <Poster w={92} path={poster_path} />
+        <h1 className={styles.title}>{title}</h1>
+      </button>
     </li>
   )
 
-  // TODO: onEnter
   return (
-    <form onSubmit={addMovie}>
+    <form onSubmit={submit} className={styles.form}>
       <input
         type="search"
         name="search"
         value={search}
         onChange={e => setSearch(e.target.value)}
-        onKeyDown={handleKeyDown}
         autoComplete="off"
         autoFocus
       />
 
       {error
         ? error.message
-        : !!movies.length && <ul>{movies.map(renderItem)}</ul>}
+        : !!movies.length && (
+            <section className={styles.results}>
+              <h1 className={styles.title}>검색 결과</h1>
+              <ul className={styles.list}>{movies.map(renderItem)}</ul>
+            </section>
+          )}
 
-      <button type="submit" disabled={!Number.isInteger(currentIndex)} />
+      <button type="submit" disabled={!movies.length} />
     </form>
   )
 }
 
 export default Search
-
-/* utils */
-const sortByProp = p =>
-  compose(
-    reverse,
-    sortBy(prop(p))
-  )
-
-/* hooks */
-const useCurrent = ({ max }) => {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  const handleKeyDown = e =>
-    cond([
-      [
-        equals('ArrowDown'),
-        () => {
-          e.preventDefault()
-          setCurrentIndex(prev => {
-            const next = Number.isInteger(prev) ? prev + 1 : 0
-            return next < max ? next : 0
-          })
-        }
-      ],
-      [
-        equals('ArrowUp'),
-        () => {
-          e.preventDefault()
-          setCurrentIndex(prev => {
-            const next = Number.isInteger(prev) ? currentIndex - 1 : max
-            return next < 0 ? max - 1 : next
-          })
-        }
-      ]
-    ])(e.key)
-
-  return [currentIndex, handleKeyDown]
-}

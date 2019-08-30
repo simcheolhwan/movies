@@ -1,0 +1,32 @@
+.tabs {
+  margin: 5px;
+  text-align: center;
+}
+
+.tab {
+  background: lighten(black, 95%);
+  border-radius: 0.2rem;
+  font-size: 0.75rem;
+  margin: 5px;
+  padding: 5px;
+
+  &:hover {
+    background: silver;
+  }
+
+  &.active {
+    background: silver;
+  }
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -30px;
+}
+
+.item {
+  padding: 30px;
+  text-align: center;
+  width: 25%;
+}

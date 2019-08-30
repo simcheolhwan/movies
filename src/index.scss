@@ -11,16 +11,31 @@ html {
 
 body {
   margin: 0;
+  padding: 30px;
 }
 
 h1,
-p,
-ul {
+p {
   margin: 0;
 }
 
-button,
-input {
+h1 {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  display: block;
+}
+
+input,
+button {
   background: transparent;
   border: 0;
   outline: 0;
@@ -29,4 +44,12 @@ input {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+}
+
+input {
+  border: 1px solid silver;
+}
+
+button:hover {
+  cursor: pointer;
 }
