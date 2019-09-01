@@ -1,3 +1,4 @@
+/* tabs */
 .tabs {
   margin: 5px;
   text-align: center;
@@ -19,14 +20,33 @@
   }
 }
 
+/* main */
+.main {
+  display: flex;
+  align-items: flex-start;
+
+  > * {
+    flex: 1;
+  }
+
+  > nav {
+    flex: none;
+    min-width: 160px;
+  }
+}
+
+/* grid */
 .grid {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -30px;
 }
 
 .item {
-  padding: 30px;
+  margin-bottom: 60px;
   text-align: center;
   width: 25%;
+}
+
+.empty {
+  text-align: center;
 }

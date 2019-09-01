@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
 import { useApp } from '../api/hooks'
+import Genres from './Genres'
 import Movie from './Movie'
 import styles from './Movies.module.scss'
 
-const Movies = () => {
+const Movies = ({ match }) => {
+  const selectedGenre = match.params.genre || ''
   const [selectedYear, setSelectedYear] = useState()
   const { indexes, movies } = useApp()
 
   /* render */
   const entries = Object.entries(movies)
   const filtered = entries.filter(
-    ([, value]) => !selectedYear || value.watched_at === selectedYear
+    ([, value]) =>
+      (!selectedYear || value.watched_at === selectedYear) &&
+      (!selectedGenre || (value.genre || 'inbox') === selectedGenre)
   )
 
   return !entries.length ? null : (
@@ -32,17 +36,23 @@ const Movies = () => {
         })}
       </section>
 
-      {!filtered.length ? (
-        <p>Empty</p>
-      ) : (
-        <ul className={styles.grid}>
-          {filtered.map(([key, value]) => (
-            <li className={styles.item} key={key}>
-              <Movie {...value} />
-            </li>
-          ))}
-        </ul>
-      )}
+      <section className={styles.main}>
+        <nav>
+          <Genres selected={selectedGenre} />
+        </nav>
+
+        {!filtered.length ? (
+          <p className={styles.empty}>Empty</p>
+        ) : (
+          <ul className={styles.grid}>
+            {filtered.map(([key, value]) => (
+              <li className={styles.item} key={key}>
+                <Movie {...value} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </>
   )
 }
