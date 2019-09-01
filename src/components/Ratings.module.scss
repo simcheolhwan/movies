@@ -1,0 +1,22 @@
+.component {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: (342px / 2);
+}
+
+.grade {
+  display: flex;
+
+  svg {
+    margin-left: 5px;
+  }
+}
+
+.button {
+  color: lightgray;
+}
+
+.active {
+  color: unset;
+}

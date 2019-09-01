@@ -34,6 +34,10 @@ export const useActions = () => {
       db.ref(`movies/${id}/genre`).set(genre)
     },
 
+    rateMovie: (id, ratings) => {
+      db.ref(`movies/${id}/ratings`).set(ratings)
+    },
+
     /* Genre */
     addGenre: genre => {
       db.ref(`indexes/genre`).set(append('genre', genre))

@@ -11,7 +11,7 @@ const Genres = ({ selected }) => {
   const actions = useActions()
 
   const addGenre = () => {
-    const input = prompt().trim()
+    const input = (prompt() || '').trim()
     input && actions.addGenre(input)
   }
 
