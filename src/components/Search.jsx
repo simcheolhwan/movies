@@ -42,11 +42,11 @@ const Search = () => {
   }
 
   /* render */
-  const renderItem = ({ id, title, poster_path }, index) => (
+  const renderItem = ({ id, title, name, poster_path }, index) => (
     <li className={styles.item} key={id}>
       <button onClick={() => addMovie(movies[index])} className={styles.movie}>
         <Poster w={92} path={poster_path} />
-        <h1 className={styles.title}>{title}</h1>
+        <h1 className={styles.title}>{title || name}</h1>
       </button>
     </li>
   )

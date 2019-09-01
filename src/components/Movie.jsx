@@ -5,7 +5,7 @@ import { useActions } from '../api/hooks'
 import Poster from './Poster'
 import styles from './Movie.module.scss'
 
-const Movie = ({ tmdb: { id, title, poster_path } }) => {
+const Movie = ({ tmdb: { id, title, name, poster_path } }) => {
   const { moveMovie } = useActions()
 
   const [{ isDragging }, drag, preview] = useDrag({
@@ -25,7 +25,7 @@ const Movie = ({ tmdb: { id, title, poster_path } }) => {
     >
       <DragPreviewImage connect={preview} src={previewImage} />
       <Poster w={342} path={poster_path} className={styles.poster} />
-      <h1 className={styles.title}>{title}</h1>
+      <h1 className={styles.title}>{title || name}</h1>
     </article>
   )
 }

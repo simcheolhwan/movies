@@ -5,12 +5,15 @@ import { AppContext } from '../components/App'
 
 /* Constants */
 const Metadata = [
+  'media_type',
   'id',
-  'original_language',
+  'title',
+  'name',
   'original_title',
+  'original_name',
+  'original_language',
   'poster_path',
-  'release_date',
-  'title'
+  'release_date'
 ]
 
 export const useApp = () => useContext(AppContext)

@@ -16,7 +16,7 @@ const api = ({ params, ...rest }) => {
 /* Movies */
 export const searchMovies = async query => {
   const params = { language: 'ko-KR', region: 'KR', query }
-  const { data } = await api({ url: 'search/movie', params })
+  const { data } = await api({ url: 'search/multi', params })
   const { results } = data
   return sortByProp('vote_count')(results)
 }
