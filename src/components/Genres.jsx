@@ -7,7 +7,7 @@ import Genre from './Genre'
 import styles from './Genre.module.scss'
 
 const Genres = ({ selected }) => {
-  const { indexes } = useApp()
+  const { authenticated, indexes } = useApp()
   const actions = useActions()
 
   const addGenre = () => {
@@ -42,9 +42,11 @@ const Genres = ({ selected }) => {
         </Genre>
       ))}
 
-      <button onClick={addGenre} className={styles.link}>
-        <Octicon icon={Plus} /> 새 장르 추가
-      </button>
+      {authenticated && (
+        <button onClick={addGenre} className={styles.link}>
+          <Octicon icon={Plus} /> 새 장르 추가
+        </button>
+      )}
     </>
   )
 }

@@ -1,4 +1,5 @@
-import { initializeApp, database } from 'firebase/app'
+import { initializeApp, auth as authentication, database } from 'firebase/app'
+import 'firebase/auth'
 import 'firebase/database'
 
 const config = {
@@ -9,3 +10,4 @@ const config = {
 
 initializeApp(config)
 export const db = database()
+export const auth = authentication()

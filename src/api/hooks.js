@@ -18,7 +18,7 @@ const Metadata = [
 
 export const useApp = () => useContext(AppContext)
 export const useActions = () => {
-  const { indexes } = useApp()
+  const { authenticated, indexes } = useApp()
   const append = (key, value) => uniq([...indexes[key], value]).sort()
 
   return {
@@ -26,21 +26,22 @@ export const useActions = () => {
     addMovie: movie => {
       const tmdb = pick(Metadata, movie)
       const watched_at = new Date().getFullYear()
-      db.ref(`movies/${tmdb.id}`).set({ tmdb, watched_at })
-      db.ref(`indexes/watched_at`).set(append('watched_at', watched_at))
+      const updates = {
+        [`movies/${tmdb.id}`]: { tmdb, watched_at },
+        [`indexes/watched_at`]: append('watched_at', watched_at)
+      }
+
+      authenticated && db.ref().update(updates)
     },
 
-    moveMovie: (id, genre) => {
-      db.ref(`movies/${id}/genre`).set(genre)
-    },
+    moveMovie: (id, genre) =>
+      authenticated && db.ref(`movies/${id}/genre`).set(genre),
 
-    rateMovie: (id, ratings) => {
-      db.ref(`movies/${id}/ratings`).set(ratings)
-    },
+    rateMovie: (id, ratings) =>
+      authenticated && db.ref(`movies/${id}/ratings`).set(ratings),
 
     /* Genre */
-    addGenre: genre => {
-      db.ref(`indexes/genre`).set(append('genre', genre))
-    }
+    addGenre: genre =>
+      authenticated && db.ref(`indexes/genre`).set(append('genre', genre))
   }
 }
