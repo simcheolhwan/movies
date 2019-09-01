@@ -2,7 +2,7 @@ import React from 'react'
 import { useDrag, DragPreviewImage } from 'react-dnd'
 import classNames from 'classnames'
 import { useActions } from '../api/hooks'
-import Poster from './Poster'
+import Poster, { getPoster } from './Poster'
 import Ratings from './Ratings'
 import styles from './Movie.module.scss'
 
@@ -20,14 +20,13 @@ const Movie = movie => {
     collect: monitor => ({ isDragging: !!monitor.isDragging() })
   })
 
-  const previewImage = `http://image.tmdb.org/t/p/w92${poster_path}`
   return (
     <article
       className={classNames(styles.component, isDragging && styles.isDragging)}
       ref={drag}
     >
       <Ratings {...movie} />
-      <DragPreviewImage connect={preview} src={previewImage} />
+      <DragPreviewImage connect={preview} src={getPoster(92, poster_path)} />
       <Poster w={342} path={poster_path} className={styles.poster} />
       <h1 className={styles.title}>{title || name}</h1>
     </article>
