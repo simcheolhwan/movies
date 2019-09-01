@@ -26,10 +26,10 @@ const Movie = movie => {
       className={classNames(styles.component, isDragging && styles.isDragging)}
       ref={drag}
     >
+      <Ratings {...movie} />
       <DragPreviewImage connect={preview} src={previewImage} />
       <Poster w={342} path={poster_path} className={styles.poster} />
       <h1 className={styles.title}>{title || name}</h1>
-      <Ratings {...movie} />
     </article>
   )
 }

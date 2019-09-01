@@ -13,9 +13,21 @@ const Movies = ({ match }) => {
   /* render */
   const entries = Object.entries(movies)
   const filtered = entries.filter(
-    ([, value]) =>
-      (!selectedYear || value.watched_at === selectedYear) &&
-      (!selectedGenre || (value.genre || 'inbox') === selectedGenre)
+    ([, { watched_at, genre }]) =>
+      (!selectedYear || watched_at === selectedYear) &&
+      (!selectedGenre || (genre || 'inbox') === selectedGenre)
+  )
+
+  const list = fn => (
+    <ul className={styles.grid}>
+      {filtered
+        .filter(([, { ratings = {} }]) => fn(ratings))
+        .map(([key, value]) => (
+          <li className={styles.item} key={key}>
+            <Movie {...value} />
+          </li>
+        ))}
+    </ul>
   )
 
   return !entries.length ? null : (
@@ -36,22 +48,24 @@ const Movies = ({ match }) => {
         })}
       </section>
 
-      <section className={styles.main}>
+      <section className={styles.content}>
         <nav>
           <Genres selected={selectedGenre} />
         </nav>
 
-        {!filtered.length ? (
-          <p className={styles.empty}>Empty</p>
-        ) : (
-          <ul className={styles.grid}>
-            {filtered.map(([key, value]) => (
-              <li className={styles.item} key={key}>
-                <Movie {...value} />
-              </li>
-            ))}
-          </ul>
-        )}
+        <main>
+          {!filtered.length ? (
+            <p className={styles.empty}>Empty</p>
+          ) : (
+            <>
+              {list(({ best }) => best)}
+              {list(({ grade }) => grade === 1)}
+              {list(({ grade }) => grade === 0)}
+              {list(({ grade }) => grade === -1)}
+              {list(({ best, grade }) => !best && !Number.isInteger(grade))}
+            </>
+          )}
+        </main>
       </section>
     </>
   )
