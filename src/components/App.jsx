@@ -11,10 +11,10 @@ const App = () => {
   const [data, setData] = useState()
 
   useEffect(() => {
-    db.ref('/').on('value', s => setData(s.val()))
+    db.ref('/').on('value', s => setData(init(s.val())))
   }, [])
 
-  return !data ? null : (
+  return data === undefined ? null : (
     <Router>
       <AppContext.Provider value={data}>
         <Search />
@@ -30,3 +30,9 @@ const App = () => {
 }
 
 export default App
+
+/* helper */
+const init = v => {
+  const initial = { indexes: { watched_at: [], genre: [] }, movies: {} }
+  return v ? { ...v, indexes: { ...initial.indexes, ...v.indexes } } : initial
+}
