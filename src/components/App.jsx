@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { db } from '../api/firebase'
+import { auth, db } from '../api/firebase'
 import SignIn from './SignIn'
 import SignOut from './SignOut'
 import Search from './Search'
@@ -14,6 +14,7 @@ const App = () => {
   const [authenticated, setAuthenticated] = useState(false)
 
   useEffect(() => {
+    auth.onAuthStateChanged(user => setAuthenticated(!!user))
     db.ref('/').on('value', s => setData(init(s.val())))
   }, [])
 
