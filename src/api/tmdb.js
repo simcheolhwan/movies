@@ -1,4 +1,4 @@
-import { sortBy, prop, reverse, compose } from 'ramda'
+import { sortBy, propOr, reverse, compose } from 'ramda'
 import axios from 'axios'
 
 const api_key = process.env.REACT_APP_TMDB_API_KEY
@@ -25,5 +25,5 @@ export const searchMovies = async query => {
 const sortByProp = p =>
   compose(
     reverse,
-    sortBy(prop(p))
+    sortBy(propOr(0, p))
   )
