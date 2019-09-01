@@ -1,7 +1,7 @@
 import { sortBy, propOr, reverse, compose } from 'ramda'
 import axios from 'axios'
 
-const api_key = process.env.REACT_APP_TMDB_API_KEY
+const api_key = '1f65910a7e34c5d109daa353a4cf53ab'
 
 const api = ({ params, ...rest }) => {
   const request = Object.assign(

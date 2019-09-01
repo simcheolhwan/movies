@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "development": "movies-development",
+    "production": "movies-production"
+  }
+}
