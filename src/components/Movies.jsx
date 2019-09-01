@@ -58,11 +58,11 @@ const Movies = ({ match }) => {
             <p className={styles.empty}>Empty</p>
           ) : (
             <>
+              {list(({ best, grade }) => !best && !Number.isInteger(grade))}
               {list(({ best }) => best)}
               {list(({ grade }) => grade === 1)}
               {list(({ grade }) => grade === 0)}
               {list(({ grade }) => grade === -1)}
-              {list(({ best, grade }) => !best && !Number.isInteger(grade))}
             </>
           )}
         </main>
