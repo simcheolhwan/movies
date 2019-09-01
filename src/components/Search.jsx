@@ -36,15 +36,20 @@ const Search = () => {
   }
 
   /* actions */
+  const add = index => {
+    addMovie(movies[index])
+    reset()
+  }
+
   const submit = e => {
     e.preventDefault()
-    addMovie(movies[0])
+    add(0)
   }
 
   /* render */
   const renderItem = ({ id, title, name, poster_path }, index) => (
     <li className={styles.item} key={id}>
-      <button onClick={() => addMovie(movies[index])} className={styles.movie}>
+      <button onClick={() => add(index)} className={styles.movie}>
         <Poster w={92} path={poster_path} />
         <h1 className={styles.title}>{title || name}</h1>
       </button>
