@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { searchMovies } from '../api/tmdb'
 import { useActions } from '../api/hooks'
 import Poster from './Poster'
 import styles from './Search.module.scss'
 
 const Search = () => {
+  const inputRef = useRef(null)
+
   const [search, setSearch] = useState('')
   const [movies, setMovies] = useState([])
   const [error, setError] = useState()
@@ -39,6 +41,7 @@ const Search = () => {
   const add = index => {
     addMovie(movies[index])
     reset()
+    inputRef.current.focus()
   }
 
   const submit = e => {
@@ -65,6 +68,7 @@ const Search = () => {
         onChange={e => setSearch(e.target.value)}
         autoComplete="off"
         autoFocus
+        ref={inputRef}
       />
 
       {error
