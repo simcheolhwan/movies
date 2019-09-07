@@ -10,7 +10,7 @@ const Movie = movie => {
   const { tmdb } = movie
   const { id, title, name, poster_path } = tmdb
 
-  const { moveMovie } = useActions()
+  const { moveMovie, removeMovie } = useActions()
   const [{ isDragging }, drag, preview] = useDrag({
     item: { type: 'movie' },
     end: (item, monitor) => {
@@ -20,9 +20,15 @@ const Movie = movie => {
     collect: monitor => ({ isDragging: !!monitor.isDragging() })
   })
 
+  const handleContextMenu = e => {
+    e.preventDefault()
+    window.confirm(`${title || name} 삭제`) && removeMovie(id)
+  }
+
   const link = `https://www.themoviedb.org/movie/${id}`
   return (
     <article
+      onContextMenu={handleContextMenu}
       className={classNames(styles.component, isDragging && styles.isDragging)}
       ref={drag}
     >
