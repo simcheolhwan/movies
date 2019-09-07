@@ -20,6 +20,7 @@ const Movie = movie => {
     collect: monitor => ({ isDragging: !!monitor.isDragging() })
   })
 
+  const link = `https://www.themoviedb.org/movie/${id}`
   return (
     <article
       className={classNames(styles.component, isDragging && styles.isDragging)}
@@ -28,7 +29,11 @@ const Movie = movie => {
       <Ratings {...movie} />
       <DragPreviewImage connect={preview} src={getPoster(92, poster_path)} />
       <Poster w={342} path={poster_path} className={styles.poster} />
-      <h1 className={styles.title}>{title || name}</h1>
+      <h1 className={styles.title}>
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          {title || name}
+        </a>
+      </h1>
     </article>
   )
 }
