@@ -29,12 +29,18 @@
 .movie {
   display: flex;
   align-items: center;
+  text-align: left;
 
   border-radius: 0.3rem;
   padding: 5px;
 
-  .title {
-    margin-left: 5px;
+  .poster {
+    margin-right: 5px;
+  }
+
+  .year {
+    color: gray;
+    font-size: 80%;
   }
 
   &:hover {

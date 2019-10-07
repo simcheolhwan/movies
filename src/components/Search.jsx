@@ -50,14 +50,25 @@ const Search = () => {
   }
 
   /* render */
-  const renderItem = ({ id, title, name, poster_path }, index) => (
-    <li className={styles.item} key={id}>
-      <button onClick={() => add(index)} className={styles.movie}>
-        <Poster w={92} path={poster_path} />
-        <h1 className={styles.title}>{title || name}</h1>
-      </button>
-    </li>
-  )
+  const renderItem = (item, index) => {
+    const { id, title, name, poster_path, release_date, first_air_date } = item
+    const date = release_date || first_air_date
+    return (
+      <li className={styles.item} key={id}>
+        <button onClick={() => add(index)} className={styles.movie}>
+          <Poster w={92} path={poster_path} className={styles.poster} />
+          <main>
+            <h1>{title || name}</h1>
+            {date && (
+              <time dateTime={date} className={styles.year}>
+                {new Date(date).getFullYear()}
+              </time>
+            )}
+          </main>
+        </button>
+      </li>
+    )
+  }
 
   return (
     <form onSubmit={submit} className={styles.form}>
