@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { withRouter, Link } from 'react-router-dom'
 import classNames from 'classnames'
 import Octicon, { Home, Inbox, Plus } from '@primer/octicons-react'
 import { useApp, useActions } from '../api/hooks'
@@ -8,6 +8,7 @@ import styles from './Genre.module.scss'
 
 const Genres = ({ selected }) => {
   const { authenticated, indexes } = useApp()
+  const { genre: genres } = indexes
   const actions = useActions()
 
   const addGenre = () => {
@@ -20,6 +21,20 @@ const Genres = ({ selected }) => {
     { name: '', label: <>{getIcon(Home)} 전체 보기</> },
     { name: 'inbox', label: <>{getIcon(Inbox)} 분류 없음</> }
   ]
+
+  useEffect(() => {
+    const handleKeyDown = e => {
+      const extended = ['', 'inbox', ...genres]
+      const getNextIndex = { ArrowDown: +1, ArrowUp: -1 }
+
+      e.altKey &&
+        e.key &&
+        console.log(extended[extended.findIndex(g => g === selected) + 1])
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    console.log(selected)
+  }, [])
 
   return (
     <>
@@ -36,7 +51,7 @@ const Genres = ({ selected }) => {
         )
       })}
 
-      {indexes.genre.map(genre => (
+      {genres.map(genre => (
         <Genre isSelected={genre === selected} key={genre}>
           {genre}
         </Genre>
@@ -51,4 +66,4 @@ const Genres = ({ selected }) => {
   )
 }
 
-export default Genres
+export default withRouter(Genres)
