@@ -11,6 +11,8 @@ const Movies = ({ match }) => {
   const { indexes, movies } = useApp()
 
   /* render */
+  const isFront = !selectedGenre && !selectedYear
+
   const entries = Object.entries(movies)
   const filtered = entries.filter(
     ([, { watched_at, genre }]) =>
@@ -60,9 +62,9 @@ const Movies = ({ match }) => {
             <>
               {list(({ best, grade }) => !best && !Number.isInteger(grade))}
               {list(({ best }) => best)}
-              {list(({ grade }) => grade === 1)}
-              {list(({ grade }) => grade === 0)}
-              {list(({ grade }) => grade === -1)}
+              {!isFront && list(({ grade }) => grade === 1)}
+              {!isFront && list(({ grade }) => grade === 0)}
+              {!isFront && list(({ grade }) => grade === -1)}
             </>
           )}
         </main>
