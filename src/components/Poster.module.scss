@@ -1,5 +1,7 @@
+@import '../variables';
+
 .background {
-  background-color: lightgray;
+  background-color: $muted;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

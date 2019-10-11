@@ -1,3 +1,5 @@
+@import '../variables';
+
 .component {
   display: flex;
   justify-content: space-between;
@@ -14,7 +16,7 @@
 }
 
 .button {
-  color: lightgray;
+  color: $muted;
 }
 
 .active {
