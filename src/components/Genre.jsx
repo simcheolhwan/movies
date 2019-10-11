@@ -4,7 +4,7 @@ import { useDrop } from 'react-dnd'
 import classNames from 'classnames'
 import styles from './Genre.module.scss'
 
-const Genre = ({ isSelected, children: genre }) => {
+const Genre = ({ isSelected, count, children: genre }) => {
   const [{ isOver }, drop] = useDrop({
     accept: 'movie',
     drop: () => ({ genre }),
@@ -15,6 +15,7 @@ const Genre = ({ isSelected, children: genre }) => {
     to: genre,
     className: classNames(
       styles.link,
+      count && styles.flex,
       isOver && styles.isOver,
       isSelected && styles.active
     )
@@ -22,7 +23,8 @@ const Genre = ({ isSelected, children: genre }) => {
 
   return (
     <Link {...attrs} innerRef={drop}>
-      {genre}
+      <span>{genre}</span>
+      <small>{count}</small>
     </Link>
   )
 }

@@ -7,7 +7,7 @@ import Genre from './Genre'
 import styles from './Genre.module.scss'
 
 const Genres = ({ selected }) => {
-  const { authenticated, indexes } = useApp()
+  const { authenticated, indexes, movies } = useApp()
   const actions = useActions()
 
   const addGenre = () => {
@@ -37,7 +37,11 @@ const Genres = ({ selected }) => {
       })}
 
       {indexes.genre.map(genre => (
-        <Genre isSelected={genre === selected} key={genre}>
+        <Genre
+          isSelected={genre === selected}
+          count={Object.values(movies).filter(m => m.genre === genre).length}
+          key={genre}
+        >
           {genre}
         </Genre>
       ))}
