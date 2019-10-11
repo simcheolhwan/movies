@@ -10,13 +10,29 @@ import Movies from './Movies'
 
 export const AppContext = createContext()
 const App = () => {
+  const [initiated, setInitiated] = useState(false)
   const [data, setData] = useState()
   const [authenticated, setAuthenticated] = useState(false)
 
   useEffect(() => {
-    auth.onAuthStateChanged(user => setAuthenticated(!!user))
-    db.ref('/').on('value', s => setData(init(s.val())))
+    const db = localStorage.getItem('db')
+    db && setData(JSON.parse(db))
+    setInitiated(true)
   }, [])
+
+  useEffect(() => {
+    const connect = () => {
+      auth.onAuthStateChanged(user => setAuthenticated(!!user))
+
+      db.ref('/').on('value', s => {
+        const data = s.val()
+        localStorage.setItem('db', JSON.stringify(data))
+        setData(init(data))
+      })
+    }
+
+    initiated && connect()
+  }, [initiated])
 
   return data === undefined ? null : (
     <Router>
