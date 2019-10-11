@@ -1,6 +1,9 @@
 @import '../variables';
 
 .form {
+  padding: $gutter;
+  padding-bottom: 0;
+
   input {
     padding: 0.5rem 1rem;
     font-size: 1.25rem;

@@ -1,7 +1,13 @@
 @import 'variables';
+@import 'layout';
 
 * {
   box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 html {
@@ -15,7 +21,7 @@ body {
   background: $bg;
   color: $color;
   margin: 0;
-  padding: 30px;
+  padding: 0;
 }
 
 h1,
