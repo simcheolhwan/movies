@@ -66,10 +66,12 @@ const Movies = ({ match }) => {
             <p className={styles.empty}>Empty</p>
           ) : (
             <>
-              {list(({ best, grade }) => !best && !Number.isInteger(grade))}
+              {list(ratings => !Object.values(ratings).length)}
               {list(({ best }) => best)}
+              {isFront && list(({ best, watchlist }) => !best && watchlist)}
               {!isFront && list(({ grade }) => grade === 1)}
               {!isFront && list(({ grade }) => grade === 0)}
+              {!isFront && list(({ forgotten }) => forgotten)}
               {!isFront && list(({ grade }) => grade === -1)}
             </>
           )}

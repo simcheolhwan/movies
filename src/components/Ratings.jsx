@@ -1,48 +1,80 @@
 import React from 'react'
 import classNames from 'classnames'
-import Octicon, { Star } from '@primer/octicons-react'
+import Octicon, { Star, Bookmark, CircleSlash } from '@primer/octicons-react'
 import { Thumbsup, Thumbsdown, Check } from '@primer/octicons-react'
 import { useActions } from '../api/hooks'
 import styles from './Ratings.module.scss'
 
 const Ratings = ({ tmdb, ratings = {} }) => {
-  const { best, grade } = ratings
+  const { best, forgotten, watchlist = null, grade } = ratings
   const { rateMovie } = useActions()
 
-  const attrs = {
+  const buttons = {
     best: {
-      className: classNames(styles.button, best && styles.active),
-      children: <Octicon icon={Star} />,
-      onClick: () => !best && rateMovie(tmdb.id, { best: true })
+      icon: Star,
+      active: best,
+      next: { watchlist, best: true }
     },
 
     increase: {
-      className: classNames(styles.button, grade === 1 && styles.active),
-      children: <Octicon icon={Thumbsup} />,
-      onClick: () => grade !== 1 && rateMovie(tmdb.id, { grade: 1 })
+      icon: Thumbsup,
+      active: grade === 1,
+      next: { watchlist, grade: 1 }
     },
 
     decrease: {
-      className: classNames(styles.button, grade === -1 && styles.active),
-      children: <Octicon icon={Thumbsdown} />,
-      onClick: () => grade !== -1 && rateMovie(tmdb.id, { grade: -1 })
+      icon: Thumbsdown,
+      active: grade === -1,
+      next: { watchlist, grade: -1 }
     },
 
     reset: {
-      className: classNames(styles.button, grade === 0 && styles.active),
-      children: <Octicon icon={Check} />,
-      onClick: () => grade !== 0 && rateMovie(tmdb.id, { grade: 0 })
+      icon: Check,
+      active: grade === 0,
+      next: { watchlist, grade: 0 }
+    },
+
+    forget: {
+      icon: CircleSlash,
+      active: forgotten,
+      next: { watchlist, forgotten: true }
+    },
+
+    bookmark: {
+      icon: Bookmark,
+      active: watchlist,
+      activeClassName: styles.bookmark,
+      next: { ...ratings, watchlist: !watchlist }
     }
+  }
+
+  const renderButton = button => {
+    const { icon, active, activeClassName = styles.active, next } = button
+    const attrs = {
+      className: classNames(styles.button, active && activeClassName),
+      onClick: () => rateMovie(tmdb.id, next)
+    }
+
+    return (
+      <button {...attrs}>
+        <Octicon icon={icon} />
+      </button>
+    )
   }
 
   return (
     <footer className={styles.component}>
-      <button {...attrs.best} />
+      {renderButton(buttons.best)}
 
       <section className={styles.grade}>
-        <button {...attrs.increase} />
-        <button {...attrs.decrease} />
-        <button {...attrs.reset} />
+        {renderButton(buttons.increase)}
+        {renderButton(buttons.decrease)}
+        {renderButton(buttons.reset)}
+
+        <div className={styles.divider} />
+
+        {renderButton(buttons.forget)}
+        {renderButton(buttons.bookmark)}
       </section>
     </footer>
   )

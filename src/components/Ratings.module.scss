@@ -3,6 +3,7 @@
 .component {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2px;
   width: 100%;
   max-width: (342px / 2);
 }
@@ -21,4 +22,12 @@
 
 .active {
   color: unset;
+}
+
+.bookmark {
+  color: #ffdc00;
+}
+
+.divider {
+  width: 10px;
 }
