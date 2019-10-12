@@ -1,13 +1,18 @@
 import React from 'react'
 import { helpers } from '../api/tmdb'
+import { useApp } from '../api/hooks'
 import Poster from './Poster'
 import styles from './Results.module.scss'
 
 const Item = ({ onClick, ...item }) => {
-  const { title, name, poster_path } = item
+  const { movies } = useApp()
+
+  const { id, title, name, poster_path } = item
   const link = helpers.getLink(item)
   const date = helpers.getYear(item)
   const type = helpers.getType(item)
+
+  const { genre, watched_at } = movies[id] || {}
 
   const handleClick = e => {
     e.preventDefault()
@@ -26,6 +31,10 @@ const Item = ({ onClick, ...item }) => {
           </p>
         </main>
       </a>
+
+      <small className={styles.already}>
+        {movies[id] && `이미 추가함: ${genre} (${watched_at})`}
+      </small>
     </li>
   )
 }

@@ -1,3 +1,5 @@
+@import '../variables';
+
 .component {
   display: flex;
   flex-direction: column;
@@ -28,7 +30,7 @@
 }
 
 .danger {
-  color: #ff4136;
+  color: $red;
 }
 
 /* dnd */
