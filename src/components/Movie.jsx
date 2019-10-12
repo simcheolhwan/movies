@@ -11,7 +11,7 @@ const Movie = movie => {
   const { tmdb, watched_at } = movie
   const { id, title, name, poster_path } = tmdb
 
-  const { moveMovie, removeMovie, refreshMovie } = useActions()
+  const { updateMovie, moveMovie, removeMovie, refreshMovie } = useActions()
   const [{ isDragging }, drag, preview] = useDrag({
     item: { type: 'movie' },
     end: (item, monitor) => {
@@ -34,6 +34,12 @@ const Movie = movie => {
   const handleContextMenu = e => {
     e.preventDefault()
     window.confirm(`${title || name} 삭제`) && removeMovie(id)
+  }
+
+  const adjustWatchedAt = e => {
+    e.stopPropagation()
+    window.confirm(`${released}년으로 변경합니다.`) &&
+      updateMovie(id, ['watched_at', released])
   }
 
   /* render */
@@ -64,7 +70,7 @@ const Movie = movie => {
           {title || name}
         </a>
       </h1>
-      <p className={yearClassName}>
+      <p className={yearClassName} onDoubleClick={adjustWatchedAt}>
         {isLoading ? '새로 가져오는 중' : year + (type && ` (${type})`)}
       </p>
     </article>

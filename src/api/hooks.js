@@ -23,6 +23,9 @@ export const useActions = () => {
   const sort = array => uniq(array).sort()
   const append = (key, value) => sort([...indexes[key], value])
 
+  const updateMovie = (id, [key, updates]) =>
+    authenticated && db.ref(`movies/${id}/${key}`).set(updates)
+
   return {
     /* Movies */
     addMovie: (movie, meta) => {
@@ -36,14 +39,10 @@ export const useActions = () => {
       authenticated && db.ref().update(updates)
     },
 
-    moveMovie: (id, genre) =>
-      authenticated && db.ref(`movies/${id}/genre`).set(genre),
-
-    rateMovie: (id, ratings) =>
-      authenticated && db.ref(`movies/${id}/ratings`).set(ratings),
-
-    refreshMovie: (id, tmdb) =>
-      authenticated && db.ref(`movies/${id}/tmdb`).set(pick(Metadata, tmdb)),
+    updateMovie,
+    moveMovie: (id, genre) => updateMovie(id, ['genre', genre]),
+    rateMovie: (id, ratings) => updateMovie(id, ['ratings', ratings]),
+    refreshMovie: (id, tmdb) => updateMovie(id, ['tmdb', pick(Metadata, tmdb)]),
 
     removeMovie: id => authenticated && db.ref(`movies/${id}`).remove(),
 
