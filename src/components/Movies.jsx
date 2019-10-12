@@ -20,9 +20,15 @@ const Movies = ({ match }) => {
       (!selectedGenre || (genre || 'inbox') === selectedGenre)
   )
 
+  const sorted = filtered.sort(([, { tmdb: tmdbA }], [, { tmdb: tmdbB }]) => {
+    const { release_date: a } = tmdbA
+    const { release_date: b } = tmdbB
+    return a > b ? -1 : a < b ? 1 : 0
+  })
+
   const list = fn => (
     <ul className={styles.grid}>
-      {filtered
+      {sorted
         .filter(([, { ratings = {} }]) => fn(ratings))
         .map(([key, value]) => (
           <li className={styles.item} key={key}>
