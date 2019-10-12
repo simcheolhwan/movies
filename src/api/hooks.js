@@ -13,7 +13,8 @@ const Metadata = [
   'original_name',
   'original_language',
   'poster_path',
-  'release_date'
+  'release_date',
+  'first_air_date'
 ]
 
 export const useApp = () => useContext(AppContext)

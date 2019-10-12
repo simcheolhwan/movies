@@ -21,6 +21,15 @@ export const searchMovies = async query => {
   return sortByProp('vote_count')(results)
 }
 
+/* helpers */
+export const helpers = {
+  getLink: tmdb => `https://www.themoviedb.org/movie/${tmdb.id}`,
+  getYear: tmdb =>
+    new Date(tmdb.release_date || tmdb.first_air_date).getFullYear() || '',
+  getType: tmdb =>
+    tmdb.media_type !== 'movie' ? tmdb.media_type.toUpperCase() : ''
+}
+
 /* utils */
 const sortByProp = p =>
   compose(

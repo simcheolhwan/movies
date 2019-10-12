@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { withRouter } from 'react-router-dom'
-import { searchMovies } from '../api/tmdb'
+import { searchMovies, helpers } from '../api/tmdb'
 import { useActions } from '../api/hooks'
 import Poster from './Poster'
 import styles from './Search.module.scss'
@@ -54,21 +54,28 @@ const Search = ({ location }) => {
 
   /* render */
   const renderItem = (item, index) => {
-    const { id, title, name, poster_path, release_date, first_air_date } = item
-    const date = release_date || first_air_date
+    const { id, title, name, poster_path } = item
+    const link = helpers.getLink(item)
+    const date = helpers.getYear(item)
+    const type = helpers.getType(item)
+
+    const onClick = e => {
+      e.preventDefault()
+      add(index)
+    }
+
     return (
       <li className={styles.item} key={id}>
-        <button onClick={() => add(index)} className={styles.movie}>
+        <a href={link} onClick={onClick} className={styles.movie}>
           <Poster w={92} path={poster_path} className={styles.poster} />
           <main>
             <h1>{title || name}</h1>
-            {date && (
-              <time dateTime={date} className={styles.year}>
-                {new Date(date).getFullYear()}
-              </time>
-            )}
+            <p className={styles.meta}>
+              {date}
+              {type && ` (${type})`}
+            </p>
           </main>
-        </button>
+        </a>
       </li>
     )
   }

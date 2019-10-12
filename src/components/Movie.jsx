@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDrag, DragPreviewImage } from 'react-dnd'
 import classNames from 'classnames'
+import { helpers } from '../api/tmdb'
 import { useActions } from '../api/hooks'
 import Poster, { getPoster } from './Poster'
 import Ratings from './Ratings'
@@ -8,7 +9,7 @@ import styles from './Movie.module.scss'
 
 const Movie = movie => {
   const { tmdb, watched_at } = movie
-  const { id, title, name, poster_path, release_date } = tmdb
+  const { id, title, name, poster_path } = tmdb
 
   const { moveMovie, removeMovie } = useActions()
   const [{ isDragging }, drag, preview] = useDrag({
@@ -26,8 +27,9 @@ const Movie = movie => {
   }
 
   /* render */
-  const link = `https://www.themoviedb.org/movie/${id}`
-  const released = new Date(release_date).getFullYear()
+  const link = helpers.getLink(tmdb)
+  const type = helpers.getType(tmdb)
+  const released = helpers.getYear(tmdb)
 
   const year =
     released === watched_at ? released : `${released} → ${watched_at}`
@@ -51,7 +53,10 @@ const Movie = movie => {
           {title || name}
         </a>
       </h1>
-      <p className={yearClassName}>{year}</p>
+      <p className={yearClassName}>
+        {year}
+        {type && ` (${type})`}
+      </p>
     </article>
   )
 }
