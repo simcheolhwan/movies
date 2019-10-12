@@ -7,8 +7,8 @@ import Ratings from './Ratings'
 import styles from './Movie.module.scss'
 
 const Movie = movie => {
-  const { tmdb } = movie
-  const { id, title, name, poster_path } = tmdb
+  const { tmdb, watched_at } = movie
+  const { id, title, name, poster_path, release_date } = tmdb
 
   const { moveMovie, removeMovie } = useActions()
   const [{ isDragging }, drag, preview] = useDrag({
@@ -25,7 +25,18 @@ const Movie = movie => {
     window.confirm(`${title || name} 삭제`) && removeMovie(id)
   }
 
+  /* render */
   const link = `https://www.themoviedb.org/movie/${id}`
+  const released = new Date(release_date).getFullYear()
+
+  const year =
+    released === watched_at ? released : `${released} → ${watched_at}`
+
+  const yearClassName = classNames(
+    styles.year,
+    released > watched_at && styles.danger
+  )
+
   return (
     <article
       onContextMenu={handleContextMenu}
@@ -40,6 +51,7 @@ const Movie = movie => {
           {title || name}
         </a>
       </h1>
+      <p className={yearClassName}>{year}</p>
     </article>
   )
 }

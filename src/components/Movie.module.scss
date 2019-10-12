@@ -22,6 +22,15 @@
   margin-top: 10px;
 }
 
+.year {
+  color: gray;
+  font-size: 80%;
+}
+
+.danger {
+  color: #ff4136;
+}
+
 /* dnd */
 .isDragging {
   opacity: 0.5;
