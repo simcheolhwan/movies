@@ -2,9 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDrop } from 'react-dnd'
 import classNames from 'classnames'
+import { useActions } from '../api/hooks'
 import styles from './Genre.module.scss'
 
 const Genre = ({ isSelected, count, children: genre }) => {
+  const { changeGenre } = useActions()
   const [{ isOver }, drop] = useDrop({
     accept: 'movie',
     drop: () => ({ genre }),
@@ -13,16 +15,22 @@ const Genre = ({ isSelected, count, children: genre }) => {
 
   const attrs = {
     to: genre,
+    innerRef: drop,
     className: classNames(
       styles.link,
-      count && styles.flex,
+      Number.isFinite(count) && styles.flex,
       isOver && styles.isOver,
       isSelected && styles.active
-    )
+    ),
+    onContextMenu: e => {
+      e.preventDefault()
+      const next = (window.prompt(`장르 이름 변경: ${genre}`) || '').trim()
+      next && changeGenre(genre, next)
+    }
   }
 
   return (
-    <Link {...attrs} innerRef={drop}>
+    <Link {...attrs}>
       <span>{genre}</span>
       <small>{count}</small>
     </Link>

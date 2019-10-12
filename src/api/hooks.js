@@ -18,8 +18,9 @@ const Metadata = [
 
 export const useApp = () => useContext(AppContext)
 export const useActions = () => {
-  const { authenticated, indexes } = useApp()
-  const append = (key, value) => uniq([...indexes[key], value]).sort()
+  const { authenticated, indexes, movies } = useApp()
+  const sort = array => uniq(array).sort()
+  const append = (key, value) => sort([...indexes[key], value])
 
   return {
     /* Movies */
@@ -44,6 +45,25 @@ export const useActions = () => {
 
     /* Genre */
     addGenre: genre =>
-      authenticated && db.ref(`indexes/genre`).set(append('genre', genre))
+      authenticated && db.ref(`indexes/genre`).set(append('genre', genre)),
+
+    changeGenre: (genre, next) => {
+      const movieUpdates = Object.entries(movies)
+        .filter(([id, movie]) => movie.genre === genre)
+        .reduce(
+          (acc, [id, movie]) => ({
+            ...acc,
+            [`movies/${id}`]: { ...movie, genre: next }
+          }),
+          {}
+        )
+
+      const updates = {
+        ...movieUpdates,
+        'indexes/genre': sort(indexes.genre.map(g => (g === genre ? next : g)))
+      }
+
+      authenticated && db.ref().update(updates)
+    }
   }
 }
