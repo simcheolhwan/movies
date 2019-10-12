@@ -24,11 +24,11 @@ export const useActions = () => {
 
   return {
     /* Movies */
-    addMovie: movie => {
+    addMovie: (movie, meta) => {
       const tmdb = pick(Metadata, movie)
       const watched_at = new Date().getFullYear()
       const updates = {
-        [`movies/${tmdb.id}`]: { tmdb, watched_at },
+        [`movies/${tmdb.id}`]: { ...meta, tmdb, watched_at },
         [`indexes/watched_at`]: append('watched_at', watched_at)
       }
 

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { withRouter } from 'react-router-dom'
 import { searchMovies } from '../api/tmdb'
 import { useActions } from '../api/hooks'
 import Poster from './Poster'
 import styles from './Search.module.scss'
 
-const Search = () => {
+const Search = ({ location }) => {
   const inputRef = useRef(null)
 
   const [search, setSearch] = useState('')
@@ -39,7 +40,9 @@ const Search = () => {
 
   /* actions */
   const add = index => {
-    addMovie(movies[index])
+    const pathname = location.pathname.slice(1)
+    const genre = pathname === 'inbox' ? '' : pathname
+    addMovie(movies[index], { genre })
     reset()
     inputRef.current.focus()
   }
@@ -96,4 +99,4 @@ const Search = () => {
   )
 }
 
-export default Search
+export default withRouter(Search)
