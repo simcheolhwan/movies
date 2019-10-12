@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { withRouter } from 'react-router-dom'
-import { searchMovies, helpers } from '../api/tmdb'
+import { searchMovies } from '../api/tmdb'
 import { useActions } from '../api/hooks'
-import Poster from './Poster'
+import Results from './Results'
 import styles from './Search.module.scss'
 
 const Search = ({ location }) => {
@@ -52,34 +52,6 @@ const Search = ({ location }) => {
     add(0)
   }
 
-  /* render */
-  const renderItem = (item, index) => {
-    const { id, title, name, poster_path } = item
-    const link = helpers.getLink(item)
-    const date = helpers.getYear(item)
-    const type = helpers.getType(item)
-
-    const onClick = e => {
-      e.preventDefault()
-      add(index)
-    }
-
-    return (
-      <li className={styles.item} key={id}>
-        <a href={link} onClick={onClick} className={styles.movie}>
-          <Poster w={92} path={poster_path} className={styles.poster} />
-          <main>
-            <h1>{title || name}</h1>
-            <p className={styles.meta}>
-              {date}
-              {type && ` (${type})`}
-            </p>
-          </main>
-        </a>
-      </li>
-    )
-  }
-
   return (
     <form onSubmit={submit} className={styles.form}>
       <input
@@ -94,12 +66,7 @@ const Search = ({ location }) => {
 
       {error
         ? error.message
-        : !!movies.length && (
-            <section className={styles.results}>
-              <h1 className={styles.title}>검색 결과</h1>
-              <ul className={styles.list}>{movies.map(renderItem)}</ul>
-            </section>
-          )}
+        : !!movies.length && <Results results={movies} onAdd={add} />}
 
       <button type="submit" disabled={!movies.length} />
     </form>

@@ -1,0 +1,41 @@
+@import '../variables';
+
+.results {
+  > .title {
+    font-weight: bold;
+    padding: 5px;
+  }
+
+  .list {
+    display: flex;
+    overflow-x: scroll;
+    padding-bottom: 15px;
+  }
+
+  .item {
+    flex: none;
+    margin-right: 15px;
+  }
+}
+
+.movie {
+  display: flex;
+  align-items: center;
+  text-align: left;
+
+  border-radius: 0.3rem;
+  padding: 5px;
+
+  .poster {
+    margin-right: 5px;
+  }
+
+  .meta {
+    color: gray;
+    font-size: 80%;
+  }
+
+  &:hover {
+    background: $dark;
+  }
+}
