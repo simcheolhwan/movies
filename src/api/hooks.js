@@ -42,6 +42,9 @@ export const useActions = () => {
     rateMovie: (id, ratings) =>
       authenticated && db.ref(`movies/${id}/ratings`).set(ratings),
 
+    refreshMovie: (id, tmdb) =>
+      authenticated && db.ref(`movies/${id}/tmdb`).set(pick(Metadata, tmdb)),
+
     removeMovie: id => authenticated && db.ref(`movies/${id}`).remove(),
 
     /* Genre */

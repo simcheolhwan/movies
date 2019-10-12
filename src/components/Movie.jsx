@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDrag, DragPreviewImage } from 'react-dnd'
 import classNames from 'classnames'
-import { helpers } from '../api/tmdb'
+import { helpers, getMedia } from '../api/tmdb'
 import { useActions } from '../api/hooks'
 import Poster, { getPoster } from './Poster'
 import Ratings from './Ratings'
@@ -11,7 +11,7 @@ const Movie = movie => {
   const { tmdb, watched_at } = movie
   const { id, title, name, poster_path } = tmdb
 
-  const { moveMovie, removeMovie } = useActions()
+  const { moveMovie, removeMovie, refreshMovie } = useActions()
   const [{ isDragging }, drag, preview] = useDrag({
     item: { type: 'movie' },
     end: (item, monitor) => {
@@ -20,6 +20,16 @@ const Movie = movie => {
     },
     collect: monitor => ({ isDragging: !!monitor.isDragging() })
   })
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  /* events */
+  const handleDoubleClick = async () => {
+    setIsLoading(true)
+    const media = await getMedia(tmdb)
+    media && refreshMovie(id, media)
+    setIsLoading(false)
+  }
 
   const handleContextMenu = e => {
     e.preventDefault()
@@ -36,11 +46,12 @@ const Movie = movie => {
 
   const yearClassName = classNames(
     styles.year,
-    released > watched_at && styles.danger
+    (released > watched_at || isLoading) && styles.danger
   )
 
   return (
     <article
+      onDoubleClick={handleDoubleClick}
       onContextMenu={handleContextMenu}
       className={classNames(styles.component, isDragging && styles.isDragging)}
       ref={drag}
@@ -54,8 +65,7 @@ const Movie = movie => {
         </a>
       </h1>
       <p className={yearClassName}>
-        {year}
-        {type && ` (${type})`}
+        {isLoading ? '새로 가져오는 중' : year + (type && ` (${type})`)}
       </p>
     </article>
   )
