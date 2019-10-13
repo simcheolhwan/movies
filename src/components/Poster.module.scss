@@ -1,8 +1,6 @@
 @import '../variables';
 
-.background {
-  background-color: $muted;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.poster {
+  background: $muted;
+  object-fit: cover;
 }

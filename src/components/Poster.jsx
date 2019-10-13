@@ -1,19 +1,22 @@
 import React from 'react'
 import classNames from 'classnames'
 import styles from './Poster.module.scss'
+import { helpers } from '../api/tmdb'
 
-export const getPoster = (w, path) => `https://image.tmdb.org/t/p/w${w}${path}`
-const Poster = ({ w, path = '', className, ...props }) => {
+const Poster = ({ movie, w, className, ...props }) => {
+  const src = helpers.getPoster(movie, w)
   const width = props.width || w / 2
+  const height = width * 1.5
 
-  const style = Object.assign(
-    { width, height: width * 1.5 },
-    path && { backgroundImage: `url(${getPoster(w, path)})` }
-  )
+  const attrs = {
+    src,
+    width,
+    height,
+    loading: 'lazy',
+    className: classNames(styles.poster, className)
+  }
 
-  return (
-    <div style={style} className={classNames(styles.background, className)} />
-  )
+  return <img {...attrs} alt="" />
 }
 
 export default Poster

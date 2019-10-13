@@ -32,6 +32,7 @@ export const getMedia = async ({ id, media_type }) => {
 /* helpers */
 export const helpers = {
   getLink: tmdb => `https://www.themoviedb.org/movie/${tmdb.id}`,
+  getPoster: (tmdb, w) => `https://image.tmdb.org/t/p/w${w}${tmdb.poster_path}`,
   getYear: tmdb =>
     new Date(tmdb.release_date || tmdb.first_air_date).getFullYear() || '',
   getType: tmdb =>

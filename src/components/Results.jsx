@@ -7,7 +7,7 @@ import styles from './Results.module.scss'
 const Item = ({ onClick, ...item }) => {
   const { movies } = useApp()
 
-  const { id, title, name, poster_path } = item
+  const { id, title, name } = item
   const link = helpers.getLink(item)
   const date = helpers.getYear(item)
   const type = helpers.getType(item)
@@ -22,7 +22,7 @@ const Item = ({ onClick, ...item }) => {
   return (
     <li className={styles.item}>
       <a href={link} onClick={handleClick} className={styles.movie}>
-        <Poster w={92} path={poster_path} className={styles.poster} />
+        <Poster movie={item} w={92} className={styles.poster} />
         <main>
           <h1>{title || name}</h1>
           <p className={styles.meta}>

@@ -3,13 +3,13 @@ import { useDrag, DragPreviewImage } from 'react-dnd'
 import classNames from 'classnames'
 import { helpers, getMedia } from '../api/tmdb'
 import { useActions } from '../api/hooks'
-import Poster, { getPoster } from './Poster'
+import Poster from './Poster'
 import Ratings from './Ratings'
 import styles from './Movie.module.scss'
 
 const Movie = movie => {
   const { tmdb, watched_at } = movie
-  const { id, title, name, poster_path } = tmdb
+  const { id, title, name } = tmdb
 
   const { updateMovie, moveMovie, removeMovie, refreshMovie } = useActions()
   const [{ isDragging }, drag, preview] = useDrag({
@@ -63,8 +63,8 @@ const Movie = movie => {
       ref={drag}
     >
       <Ratings {...movie} />
-      <DragPreviewImage connect={preview} src={getPoster(92, poster_path)} />
-      <Poster w={342} path={poster_path} className={styles.poster} />
+      <DragPreviewImage connect={preview} src={helpers.getPoster(tmdb, 92)} />
+      <Poster movie={tmdb} w={342} className={styles.poster} />
       <h1 className={styles.title}>
         <a href={link} target="_blank" rel="noopener noreferrer">
           {title || name}
