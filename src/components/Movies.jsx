@@ -39,45 +39,43 @@ const Movies = ({ match }) => {
   )
 
   return !entries.length ? null : (
-    <>
-      <section className={styles.tabs}>
-        {indexes.watched_at.map(year => {
-          const isSelected = year === selectedYear
-          const attrs = {
-            className: classNames(styles.tab, isSelected && styles.active),
-            onClick: () => setSelectedYear(isSelected ? undefined : year)
-          }
+    <section className={styles.content}>
+      <nav>
+        <Genres selected={selectedGenre} />
+      </nav>
 
-          return (
-            <button {...attrs} key={year}>
-              {year}
-            </button>
-          )
-        })}
-      </section>
+      <main>
+        <section className={styles.tabs}>
+          {indexes.watched_at.map(year => {
+            const isSelected = year === selectedYear
+            const attrs = {
+              className: classNames(styles.tab, isSelected && styles.active),
+              onClick: () => setSelectedYear(isSelected ? undefined : year)
+            }
 
-      <section className={styles.content}>
-        <nav>
-          <Genres selected={selectedGenre} />
-        </nav>
+            return (
+              <button {...attrs} key={year}>
+                {year}
+              </button>
+            )
+          })}
+        </section>
 
-        <main>
-          {!filtered.length ? (
-            <p className={styles.empty}>Empty</p>
-          ) : (
-            <>
-              {list(ratings => !Object.values(ratings).length)}
-              {list(({ best }) => best)}
-              {isFront && list(({ best, watchlist }) => !best && watchlist)}
-              {!isFront && list(({ grade }) => grade === 1)}
-              {!isFront && list(({ grade }) => grade === 0)}
-              {!isFront && list(({ forgotten }) => forgotten)}
-              {!isFront && list(({ grade }) => grade === -1)}
-            </>
-          )}
-        </main>
-      </section>
-    </>
+        {!filtered.length ? (
+          <p className={styles.empty}>Empty</p>
+        ) : (
+          <>
+            {list(ratings => !Object.values(ratings).length)}
+            {list(({ best }) => best)}
+            {isFront && list(({ best, watchlist }) => !best && watchlist)}
+            {!isFront && list(({ grade }) => grade === 1)}
+            {!isFront && list(({ grade }) => grade === 0)}
+            {!isFront && list(({ forgotten }) => forgotten)}
+            {!isFront && list(({ grade }) => grade === -1)}
+          </>
+        )}
+      </main>
+    </section>
   )
 }
 

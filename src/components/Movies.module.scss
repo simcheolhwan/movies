@@ -2,16 +2,29 @@
 
 /* tabs */
 .tabs {
-  margin: 5px;
   text-align: center;
+  display: flex;
+  overflow-x: scroll;
+
+  @media (min-width: $breakpoint-lg) {
+    justify-content: center;
+  }
 }
 
 .tab {
   background: transparent;
   border-radius: 0.2rem;
   font-size: 0.75rem;
-  margin: 5px;
+  margin: 0 5px;
   padding: 5px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
 
   &:hover,
   &.active {
@@ -23,21 +36,33 @@
 .content {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: stretch;
   overflow: hidden;
+  margin-top: $gutter;
+  padding: 0 $gutter;
+
+  @media (min-width: $breakpoint-lg) {
+    flex-direction: unset;
+    margin-top: ($gutter-lg / 2);
+    padding: 0 $gutter-lg;
+  }
 
   > nav {
     flex: none;
-    min-width: 200px;
-    padding-left: $gutter;
-    padding-right: 20px;
-    overflow-y: scroll;
+    display: flex;
+    overflow-x: scroll;
+
+    @media (min-width: $breakpoint-lg) {
+      flex-direction: column;
+      min-width: 200px;
+      overflow-y: scroll;
+    }
   }
 
   > main {
     flex: 1;
     overflow-y: scroll;
-    padding-right: $gutter;
   }
 }
 
@@ -48,9 +73,19 @@
 }
 
 .item {
-  margin-bottom: 60px;
+  margin-bottom: ($gutter * 2);
+  padding: 0 ($gutter / 2);
   text-align: center;
-  width: 25%;
+  width: (100% / 3);
+
+  @media (min-width: $breakpoint-lg) {
+    margin-bottom: ($gutter-lg * 2);
+    width: (100% / 4);
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    width: (100% / 5);
+  }
 }
 
 .empty {

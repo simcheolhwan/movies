@@ -4,6 +4,11 @@
   padding: $gutter;
   padding-bottom: 0;
 
+  @media (min-width: $breakpoint-lg) {
+    padding: $gutter-lg;
+    padding-bottom: 0;
+  }
+
   input {
     padding: 0.5rem 1rem;
     font-size: 1.25rem;
