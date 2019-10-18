@@ -65,7 +65,7 @@ const Movie = movie => {
       <Ratings {...movie} />
       <DragPreviewImage connect={preview} src={helpers.getPoster(tmdb, 92)} />
       <Poster movie={tmdb} w={342} className={styles.poster} />
-      <h1 className={styles.title}>
+      <h1 title={title || name} className={styles.title}>
         <a href={link} target="_blank" rel="noopener noreferrer">
           {title || name}
         </a>
