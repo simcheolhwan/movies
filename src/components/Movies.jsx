@@ -7,8 +7,13 @@ import styles from './Movies.module.scss'
 
 const Movies = ({ match }) => {
   const selectedGenre = match.params.genre || ''
-  const [selectedYear, setSelectedYear] = useState()
   const { indexes, movies } = useApp()
+
+  const [selectedYear, setSelectedYear] = useState()
+  const [groupWithRatings, setGroupWithRatings] = useState(true)
+  const [chronological, setChronological] = useState(false)
+  const toggleGroupWithRatings = () => setGroupWithRatings(!groupWithRatings)
+  const toggleChronological = () => setChronological(!chronological)
 
   /* render */
   const isFront = !selectedGenre && !selectedYear
@@ -23,10 +28,10 @@ const Movies = ({ match }) => {
   const sorted = filtered.sort(([, { tmdb: tmdbA }], [, { tmdb: tmdbB }]) => {
     const { release_date: a } = tmdbA
     const { release_date: b } = tmdbB
-    return a > b ? -1 : a < b ? 1 : 0
+    return (chronological ? 1 : -1) * (a > b ? 1 : a < b ? -1 : 0)
   })
 
-  const list = fn => (
+  const list = (fn = () => true) => (
     <ul className={styles.grid}>
       {sorted
         .filter(([, { ratings = {} }]) => fn(ratings))
@@ -45,24 +50,38 @@ const Movies = ({ match }) => {
       </nav>
 
       <main>
-        <section className={styles.tabs}>
-          {indexes.watched_at.map(year => {
-            const isSelected = year === selectedYear
-            const attrs = {
-              className: classNames(styles.tab, isSelected && styles.active),
-              onClick: () => setSelectedYear(isSelected ? undefined : year)
-            }
+        <header className={styles.header}>
+          <section className={styles.tabs}>
+            {indexes.watched_at.map(year => {
+              const isSelected = year === selectedYear
+              const attrs = {
+                className: classNames(styles.tab, isSelected && styles.active),
+                onClick: () => setSelectedYear(isSelected ? undefined : year)
+              }
 
-            return (
-              <button {...attrs} key={year}>
-                {year}
-              </button>
-            )
-          })}
-        </section>
+              return (
+                <button {...attrs} key={year}>
+                  {year}
+                </button>
+              )
+            })}
+          </section>
+
+          <section className={styles.sort}>
+            <button onClick={toggleGroupWithRatings}>
+              {groupWithRatings ? '그룹 해제' : '평가별 그룹'}
+            </button>
+
+            <button onClick={toggleChronological}>
+              {chronological ? '최신영화부터' : '개봉 순서'}
+            </button>
+          </section>
+        </header>
 
         {!filtered.length ? (
           <p className={styles.empty}>Empty</p>
+        ) : !groupWithRatings ? (
+          list()
         ) : (
           <>
             {list(ratings => !Object.values(ratings).length)}

@@ -1,5 +1,10 @@
 @import '../variables';
 
+.header {
+  font-size: 0.75rem;
+  margin-bottom: $gutter;
+}
+
 /* tabs */
 .tabs {
   text-align: center;
@@ -14,7 +19,7 @@
 .tab {
   background: transparent;
   border-radius: 0.2rem;
-  font-size: 0.75rem;
+
   margin: 0 5px;
   padding: 5px;
 
@@ -29,6 +34,15 @@
   &:hover,
   &.active {
     background: $dark;
+  }
+}
+
+/* sort */
+.sort {
+  display: flex;
+
+  > button {
+    flex: 1;
   }
 }
 
