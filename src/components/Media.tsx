@@ -5,18 +5,18 @@ import { helpers, getMedia } from '../api/tmdb'
 import { useActions } from '../api/hooks'
 import Poster from './Poster'
 import Ratings from './Ratings'
-import styles from './Movie.module.scss'
+import styles from './Media.module.scss'
 
-const Movie = movie => {
-  const { tmdb, watched_at } = movie
-  const { id, title, name } = tmdb
+const Media: React.FC<Media> = media => {
+  const { tmdb, watched_at } = media
+  const title = helpers.getTitle(tmdb)
 
-  const { updateMovie, moveMovie, removeMovie, refreshMovie } = useActions()
+  const { updateMedia, moveMedia, removeMedia, refreshMedia } = useActions()
   const [{ isDragging }, drag, preview] = useDrag({
-    item: { type: 'movie' },
+    item: { type: 'media' },
     end: (item, monitor) => {
       const result = monitor.getDropResult()
-      result && moveMovie(id, result.genre)
+      result && moveMedia(tmdb, result.genre)
     },
     collect: monitor => ({ isDragging: !!monitor.isDragging() })
   })
@@ -27,19 +27,19 @@ const Movie = movie => {
   const handleDoubleClick = async () => {
     setIsLoading(true)
     const media = await getMedia(tmdb)
-    media && refreshMovie(id, media)
+    media && refreshMedia(tmdb, media)
     setIsLoading(false)
   }
 
-  const handleContextMenu = e => {
+  const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault()
-    window.confirm(`${title || name} 삭제`) && removeMovie(id)
+    window.confirm(`${title} 삭제`) && removeMedia(tmdb)
   }
 
-  const adjustWatchedAt = e => {
+  const adjustWatchedAt = (e: React.MouseEvent) => {
     e.stopPropagation()
     window.confirm(`${released}년으로 변경합니다.`) &&
-      updateMovie(id, ['watched_at', released])
+      updateMedia(tmdb, ['watched_at', released])
   }
 
   /* render */
@@ -62,12 +62,12 @@ const Movie = movie => {
       className={classNames(styles.component, isDragging && styles.isDragging)}
       ref={drag}
     >
-      <Ratings {...movie} />
+      <Ratings {...media} />
       <DragPreviewImage connect={preview} src={helpers.getPoster(tmdb, 92)} />
-      <Poster movie={tmdb} w={342} className={styles.poster} />
-      <h1 title={title || name} className={styles.title}>
+      <Poster media={tmdb} w={342} className={styles.poster} />
+      <h1 title={title} className={styles.title}>
         <a href={link} target="_blank" rel="noopener noreferrer">
-          {title || name}
+          {title}
         </a>
       </h1>
       <p className={yearClassName} onDoubleClick={adjustWatchedAt}>
@@ -77,4 +77,4 @@ const Movie = movie => {
   )
 }
 
-export default Movie
+export default Media

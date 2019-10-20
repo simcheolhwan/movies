@@ -3,8 +3,14 @@ import classNames from 'classnames'
 import styles from './Poster.module.scss'
 import { helpers } from '../api/tmdb'
 
-const Poster = ({ movie, w, className, ...props }) => {
-  const src = helpers.getPoster(movie, w)
+interface Props extends React.HTMLAttributes<HTMLImageElement> {
+  media: TMDB
+  w: number
+  width?: number
+}
+
+const Poster: React.FC<Props> = ({ media, w, className, ...props }) => {
+  const src = helpers.getPoster(media, w)
   const width = props.width || w / 2
   const height = width * 1.5
 

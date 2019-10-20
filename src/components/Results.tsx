@@ -4,17 +4,22 @@ import { useApp } from '../api/hooks'
 import Poster from './Poster'
 import styles from './Results.module.scss'
 
-const Item = ({ onClick, ...item }) => {
-  const { movies } = useApp()
+interface Item {
+  onClick: () => void
+}
 
-  const { id, title, name } = item
+const Item: React.FC<Item & TMDB> = ({ onClick, ...item }) => {
+  const { id, media_type } = item
+  const title = helpers.getTitle(item)
   const link = helpers.getLink(item)
   const date = helpers.getYear(item)
   const type = helpers.getType(item)
 
-  const { genre, watched_at } = movies[id] || {}
+  const app = useApp()
+  const added = app[media_type][id]
+  const { genre, watched_at } = added || {}
 
-  const handleClick = e => {
+  const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     onClick()
   }
@@ -22,9 +27,9 @@ const Item = ({ onClick, ...item }) => {
   return (
     <li className={styles.item}>
       <a href={link} onClick={handleClick} className={styles.movie}>
-        <Poster movie={item} w={92} className={styles.poster} />
+        <Poster media={item} w={92} className={styles.poster} />
         <main>
-          <h1>{title || name}</h1>
+          <h1>{title}</h1>
           <p className={styles.meta}>
             {date}
             {type && ` (${type})`}
@@ -33,13 +38,18 @@ const Item = ({ onClick, ...item }) => {
       </a>
 
       <small className={styles.already}>
-        {movies[id] && `이미 추가함: ${genre} (${watched_at})`}
+        {added && `이미 추가함: ${genre} (${watched_at})`}
       </small>
     </li>
   )
 }
 
-const Results = ({ results, onAdd }) => (
+interface Props {
+  results: TMDB[]
+  onAdd: (index: number) => void
+}
+
+const Results: React.FC<Props> = ({ results, onAdd }) => (
   <section className={styles.results}>
     <h1 className={styles.title}>검색 결과</h1>
     <ul className={styles.list}>

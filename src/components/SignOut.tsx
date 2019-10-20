@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { auth } from '../api/firebase'
 import { useApp } from '../api/hooks'
 
-const SignOut = ({ history }) => {
+const SignOut = () => {
   const { authenticated, setAuthenticated } = useApp()
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const SignOut = ({ history }) => {
     // eslint-disable-next-line
   }, [])
 
-  return !authenticated ? <Redirect to="/" replace /> : null
+  return !authenticated ? <Redirect to="/" /> : null
 }
 
 export default SignOut

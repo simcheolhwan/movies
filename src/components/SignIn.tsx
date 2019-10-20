@@ -3,17 +3,17 @@ import { Redirect } from 'react-router-dom'
 import { auth } from '../api/firebase'
 import { useApp } from '../api/hooks'
 
-const SignIn = ({ history }) => {
+const SignIn = () => {
   const { authenticated, setAuthenticated } = useApp()
   const [values, setValues] = useState({ email: '', password: '' })
   const { email, password } = values
 
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setValues({ ...values, [name]: value })
   }
 
-  const submit = async e => {
+  const submit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
       await auth.signInWithEmailAndPassword(email, password)
@@ -24,7 +24,7 @@ const SignIn = ({ history }) => {
   }
 
   return authenticated ? (
-    <Redirect to="/" replace />
+    <Redirect to="/" />
   ) : (
     <form onSubmit={submit}>
       <input type="email" name="email" value={email} onChange={handleChange} />

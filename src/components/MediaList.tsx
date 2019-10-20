@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import classNames from 'classnames'
+import { helpers } from '../api/tmdb'
 import { useApp } from '../api/hooks'
 import Genres from './Genres'
-import Movie from './Movie'
-import styles from './Movies.module.scss'
+import Movie from './Media'
+import styles from './MediaList.module.scss'
 
-const Movies = ({ match }) => {
+interface Params {
+  genre: string
+}
+
+const MediaList: React.FC<RouteComponentProps<Params>> = ({ match }) => {
   const selectedGenre = match.params.genre || ''
-  const { indexes, movies } = useApp()
+  const { indexes, movie, tv } = useApp()
 
   const [selectedYear, setSelectedYear] = useState()
   const [groupWithRatings, setGroupWithRatings] = useState(true)
@@ -18,7 +24,7 @@ const Movies = ({ match }) => {
   /* render */
   const isFront = !selectedGenre && !selectedYear
 
-  const entries = Object.entries(movies)
+  const entries = Object.entries({ ...tv, ...movie })
   const filtered = entries.filter(
     ([, { watched_at, genre }]) =>
       (!selectedYear || watched_at === selectedYear) &&
@@ -26,12 +32,12 @@ const Movies = ({ match }) => {
   )
 
   const sorted = filtered.sort(([, { tmdb: tmdbA }], [, { tmdb: tmdbB }]) => {
-    const { release_date: a } = tmdbA
-    const { release_date: b } = tmdbB
+    const a = helpers.getDate(tmdbA)
+    const b = helpers.getDate(tmdbB)
     return (chronological ? 1 : -1) * (a > b ? 1 : a < b ? -1 : 0)
   })
 
-  const list = (fn = () => true) => (
+  const list = (fn: (ratings: Ratings) => boolean = () => true) => (
     <ul className={styles.grid}>
       {sorted
         .filter(([, { ratings = {} }]) => fn(ratings))
@@ -85,11 +91,11 @@ const Movies = ({ match }) => {
         ) : (
           <>
             {list(ratings => !Object.values(ratings).length)}
-            {list(({ best }) => best)}
-            {isFront && list(({ best, watchlist }) => !best && watchlist)}
+            {list(({ best }) => !!best)}
+            {isFront && list(({ best, watchlist }) => !best && !!watchlist)}
             {!isFront && list(({ grade }) => grade === 1)}
             {!isFront && list(({ grade }) => grade === 0)}
-            {!isFront && list(({ forgotten }) => forgotten)}
+            {!isFront && list(({ forgotten }) => !!forgotten)}
             {!isFront && list(({ grade }) => grade === -1)}
           </>
         )}
@@ -98,4 +104,4 @@ const Movies = ({ match }) => {
   )
 }
 
-export default Movies
+export default MediaList

@@ -2,13 +2,22 @@ import React, { useState, useEffect, createContext } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
+import { mergeDeepRight } from 'ramda'
 import { auth, db } from '../api/firebase'
 import SignIn from './SignIn'
 import SignOut from './SignOut'
 import Search from './Search'
-import Movies from './Movies'
+import MediaList from './MediaList'
 
-export const AppContext = createContext()
+const DefaultApp = {
+  authenticated: false,
+  setAuthenticated: () => {},
+  indexes: { watched_at: [], genre: [] },
+  movie: {},
+  tv: {}
+}
+
+export const AppContext = createContext<App>(DefaultApp)
 const App = () => {
   const [initiated, setInitiated] = useState(false)
   const [data, setData] = useState()
@@ -25,7 +34,7 @@ const App = () => {
       auth.onAuthStateChanged(user => setAuthenticated(!!user))
 
       db.ref('/').on('value', s => {
-        const data = s.val()
+        const data = init(s.val())
         localStorage.setItem('db', JSON.stringify(data))
         setData(init(data))
       })
@@ -42,8 +51,8 @@ const App = () => {
           <Switch>
             <Route path="/signin" component={SignIn} />
             <Route path="/signout" component={SignOut} />
-            <Route path="/:genre" component={Movies} />
-            <Route path="/" component={Movies} />
+            <Route path="/:genre" component={MediaList} />
+            <Route path="/" component={MediaList} />
           </Switch>
         </DndProvider>
       </AppContext.Provider>
@@ -54,7 +63,7 @@ const App = () => {
 export default App
 
 /* helper */
-const init = v => {
-  const initial = { indexes: { watched_at: [], genre: [] }, movies: {} }
-  return v ? { ...v, indexes: { ...initial.indexes, ...v.indexes } } : initial
+const init = (v: DB) => {
+  const initial = { indexes: { watched_at: [], genre: [] }, movie: {}, tv: {} }
+  return v ? mergeDeepRight(initial, v) : initial
 }

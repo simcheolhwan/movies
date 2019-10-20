@@ -1,28 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { withRouter } from 'react-router-dom'
-import { searchMovies } from '../api/tmdb'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
+import { searchMulti } from '../api/tmdb'
 import { useActions } from '../api/hooks'
 import Results from './Results'
 import styles from './Search.module.scss'
 
-const Search = ({ location }) => {
-  const inputRef = useRef(null)
+const Search: React.FC<RouteComponentProps> = ({ location }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const [search, setSearch] = useState('')
-  const [movies, setMovies] = useState([])
+  const [list, setList] = useState<TMDB[]>([])
   const [error, setError] = useState()
 
-  const { addMovie } = useActions()
+  const { addMedia } = useActions()
 
   useEffect(() => {
     /* API */
-    const request = async query => {
+    const request = async (query: string) => {
       // TODO: debounce, cancel
       setError(null)
 
       try {
-        const movies = await searchMovies(query)
-        movies.length && setMovies(movies)
+        const list = await searchMulti(query)
+        list.length && setList(list)
       } catch (error) {
         setError(error)
       }
@@ -34,20 +34,20 @@ const Search = ({ location }) => {
 
   const reset = () => {
     setSearch('')
-    setMovies([])
-    setError()
+    setList([])
+    setError(undefined)
   }
 
   /* actions */
-  const add = index => {
+  const add = (index: number) => {
     const pathname = location.pathname.slice(1)
     const genre = pathname === 'inbox' ? '' : pathname
-    addMovie(movies[index], { genre })
+    addMedia(list[index], { genre, ratings: {} })
     reset()
-    inputRef.current.focus()
+    inputRef.current && inputRef.current.focus()
   }
 
-  const submit = e => {
+  const submit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
     add(0)
   }
@@ -66,9 +66,9 @@ const Search = ({ location }) => {
 
       {error
         ? error.message
-        : !!movies.length && <Results results={movies} onAdd={add} />}
+        : !!list.length && <Results results={list} onAdd={add} />}
 
-      <button type="submit" disabled={!movies.length} />
+      <button type="submit" disabled={!list.length} />
     </form>
   )
 }

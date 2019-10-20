@@ -1,19 +1,25 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, LinkProps } from 'react-router-dom'
 import { useDrop } from 'react-dnd'
 import classNames from 'classnames'
 import { useActions } from '../api/hooks'
 import styles from './Genre.module.scss'
 
-const Genre = ({ isSelected, count, children: genre }) => {
+interface Props {
+  isSelected: boolean
+  count: number
+  children: string
+}
+
+const Genre: React.FC<Props> = ({ isSelected, count, children: genre }) => {
   const { changeGenre } = useActions()
   const [{ isOver }, drop] = useDrop({
-    accept: 'movie',
+    accept: 'media',
     drop: () => ({ genre }),
     collect: monitor => ({ isOver: !!monitor.isOver() })
   })
 
-  const attrs = {
+  const attrs: LinkProps = {
     to: genre,
     innerRef: drop,
     className: classNames(
