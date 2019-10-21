@@ -6,7 +6,7 @@ import Results from './Results'
 import styles from './Search.module.scss'
 
 const Search = ({ location }: RouteComponentProps) => {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null!)
 
   const [search, setSearch] = useState('')
   const [list, setList] = useState<TMDB[]>([])
@@ -44,7 +44,7 @@ const Search = ({ location }: RouteComponentProps) => {
     const genre = pathname === 'inbox' ? '' : pathname
     addMedia(list[index], { genre, ratings: {} })
     reset()
-    inputRef.current && inputRef.current.focus()
+    inputRef.current.focus()
   }
 
   const submit = (e: React.ChangeEvent<HTMLFormElement>) => {
