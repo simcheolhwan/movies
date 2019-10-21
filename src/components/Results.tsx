@@ -1,6 +1,6 @@
 import React from 'react'
 import { helpers } from '../api/tmdb'
-import { useApp } from '../api/hooks'
+import { useDatabase } from '../api/hooks'
 import Poster from './Poster'
 import styles from './Results.module.scss'
 
@@ -11,8 +11,8 @@ const Item = ({ onClick, ...item }: { onClick: () => void } & TMDB) => {
   const date = helpers.getYear(item)
   const type = helpers.getType(item)
 
-  const app = useApp()
-  const added = app[media_type][id]
+  const [collection] = useDatabase()
+  const added = collection[media_type][id]
   const { genre, watched_at } = added || {}
 
   const handleClick = (e: React.MouseEvent) => {

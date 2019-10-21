@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import { auth } from '../api/firebase'
-import { useApp } from '../api/hooks'
+import { useAuth } from '../api/hooks'
 
 const SignIn = () => {
-  const { authenticated, setAuthenticated } = useApp()
+  const [authenticated, setAuthenticated] = useAuth()
   const [values, setValues] = useState({ email: '', password: '' })
   const { email, password } = values
 

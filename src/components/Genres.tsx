@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import Octicon, { OcticonProps } from '@primer/octicons-react'
 import { Home, Inbox, Plus } from '@primer/octicons-react'
-import { useApp, useActions } from '../api/hooks'
+import { useAuth, useDatabase, useActions } from '../api/hooks'
 import Genre from './Genre'
 import styles from './Genre.module.scss'
 
 const Genres = ({ selected }: { selected: string }) => {
-  const { authenticated, indexes, movie, tv } = useApp()
+  const [authenticated] = useAuth()
+  const [{ movie, tv }, indexes] = useDatabase()
   const actions = useActions()
-
-  const media = { ...movie, ...tv }
+  const values = Object.values({ ...movie, ...tv })
 
   const addGenre = () => {
     const input = (prompt() || '').trim()
@@ -42,7 +42,7 @@ const Genres = ({ selected }: { selected: string }) => {
       {indexes.genre.map(genre => (
         <Genre
           isSelected={genre === selected}
-          count={Object.values(media).filter(m => m.genre === genre).length}
+          count={values.filter(m => m.genre === genre).length}
           key={genre}
         >
           {genre}

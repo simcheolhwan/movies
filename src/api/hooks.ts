@@ -1,7 +1,6 @@
-import { useContext } from 'react'
+import { useContext, createContext } from 'react'
 import { pick, uniq } from 'ramda'
 import { db } from './firebase'
-import { AppContext } from '../components/App'
 
 /* Constants */
 const Metadata = [
@@ -17,18 +16,27 @@ const Metadata = [
   'first_air_date'
 ]
 
-export const useApp = () => {
-  const app = useContext(AppContext)
+/* Helper */
+const createCtx = <A>() => {
+  const ctx = createContext<A | undefined>(undefined)
 
-  if (!app) {
-    throw new Error('useApp must be inside a Provider with a value')
+  const useCtx = () => {
+    const c = useContext(ctx)
+    if (!c) throw new Error('This must be inside a Provider with a value')
+    return c
   }
 
-  return app
+  return [useCtx, ctx.Provider] as const
 }
 
+/* Context */
+export const [useAuth, AuthProvider] = createCtx<Auth>()
+export const [useDatabase, DatabaseProvider] = createCtx<Database>()
+
+/* Hooks */
 export const useActions = () => {
-  const { authenticated, indexes, ...media } = useApp()
+  const [authenticated] = useAuth()
+  const [collection, indexes] = useDatabase()
   const sort = (array: any[]) => uniq(array).sort()
   const append = (key: keyof Indexes, value: any) =>
     sort([...indexes[key], value])
@@ -68,7 +76,7 @@ export const useActions = () => {
 
     changeGenre: (genre: string, next: string) => {
       const getUpdates = (type: MediaType) =>
-        Object.entries(media[type])
+        Object.entries(collection[type])
           .filter(([, media]) => media.genre === genre)
           .reduce(
             (acc, [id, media]) => ({

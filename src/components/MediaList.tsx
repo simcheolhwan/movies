@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import classNames from 'classnames'
 import { helpers } from '../api/tmdb'
-import { useApp } from '../api/hooks'
+import { useDatabase } from '../api/hooks'
 import Genres from './Genres'
 import Movie from './Media'
 import styles from './MediaList.module.scss'
 
 const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
   const selectedGenre = match.params.genre || ''
-  const { indexes, movie, tv } = useApp()
+  const [{ movie, tv }, indexes] = useDatabase()
 
   const [selectedYear, setSelectedYear] = useState()
   const [groupWithRatings, setGroupWithRatings] = useState(true)

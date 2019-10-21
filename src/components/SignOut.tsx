@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { auth } from '../api/firebase'
-import { useApp } from '../api/hooks'
+import { useAuth } from '../api/hooks'
 
 const SignOut = () => {
-  const { authenticated, setAuthenticated } = useApp()
+  const [authenticated, setAuthenticated] = useAuth()
 
   useEffect(() => {
     const signout = async () => {
