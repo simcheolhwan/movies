@@ -7,7 +7,7 @@ import Poster from './Poster'
 import Ratings from './Ratings'
 import styles from './Media.module.scss'
 
-const Media: React.FC<Media> = media => {
+const Media = (media: Media) => {
   const { tmdb, watched_at } = media
   const title = helpers.getTitle(tmdb)
 

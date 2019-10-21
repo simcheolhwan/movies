@@ -5,7 +5,7 @@ import { useActions } from '../api/hooks'
 import Results from './Results'
 import styles from './Search.module.scss'
 
-const Search: React.FC<RouteComponentProps> = ({ location }) => {
+const Search = ({ location }: RouteComponentProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const [search, setSearch] = useState('')

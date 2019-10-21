@@ -4,11 +4,7 @@ import { useApp } from '../api/hooks'
 import Poster from './Poster'
 import styles from './Results.module.scss'
 
-interface Item {
-  onClick: () => void
-}
-
-const Item: React.FC<Item & TMDB> = ({ onClick, ...item }) => {
+const Item = ({ onClick, ...item }: { onClick: () => void } & TMDB) => {
   const { id, media_type } = item
   const title = helpers.getTitle(item)
   const link = helpers.getLink(item)
@@ -49,7 +45,7 @@ interface Props {
   onAdd: (index: number) => void
 }
 
-const Results: React.FC<Props> = ({ results, onAdd }) => (
+const Results = ({ results, onAdd }: Props) => (
   <section className={styles.results}>
     <h1 className={styles.title}>검색 결과</h1>
     <ul className={styles.list}>

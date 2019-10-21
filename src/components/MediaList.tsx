@@ -7,11 +7,7 @@ import Genres from './Genres'
 import Movie from './Media'
 import styles from './MediaList.module.scss'
 
-interface Params {
-  genre: string
-}
-
-const MediaList: React.FC<RouteComponentProps<Params>> = ({ match }) => {
+const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
   const selectedGenre = match.params.genre || ''
   const { indexes, movie, tv } = useApp()
 

@@ -9,7 +9,7 @@ interface Props extends React.HTMLAttributes<HTMLImageElement> {
   width?: number
 }
 
-const Poster: React.FC<Props> = ({ media, w, className, ...props }) => {
+const Poster = ({ media, w, className, ...props }: Props) => {
   const src = helpers.getPoster(media, w)
   const width = props.width || w / 2
   const height = width * 1.5

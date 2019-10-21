@@ -7,7 +7,7 @@ import { useApp, useActions } from '../api/hooks'
 import Genre from './Genre'
 import styles from './Genre.module.scss'
 
-const Genres: React.FC<{ selected: string }> = ({ selected }) => {
+const Genres = ({ selected }: { selected: string }) => {
   const { authenticated, indexes, movie, tv } = useApp()
   const actions = useActions()
 

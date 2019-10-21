@@ -11,7 +11,7 @@ interface Props {
   children: string
 }
 
-const Genre: React.FC<Props> = ({ isSelected, count, children: genre }) => {
+const Genre = ({ isSelected, count, children: genre }: Props) => {
   const { changeGenre } = useActions()
   const [{ isOver }, drop] = useDrop({
     accept: 'media',

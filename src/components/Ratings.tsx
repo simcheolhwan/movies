@@ -6,7 +6,7 @@ import { Thumbsup, Thumbsdown, Check } from '@primer/octicons-react'
 import { useActions } from '../api/hooks'
 import styles from './Ratings.module.scss'
 
-const Ratings: React.FC<Media> = ({ tmdb, ratings = {} }) => {
+const Ratings = ({ tmdb, ratings = {} }: Media) => {
   const { best, forgotten, watchlist, grade } = ratings
   const { rateMedia } = useActions()
 
