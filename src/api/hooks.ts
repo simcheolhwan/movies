@@ -17,7 +17,16 @@ const Metadata = [
   'first_air_date'
 ]
 
-export const useApp = () => useContext(AppContext)
+export const useApp = () => {
+  const app = useContext(AppContext)
+
+  if (!app) {
+    throw new Error('useApp must be inside a Provider with a value')
+  }
+
+  return app
+}
+
 export const useActions = () => {
   const { authenticated, indexes, ...media } = useApp()
   const sort = (array: any[]) => uniq(array).sort()

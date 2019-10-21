@@ -9,15 +9,7 @@ import SignOut from './SignOut'
 import Search from './Search'
 import MediaList from './MediaList'
 
-const DefaultApp = {
-  authenticated: false,
-  setAuthenticated: () => {},
-  indexes: { watched_at: [], genre: [] },
-  movie: {},
-  tv: {}
-}
-
-export const AppContext = createContext<App>(DefaultApp)
+export const AppContext = createContext<App | undefined>(undefined)
 const App = () => {
   const [initiated, setInitiated] = useState(false)
   const [data, setData] = useState()
