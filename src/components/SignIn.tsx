@@ -8,12 +8,12 @@ const SignIn = () => {
   const [values, setValues] = useState({ email: '', password: '' })
   const { email, password } = values
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    const { name, value } = e.currentTarget
     setValues({ ...values, [name]: value })
   }
 
-  const submit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+  const submit: React.FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
     try {
       await auth.signInWithEmailAndPassword(email, password)

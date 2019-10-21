@@ -47,7 +47,7 @@ const Search = ({ location }: RouteComponentProps) => {
     inputRef.current.focus()
   }
 
-  const submit = (e: React.ChangeEvent<HTMLFormElement>) => {
+  const submit: React.FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
     add(0)
   }
