@@ -5,6 +5,7 @@ import { helpers } from '../api/tmdb'
 import { useDatabase } from '../api/hooks'
 import Genres from './Genres'
 import Movie from './Media'
+import Ratings from './Ratings'
 import styles from './MediaList.module.scss'
 
 const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
@@ -14,15 +15,20 @@ const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
   const [selectedYear, setSelectedYear] = useState()
   const [groupWithRatings, setGroupWithRatings] = useState(true)
   const [chronological, setChronological] = useState(false)
+  const [filter, setFilter] = useState<Ratings>()
   const toggleGroupWithRatings = () => setGroupWithRatings(!groupWithRatings)
   const toggleChronological = () => setChronological(!chronological)
 
-  /* render */
+  /* media list */
   const entries = Object.entries({ ...tv, ...movie })
   const filtered = entries.filter(
-    ([, { watched_at, genre }]) =>
+    ([, { watched_at, genre, ratings }]) =>
       (!selectedYear || watched_at === selectedYear) &&
-      (!selectedGenre || (genre || 'inbox') === selectedGenre)
+      (!selectedGenre || (genre || 'inbox') === selectedGenre) &&
+      (!filter ||
+        Object.entries(ratings).some(
+          ([k, v]) => !!filter && filter[k as keyof Ratings] === v
+        ))
   )
 
   const sorted = filtered.sort(([, { tmdb: tmdbA }], [, { tmdb: tmdbB }]) => {
@@ -31,6 +37,7 @@ const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
     return (chronological ? 1 : -1) * (a > b ? 1 : a < b ? -1 : 0)
   })
 
+  /* year */
   const renderYear = (year: number) => {
     const isSelected = year === selectedYear
     const attrs = {
@@ -45,6 +52,22 @@ const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
     )
   }
 
+  /* filter */
+  const f = (k: keyof Ratings, p: number | boolean) => {
+    const active = !!filter && filter[k] === p
+    return { active, onClick: () => setFilter(active ? undefined : { [k]: p }) }
+  }
+
+  const filters = {
+    increase: f('grade', 1),
+    decrease: f('grade', -1),
+    reset: f('grade', 0),
+    best: f('best', true),
+    forget: f('forgotten', true),
+    bookmark: f('watchlist', true)
+  }
+
+  /* list */
   type Filter = (ratings: Ratings) => boolean
 
   const list = (fn: Filter = () => true) => (
@@ -92,6 +115,8 @@ const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
             <button onClick={toggleChronological}>
               {chronological ? '최신영화부터' : '개봉 순서'}
             </button>
+
+            <Ratings buttons={filters} />
           </section>
         </header>
 
