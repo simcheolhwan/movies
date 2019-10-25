@@ -38,7 +38,7 @@ const MediaList = ({ selectedGenre }: { selectedGenre: string }) => {
       ? helpers.getTitle(tmdb).includes(input)
       : (!selectedYear || watched_at === selectedYear) &&
         (!selectedGenre || (genre || 'inbox') === selectedGenre) &&
-        (!filter || matchFilter(ratings))
+        (!filter || matchFilter(ratings || {}))
   )
 
   const sorted = filtered.sort(([, { tmdb: tmdbA }], [, { tmdb: tmdbB }]) => {
