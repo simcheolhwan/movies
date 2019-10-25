@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import classNames from 'classnames'
 import { helpers } from '../api/tmdb'
@@ -18,8 +18,6 @@ const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
   const toggleChronological = () => setChronological(!chronological)
 
   /* render */
-  const isFront = !selectedGenre && !selectedYear
-
   const entries = Object.entries({ ...tv, ...movie })
   const filtered = entries.filter(
     ([, { watched_at, genre }]) =>
@@ -33,7 +31,23 @@ const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
     return (chronological ? 1 : -1) * (a > b ? 1 : a < b ? -1 : 0)
   })
 
-  const list = (fn: (ratings: Ratings) => boolean = () => true) => (
+  const renderYear = (year: number) => {
+    const isSelected = year === selectedYear
+    const attrs = {
+      className: classNames(styles.tab, isSelected && styles.active),
+      onClick: () => setSelectedYear(isSelected ? undefined : year)
+    }
+
+    return (
+      <button {...attrs} key={year}>
+        {year}
+      </button>
+    )
+  }
+
+  type Filter = (ratings: Ratings) => boolean
+
+  const list = (fn: Filter = () => true) => (
     <ul className={styles.grid}>
       {sorted
         .filter(([, { ratings = {} }]) => fn(ratings))
@@ -45,6 +59,19 @@ const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
     </ul>
   )
 
+  const renderGroups = () => {
+    const order: (Filter)[] = [
+      /* No ratings */ ratings => !Object.values(ratings).length,
+      /* Best */ ({ best }) => !!best,
+      /* Good */ ({ grade }) => grade === 1,
+      /* Watched */ ({ grade }) => grade === 0,
+      /* Forgotten */ ({ forgotten }) => !!forgotten,
+      /* Worst */ ({ grade }) => grade === -1
+    ]
+
+    return order.map((fn, i) => <Fragment key={i}>{list(fn)}</Fragment>)
+  }
+
   return !entries.length ? null : (
     <section className={styles.content}>
       <nav>
@@ -54,19 +81,7 @@ const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
       <main>
         <header className={styles.header}>
           <section className={styles.tabs}>
-            {indexes.watched_at.map(year => {
-              const isSelected = year === selectedYear
-              const attrs = {
-                className: classNames(styles.tab, isSelected && styles.active),
-                onClick: () => setSelectedYear(isSelected ? undefined : year)
-              }
-
-              return (
-                <button {...attrs} key={year}>
-                  {year}
-                </button>
-              )
-            })}
+            {indexes.watched_at.map(renderYear)}
           </section>
 
           <section className={styles.sort}>
@@ -85,15 +100,7 @@ const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
         ) : !groupWithRatings ? (
           list()
         ) : (
-          <>
-            {list(ratings => !Object.values(ratings).length)}
-            {list(({ best }) => !!best)}
-            {isFront && list(({ best, watchlist }) => !best && !!watchlist)}
-            {!isFront && list(({ grade }) => grade === 1)}
-            {!isFront && list(({ grade }) => grade === 0)}
-            {!isFront && list(({ forgotten }) => !!forgotten)}
-            {!isFront && list(({ grade }) => grade === -1)}
-          </>
+          renderGroups()
         )}
       </main>
     </section>
