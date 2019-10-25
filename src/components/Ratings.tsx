@@ -3,71 +3,44 @@ import classNames from 'classnames'
 import Octicon, { OcticonProps } from '@primer/octicons-react'
 import { Star, Bookmark, CircleSlash } from '@primer/octicons-react'
 import { Thumbsup, Thumbsdown, Check } from '@primer/octicons-react'
-import { useActions } from '../api/hooks'
 import styles from './Ratings.module.scss'
 
-const Ratings = ({ tmdb, ratings = {} }: Media) => {
-  const { best, forgotten, watchlist, grade } = ratings
-  const { rateMedia } = useActions()
+enum Keys {
+  BEST = 'best',
+  INCREASE = 'increase',
+  DECREASE = 'decrease',
+  RESET = 'reset',
+  FORGET = 'forget',
+  BOOKMARK = 'bookmark'
+}
 
-  const withWatchlist = (ratings: Ratings) =>
-    Object.assign({}, ratings, typeof watchlist === 'boolean' && { watchlist })
+interface Attrs {
+  active: boolean
+  onClick: () => void
+}
 
-  interface Button {
-    icon: OcticonProps['icon']
-    active: boolean
-    activeClassName?: string
-    next: Ratings
-  }
+const icons: { [K in Keys]: OcticonProps['icon'] } = {
+  best: Star,
+  increase: Thumbsup,
+  decrease: Thumbsdown,
+  reset: Check,
+  forget: CircleSlash,
+  bookmark: Bookmark
+}
 
-  const buttons: { [action: string]: Button } = {
-    best: {
-      icon: Star,
-      active: !!best,
-      next: withWatchlist({ best: true })
-    },
+const activeClassNames: { [K in Keys]?: string } = {
+  bookmark: styles.bookmark
+}
 
-    increase: {
-      icon: Thumbsup,
-      active: grade === 1,
-      next: withWatchlist({ grade: 1 })
-    },
-
-    decrease: {
-      icon: Thumbsdown,
-      active: grade === -1,
-      next: withWatchlist({ grade: -1 })
-    },
-
-    reset: {
-      icon: Check,
-      active: grade === 0,
-      next: withWatchlist({ grade: 0 })
-    },
-
-    forget: {
-      icon: CircleSlash,
-      active: !!forgotten,
-      next: withWatchlist({ forgotten: true })
-    },
-
-    bookmark: {
-      icon: Bookmark,
-      active: !!watchlist,
-      activeClassName: styles.bookmark,
-      next: { ...ratings, watchlist: !watchlist }
-    }
-  }
-
-  const renderButton = (button: Button) => {
-    const { icon, active, activeClassName = styles.active, next } = button
-    const attrs = {
-      className: classNames(styles.button, active && activeClassName),
-      onClick: () => rateMedia(tmdb, next)
-    }
+const Ratings = ({ buttons }: { buttons: { [K in Keys]: Attrs } }) => {
+  const renderButton = (key: Keys) => {
+    const icon = icons[key]
+    const { active, onClick } = buttons[key]
+    const activeClassName = activeClassNames[key] || styles.active
+    const className = classNames(styles.button, active && activeClassName)
 
     return (
-      <button {...attrs}>
+      <button className={className} onClick={onClick}>
         <Octicon icon={icon} />
       </button>
     )
@@ -75,17 +48,17 @@ const Ratings = ({ tmdb, ratings = {} }: Media) => {
 
   return (
     <footer className={styles.component}>
-      {renderButton(buttons.best)}
+      {renderButton(Keys.BEST)}
 
       <section className={styles.grade}>
-        {renderButton(buttons.increase)}
-        {renderButton(buttons.decrease)}
-        {renderButton(buttons.reset)}
+        {renderButton(Keys.INCREASE)}
+        {renderButton(Keys.DECREASE)}
+        {renderButton(Keys.RESET)}
 
         <div className={styles.divider} />
 
-        {renderButton(buttons.forget)}
-        {renderButton(buttons.bookmark)}
+        {renderButton(Keys.FORGET)}
+        {renderButton(Keys.BOOKMARK)}
       </section>
     </footer>
   )

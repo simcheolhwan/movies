@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { helpers, getMedia } from '../api/tmdb'
 import { useActions } from '../api/hooks'
 import Poster from './Poster'
-import Ratings from './Ratings'
+import RateMedia from './RateMedia'
 import styles from './Media.module.scss'
 
 const Media = (media: Media) => {
@@ -62,7 +62,7 @@ const Media = (media: Media) => {
       className={classNames(styles.component, isDragging && styles.isDragging)}
       ref={drag}
     >
-      <Ratings {...media} />
+      <RateMedia {...media} />
       <DragPreviewImage connect={preview} src={helpers.getPoster(tmdb, 92)} />
       <Poster media={tmdb} w={342} className={styles.poster} />
       <h1 title={title} className={styles.title}>
