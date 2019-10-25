@@ -16,7 +16,9 @@ const api = <T>(url: string, params?: AxiosRequestConfig['params']) => {
 export const searchMulti = async (query: string) => {
   const { data } = await api<{ results: TMDB[] }>('search/multi', { query })
   const { results } = data
-  return results.filter(result => ['movie', 'tv'].includes(result.media_type))
+  return results
+    .filter(result => ['movie', 'tv'].includes(result.media_type))
+    .sort(sortByProp<TMDB>('vote_count'))
 }
 
 /* Media */
@@ -44,3 +46,7 @@ export const helpers = {
       ? tmdb.media_type.toUpperCase()
       : ''
 }
+
+/* utils */
+const sortByProp = <T>(p: keyof T) => (a: T, b: T) =>
+  a[p] === b[p] ? 0 : a[p] > b[p] ? -1 : 1

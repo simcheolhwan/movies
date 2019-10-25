@@ -5,6 +5,7 @@ interface DefaultTMDB {
   id: number
   media_type: MediaType
   poster_path: 'string'
+  vote_count: number
 }
 
 interface MovieTMDB extends DefaultTMDB {
