@@ -8,14 +8,20 @@ import Movie from './Media'
 import Ratings from './Ratings'
 import styles from './MediaList.module.scss'
 
-const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
-  const selectedGenre = match.params.genre || ''
+const MediaList = ({ selectedGenre }: { selectedGenre: string }) => {
+  const getInitial = () => {
+    const isFront = !selectedGenre && !selectedYear
+    return isFront ? { best: true } : undefined
+  }
+
+  /* hooks */
   const [{ movie, tv }, indexes] = useDatabase()
 
+  /* state */
   const [selectedYear, setSelectedYear] = useState()
   const [groupWithRatings, setGroupWithRatings] = useState(true)
   const [chronological, setChronological] = useState(false)
-  const [filter, setFilter] = useState<Ratings>()
+  const [filter, setFilter] = useState<Ratings | undefined>(getInitial)
   const toggleGroupWithRatings = () => setGroupWithRatings(!groupWithRatings)
   const toggleChronological = () => setChronological(!chronological)
 
@@ -132,4 +138,13 @@ const MediaList = ({ match }: RouteComponentProps<{ genre: string }>) => {
   )
 }
 
-export default MediaList
+interface Params {
+  genre: string
+}
+
+const MediaListContainer = ({ match }: RouteComponentProps<Params>) => {
+  const selectedGenre = match.params.genre || ''
+  return <MediaList selectedGenre={selectedGenre} key={selectedGenre} />
+}
+
+export default MediaListContainer
