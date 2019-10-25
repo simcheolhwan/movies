@@ -40,9 +40,17 @@
 /* sort */
 .sort {
   display: flex;
+  align-items: center;
 
   > button {
     flex: 1;
+  }
+
+  > input {
+    border-radius: 0.2rem;
+    font-size: 0.875rem;
+    margin-left: 0.5rem;
+    padding: 0.25rem 0.5rem;
   }
 }
 

@@ -22,19 +22,23 @@ const MediaList = ({ selectedGenre }: { selectedGenre: string }) => {
   const [groupWithRatings, setGroupWithRatings] = useState(true)
   const [chronological, setChronological] = useState(false)
   const [filter, setFilter] = useState<Ratings | undefined>(getInitial)
+  const [input, setInput] = useState<string>('')
   const toggleGroupWithRatings = () => setGroupWithRatings(!groupWithRatings)
   const toggleChronological = () => setChronological(!chronological)
+  const matchFilter = (r: Ratings) =>
+    Object.entries(r).some(
+      ([k, v]) => !!filter && filter[k as keyof Ratings] === v
+    )
 
   /* media list */
   const entries = Object.entries({ ...tv, ...movie })
-  const filtered = entries.filter(
-    ([, { watched_at, genre, ratings }]) =>
-      (!selectedYear || watched_at === selectedYear) &&
-      (!selectedGenre || (genre || 'inbox') === selectedGenre) &&
-      (!filter ||
-        Object.entries(ratings).some(
-          ([k, v]) => !!filter && filter[k as keyof Ratings] === v
-        ))
+
+  const filtered = entries.filter(([, { watched_at, genre, ratings, tmdb }]) =>
+    input
+      ? helpers.getTitle(tmdb).includes(input)
+      : (!selectedYear || watched_at === selectedYear) &&
+        (!selectedGenre || (genre || 'inbox') === selectedGenre) &&
+        (!filter || matchFilter(ratings))
   )
 
   const sorted = filtered.sort(([, { tmdb: tmdbA }], [, { tmdb: tmdbB }]) => {
@@ -123,6 +127,8 @@ const MediaList = ({ selectedGenre }: { selectedGenre: string }) => {
             </button>
 
             <Ratings buttons={filters} />
+
+            <input value={input} onChange={e => setInput(e.target.value)} />
           </section>
         </header>
 

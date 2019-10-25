@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { HTMLAttributes } from 'react'
 import classNames from 'classnames'
 import Octicon, { OcticonProps } from '@primer/octicons-react'
 import { Star, Bookmark, CircleSlash } from '@primer/octicons-react'
@@ -19,6 +19,10 @@ interface Attrs {
   onClick: () => void
 }
 
+interface Props extends HTMLAttributes<HTMLElement> {
+  buttons: { [K in Keys]: Attrs }
+}
+
 const icons: { [K in Keys]: OcticonProps['icon'] } = {
   best: Star,
   increase: Thumbsup,
@@ -32,7 +36,7 @@ const activeClassNames: { [K in Keys]?: string } = {
   bookmark: styles.bookmark
 }
 
-const Ratings = ({ buttons }: { buttons: { [K in Keys]: Attrs } }) => {
+const Ratings = ({ buttons, className }: Props) => {
   const renderButton = (key: Keys) => {
     const icon = icons[key]
     const { active, onClick } = buttons[key]
@@ -47,7 +51,7 @@ const Ratings = ({ buttons }: { buttons: { [K in Keys]: Attrs } }) => {
   }
 
   return (
-    <footer className={styles.component}>
+    <div className={classNames(styles.component, className)}>
       {renderButton(Keys.BEST)}
 
       <section className={styles.grade}>
@@ -60,7 +64,7 @@ const Ratings = ({ buttons }: { buttons: { [K in Keys]: Attrs } }) => {
         {renderButton(Keys.FORGET)}
         {renderButton(Keys.BOOKMARK)}
       </section>
-    </footer>
+    </div>
   )
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useActions } from '../api/hooks'
 import Ratings from './Ratings'
+import styles from './RateMedia.module.scss'
 
 const RateMedia = ({ tmdb, ratings = {} }: Media) => {
   const { best, forgotten, watchlist, grade } = ratings
@@ -41,7 +42,7 @@ const RateMedia = ({ tmdb, ratings = {} }: Media) => {
     }
   }
 
-  return <Ratings buttons={buttons} />
+  return <Ratings buttons={buttons} className={styles.ratings} />
 }
 
 export default RateMedia
