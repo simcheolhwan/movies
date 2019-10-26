@@ -84,7 +84,8 @@
 
   > main {
     flex: 1;
-    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -92,6 +93,11 @@
 .grid {
   display: flex;
   flex-wrap: wrap;
+}
+
+.list {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 .item {

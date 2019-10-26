@@ -132,13 +132,15 @@ const MediaList = ({ selectedGenre }: { selectedGenre: string }) => {
           </section>
         </header>
 
-        {!filtered.length ? (
-          <p className={styles.empty}>Empty</p>
-        ) : !groupWithRatings ? (
-          list()
-        ) : (
-          renderGroups()
-        )}
+        <section className={styles.list}>
+          {!filtered.length ? (
+            <p className={styles.empty}>Empty</p>
+          ) : !groupWithRatings ? (
+            list()
+          ) : (
+            renderGroups()
+          )}
+        </section>
       </main>
     </section>
   )
