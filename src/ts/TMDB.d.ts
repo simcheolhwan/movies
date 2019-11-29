@@ -4,7 +4,7 @@ type MediaType = 'movie' | 'tv'
 interface DefaultTMDB {
   id: number
   media_type: MediaType
-  poster_path: 'string'
+  poster_path: string
   vote_count: number
 }
 
