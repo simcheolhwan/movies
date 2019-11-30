@@ -26,7 +26,7 @@ const App = () => {
     const connect = () => {
       auth.onAuthStateChanged(user => setAuthenticated(!!user))
 
-      db.ref('/').on('value', s => {
+      db.ref('/app').on('value', s => {
         const v: DB = s.val()
         const normalized = normalize(v)
         localStorage.setItem('db', JSON.stringify(normalized))

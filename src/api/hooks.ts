@@ -37,12 +37,15 @@ export const [useDatabase, DatabaseProvider] = createCtx<Database>()
 export const useActions = () => {
   const [authenticated] = useAuth()
   const [collection, indexes] = useDatabase()
+  const app = db.ref('/app')
+
   const sort = (array: any[]) => uniq(array).sort()
   const append = (key: keyof Indexes, value: any) =>
     sort([...indexes[key], value])
 
   const updateMedia = (tmdb: TMDB, [key, updates]: [string, any]) =>
-    authenticated && db.ref(`${tmdb.media_type}/${tmdb.id}/${key}`).set(updates)
+    authenticated &&
+    app.child(`${tmdb.media_type}/${tmdb.id}/${key}`).set(updates)
 
   return {
     /* Media */
@@ -54,7 +57,7 @@ export const useActions = () => {
         [`indexes/watched_at`]: append('watched_at', watched_at)
       }
 
-      authenticated && db.ref().update(updates)
+      authenticated && app.update(updates)
     },
 
     updateMedia,
@@ -68,11 +71,11 @@ export const useActions = () => {
       updateMedia(tmdb, ['tmdb', pick(Metadata, data)]),
 
     removeMedia: (tmdb: TMDB) =>
-      authenticated && db.ref(`${tmdb.media_type}/${tmdb.id}`).remove(),
+      authenticated && app.child(`${tmdb.media_type}/${tmdb.id}`).remove(),
 
     /* Genre */
     addGenre: (genre: string) =>
-      authenticated && db.ref(`indexes/genre`).set(append('genre', genre)),
+      authenticated && app.child(`indexes/genre`).set(append('genre', genre)),
 
     changeGenre: (genre: string, next: string) => {
       const getUpdates = (type: MediaType) =>
@@ -92,7 +95,7 @@ export const useActions = () => {
         'indexes/genre': sort(indexes.genre.map(g => (g === genre ? next : g)))
       }
 
-      authenticated && db.ref().update(updates)
+      authenticated && app.update(updates)
     }
   }
 }
