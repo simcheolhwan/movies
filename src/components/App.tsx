@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { DndProvider } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
 import { auth, db } from '../api/firebase'
 import { AuthProvider, DatabaseProvider } from '../api/hooks'
+import MediaList from './MediaList'
 import SignIn from './SignIn'
 import SignOut from './SignOut'
-import Search from './Search'
-import MediaList from './MediaList'
 
 const initial: Database = [{ movie: {}, tv: {} }, { watched_at: [], genre: [] }]
 
@@ -46,15 +43,12 @@ const App = () => {
     <Router>
       <AuthProvider value={[authenticated, setAuthenticated]}>
         <DatabaseProvider value={database}>
-          {authenticated && <Search />}
-          <DndProvider backend={HTML5Backend}>
-            <Switch>
-              <Route path="/signin" component={SignIn} />
-              <Route path="/signout" component={SignOut} />
-              <Route path="/:genre" component={MediaList} />
-              <Route path="/" component={MediaList} />
-            </Switch>
-          </DndProvider>
+          <Switch>
+            <Route path="/signin" component={SignIn} />
+            <Route path="/signout" component={SignOut} />
+            <Route path="/:genre" component={MediaList} />
+            <Route path="/" component={MediaList} />
+          </Switch>
         </DatabaseProvider>
       </AuthProvider>
     </Router>

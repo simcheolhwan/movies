@@ -1,14 +1,17 @@
 import React, { useState, Fragment } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
+import { DndProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import classNames from 'classnames'
 import { helpers } from '../api/tmdb'
-import { useDatabase } from '../api/hooks'
+import { useAuth, useDatabase } from '../api/hooks'
+import Search from './Search'
 import Genres from './Genres'
 import Movie from './Media'
 import Ratings from './Ratings'
 import styles from './MediaList.module.scss'
 
-const MediaList = ({ selectedGenre }: { selectedGenre: string }) => {
+const Component = ({ selectedGenre }: { selectedGenre: string }) => {
   const getInitial = () => {
     const isFront = !selectedGenre && !selectedYear
     return isFront ? { best: true } : undefined
@@ -93,7 +96,7 @@ const MediaList = ({ selectedGenre }: { selectedGenre: string }) => {
   )
 
   const renderGroups = () => {
-    const order: (Filter)[] = [
+    const order: Filter[] = [
       /* No ratings */ ratings => !Object.values(ratings).length,
       /* Best */ ({ best }) => !!best,
       /* Good */ ({ grade }) => grade === 1,
@@ -150,9 +153,15 @@ interface Params {
   genre: string
 }
 
-const MediaListContainer = ({ match }: RouteComponentProps<Params>) => {
+const MediaList = ({ match }: RouteComponentProps<Params>) => {
   const selectedGenre = match.params.genre || ''
-  return <MediaList selectedGenre={selectedGenre} key={selectedGenre} />
+  const [authenticated] = useAuth()
+  return (
+    <DndProvider backend={HTML5Backend}>
+      {authenticated && <Search />}
+      <Component selectedGenre={selectedGenre} key={selectedGenre} />
+    </DndProvider>
+  )
 }
 
-export default MediaListContainer
+export default MediaList
