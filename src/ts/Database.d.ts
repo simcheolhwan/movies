@@ -10,6 +10,6 @@ interface Indexes {
 }
 
 interface MediaCollection {
-  movie: { [id: string]: Media }
-  tv: { [id: string]: Media }
+  movie: { [id: string]: Movie }
+  tv: { [id: string]: Tv }
 }
