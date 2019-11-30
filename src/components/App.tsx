@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { auth, db } from '../api/firebase'
 import { AuthProvider, DatabaseProvider } from '../api/hooks'
-import MediaList from './MediaList'
-import SignIn from './SignIn'
-import SignOut from './SignOut'
+import routes from '../routes'
 
 const initial: Database = [{ movie: {}, tv: {} }, { watched_at: [], genre: [] }]
 
@@ -43,12 +41,7 @@ const App = () => {
     <Router>
       <AuthProvider value={[authenticated, setAuthenticated]}>
         <DatabaseProvider value={database}>
-          <Switch>
-            <Route path="/signin" component={SignIn} />
-            <Route path="/signout" component={SignOut} />
-            <Route path="/:genre" component={MediaList} />
-            <Route path="/" component={MediaList} />
-          </Switch>
+          {routes}
         </DatabaseProvider>
       </AuthProvider>
     </Router>
