@@ -22,9 +22,12 @@ export const searchMulti = async (query: string) => {
 }
 
 /* Media */
-export const getMedia = async ({ id, media_type }: TMDB) => {
-  const { data } = await api<TMDB>(`${media_type}/${id}`)
-  return data && { ...data, media_type }
+export const getMedia = async (tmdb: TMDB): Promise<[TMDB, Credits]> => {
+  const { id, media_type } = tmdb
+  type Updated = Omit<MovieTMDB, 'media_type'> | Omit<TvTMDB, 'media_type'>
+  const { data: updated } = await api<Updated>(`${media_type}/${id}`)
+  const { data: credits } = await api<Credits>(`${media_type}/${id}/credits`)
+  return [{ ...updated, media_type }, credits]
 }
 
 /* helpers */

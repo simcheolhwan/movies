@@ -9,7 +9,16 @@ interface Indexes {
   genre: string[]
 }
 
+type MediaDB = MovieDB | TvDB
+
+interface MovieDB {
+  [id: string]: Movie
+}
+interface TvDB {
+  [id: string]: Tv
+}
+
 interface MediaCollection {
-  movie: { [id: string]: Movie }
-  tv: { [id: string]: Tv }
+  movie: MovieDB
+  tv: TvDB
 }

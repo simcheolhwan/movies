@@ -27,7 +27,7 @@ const Media = (media: Media) => {
   const handleDoubleClick = async () => {
     setIsLoading(true)
     const media = await getMedia(tmdb)
-    media && refreshMedia(tmdb, media)
+    refreshMedia(tmdb, media)
     setIsLoading(false)
   }
 

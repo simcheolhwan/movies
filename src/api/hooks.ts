@@ -67,8 +67,14 @@ export const useActions = () => {
     rateMedia: (tmdb: TMDB, ratings: Ratings) =>
       updateMedia(tmdb, ['ratings', ratings]),
 
-    refreshMedia: (tmdb: TMDB, data: TMDB) =>
-      updateMedia(tmdb, ['tmdb', pick(Metadata, data)]),
+    refreshMedia: (tmdb: TMDB, [updated, credits]: [TMDB, Credits]) => {
+      const updates = {
+        [`/app/${tmdb.media_type}/${tmdb.id}/tmdb`]: pick(Metadata, updated),
+        [`/credits/${tmdb.media_type}/${tmdb.id}`]: credits
+      }
+
+      authenticated && db.ref().update(updates)
+    },
 
     removeMedia: (tmdb: TMDB) =>
       authenticated && app.child(`${tmdb.media_type}/${tmdb.id}`).remove(),
