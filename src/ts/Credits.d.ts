@@ -1,10 +1,10 @@
-interface CreditDB {
-  [id: string]: Credit
-}
-
-interface CreditsDB {
+interface CreditsCollection {
   movie: CreditDB
   tv: CreditDB
+}
+
+interface CreditDB {
+  [id: string]: Credits
 }
 
 interface Credits {

@@ -1,0 +1,17 @@
+@import '../_variables';
+
+.item {
+  width: 12em;
+  padding-right: 2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.idle {
+  opacity: 0.5;
+}
+
+.loading {
+  color: $yellow;
+}

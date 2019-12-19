@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDrag, DragPreviewImage } from 'react-dnd'
 import classNames from 'classnames'
-import { helpers, getMedia } from '../api/tmdb'
+import { helpers, fetchMedia } from '../api/tmdb'
 import { useActions } from '../api/hooks'
 import Poster from './Poster'
 import RateMedia from './RateMedia'
@@ -26,7 +26,7 @@ const Media = (media: Media) => {
   /* events */
   const handleDoubleClick = async () => {
     setIsLoading(true)
-    const media = await getMedia(tmdb)
+    const media = await fetchMedia(tmdb)
     refreshMedia(tmdb, media)
     setIsLoading(false)
   }
