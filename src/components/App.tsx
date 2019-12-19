@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { equals } from 'ramda'
 import { auth, db } from '../api/firebase'
-import { AuthProvider, DatabaseProvider } from '../api/hooks'
+import { AppProvider, AuthProvider, DatabaseProvider } from '../api/hooks'
 import routes from '../routes'
 
-const initial: Database = [{ movie: {}, tv: {} }, { watched_at: [], genre: [] }]
+const initial: Database = [
+  { movie: {}, tv: {} },
+  { watched_at: [], genre: [] }
+]
 
 const App = () => {
   const [initiated, setInitiated] = useState(false)
+  const [hydrated, setHydrated] = useState(false)
   const [database, setDatabase] = useState(initial)
   const [authenticated, setAuthenticated] = useState(false)
 
@@ -23,26 +28,27 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const connect = () => {
+    const hydrate = () => {
       auth.onAuthStateChanged(user => setAuthenticated(!!user))
 
       db.ref().on('value', s => {
         const v: DB = s.val()
         const normalized = normalize(v)
         localStorage.setItem('db', JSON.stringify(normalized))
-        setDatabase(normalized)
+        !equals(normalized, database) && setDatabase(normalized)
+        setHydrated(true)
       })
     }
 
-    initiated && connect()
-  }, [initiated])
+    initiated && !hydrated && hydrate()
+  }, [initiated, hydrated, database])
 
   return (
     <Router>
       <AuthProvider value={[authenticated, setAuthenticated]}>
-        <DatabaseProvider value={database}>
-          {routes}
-        </DatabaseProvider>
+        <AppProvider value={{ hydrated }}>
+          <DatabaseProvider value={database}>{routes}</DatabaseProvider>
+        </AppProvider>
       </AuthProvider>
     </Router>
   )
