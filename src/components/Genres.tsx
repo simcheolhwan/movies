@@ -11,7 +11,6 @@ const Genres = ({ selected }: { selected: string }) => {
   const [authenticated] = useAuth()
   const [{ movie, tv }, indexes] = useDatabase()
   const actions = useActions()
-  const values = Object.values({ ...movie, ...tv })
 
   const addGenre = () => {
     const input = (prompt() || '').trim()
@@ -39,15 +38,20 @@ const Genres = ({ selected }: { selected: string }) => {
         )
       })}
 
-      {indexes.genre.map(genre => (
-        <Genre
-          isSelected={genre === selected}
-          count={values.filter(m => m.genre === genre).length}
-          key={genre}
-        >
-          {genre}
-        </Genre>
-      ))}
+      {indexes.genre.map(genre => {
+        const getLength = (media: MediaDB) =>
+          Object.values(media).filter(m => m.genre === genre).length
+
+        return (
+          <Genre
+            isSelected={genre === selected}
+            count={getLength(movie) + getLength(tv)}
+            key={genre}
+          >
+            {genre}
+          </Genre>
+        )
+      })}
 
       {authenticated && (
         <button onClick={addGenre} className={styles.link}>

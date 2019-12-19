@@ -34,7 +34,7 @@ const Component = ({ selectedGenre }: { selectedGenre: string }) => {
     )
 
   /* media list */
-  const entries = Object.entries({ ...tv, ...movie })
+  const entries = [...Object.entries(movie), ...Object.entries(tv)]
 
   const filtered = entries.filter(([, { watched_at, genre, ratings, tmdb }]) =>
     input
@@ -88,7 +88,7 @@ const Component = ({ selectedGenre }: { selectedGenre: string }) => {
       {sorted
         .filter(([, { ratings = {} }]) => fn(ratings))
         .map(([key, value]) => (
-          <li className={styles.item} key={key}>
+          <li className={styles.item} key={value.tmdb.media_type + key}>
             <Movie {...value} />
           </li>
         ))}
