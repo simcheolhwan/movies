@@ -37,7 +37,7 @@ export const [useDatabase, DatabaseProvider] = createCtx<Database>()
 export const useActions = () => {
   const [authenticated] = useAuth()
   const [collection, indexes] = useDatabase()
-  const app = db.ref('/app')
+  const app = db.ref()
 
   const sort = (array: any[]) => uniq(array).sort()
   const append = (key: keyof Indexes, value: any) =>
@@ -67,14 +67,8 @@ export const useActions = () => {
     rateMedia: (tmdb: TMDB, ratings: Ratings) =>
       updateMedia(tmdb, ['ratings', ratings]),
 
-    refreshMedia: (tmdb: TMDB, [updated, credits]: [TMDB, Credits]) => {
-      const updates = {
-        [`/app/${tmdb.media_type}/${tmdb.id}/tmdb`]: pick(Metadata, updated),
-        [`/credits/${tmdb.media_type}/${tmdb.id}`]: credits
-      }
-
-      authenticated && db.ref().update(updates)
-    },
+    refreshMedia: (tmdb: TMDB, updated: TMDB) =>
+      updateMedia(tmdb, ['tmdb', pick(Metadata, updated)]),
 
     removeMedia: (tmdb: TMDB) =>
       authenticated && app.child(`${tmdb.media_type}/${tmdb.id}`).remove(),
