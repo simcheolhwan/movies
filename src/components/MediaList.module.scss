@@ -104,7 +104,6 @@
 .item {
   margin-bottom: ($gutter * 2);
   padding: 0 ($gutter / 2);
-  text-align: center;
   width: (100% / 3);
 
   @media (min-width: $breakpoint-lg) {

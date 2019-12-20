@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { DndProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import { equals } from 'ramda'
 import { auth, db } from '../api/firebase'
 import { AppProvider, AuthProvider, DatabaseProvider } from '../api/hooks'
@@ -47,7 +49,9 @@ const App = () => {
     <Router>
       <AuthProvider value={[authenticated, setAuthenticated]}>
         <AppProvider value={{ hydrated }}>
-          <DatabaseProvider value={database}>{routes}</DatabaseProvider>
+          <DatabaseProvider value={database}>
+            <DndProvider backend={HTML5Backend}>{routes}</DndProvider>
+          </DatabaseProvider>
         </AppProvider>
       </AuthProvider>
     </Router>

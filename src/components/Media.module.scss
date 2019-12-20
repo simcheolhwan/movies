@@ -1,11 +1,13 @@
 @import '../variables';
 
 .component {
+  flex: none;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   height: 100%;
+  text-align: center;
 }
 
 .poster {

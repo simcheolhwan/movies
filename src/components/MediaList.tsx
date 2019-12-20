@@ -1,13 +1,11 @@
 import React, { useState, Fragment } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { DndProvider } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
 import classNames from 'classnames'
 import { helpers } from '../api/tmdb'
 import { useAuth, useDatabase } from '../api/hooks'
 import Search from './Search'
 import Genres from './Genres'
-import Movie from './Media'
+import Media from './Media'
 import Ratings from './Ratings'
 import styles from './MediaList.module.scss'
 
@@ -89,7 +87,7 @@ const Component = ({ selectedGenre }: { selectedGenre: string }) => {
         .filter(([, { ratings = {} }]) => fn(ratings))
         .map(([key, value]) => (
           <li className={styles.item} key={value.tmdb.media_type + key}>
-            <Movie {...value} />
+            <Media media={value} />
           </li>
         ))}
     </ul>
@@ -157,10 +155,10 @@ const MediaList = ({ match }: RouteComponentProps<Params>) => {
   const selectedGenre = match.params.genre || ''
   const [authenticated] = useAuth()
   return (
-    <DndProvider backend={HTML5Backend}>
+    <>
       {authenticated && <Search />}
       <Component selectedGenre={selectedGenre} key={selectedGenre} />
-    </DndProvider>
+    </>
   )
 }
 

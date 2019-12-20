@@ -17,17 +17,7 @@
   overflow-x: scroll;
 }
 
-.title {
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.best {
-  color: $yellow;
-}
-
-.bad {
-  opacity: 0.5;
+.item {
+  flex: none;
+  width: (342px / 2 + 10px);
 }

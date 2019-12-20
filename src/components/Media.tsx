@@ -7,7 +7,7 @@ import Poster from './Poster'
 import RateMedia from './RateMedia'
 import styles from './Media.module.scss'
 
-const Media = (media: Media) => {
+const Media = ({ media }: { media: Media }) => {
   const { tmdb, watched_at } = media
   const title = helpers.getTitle(tmdb)
 
