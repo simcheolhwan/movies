@@ -5,7 +5,7 @@ import { helpers } from '../api/tmdb'
 
 interface Props extends React.HTMLAttributes<HTMLImageElement> {
   media: TMDB
-  w: number
+  w: 342 | 92
   width?: number
 }
 

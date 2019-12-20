@@ -1,0 +1,33 @@
+@import '../variables';
+
+.results {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.name {
+  font-size: 125%;
+  font-weight: bold;
+  margin-top: 2em;
+}
+
+.filmography {
+  display: flex;
+  overflow-x: scroll;
+}
+
+.title {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.best {
+  color: $yellow;
+}
+
+.bad {
+  opacity: 0.5;
+}
