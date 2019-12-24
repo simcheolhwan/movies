@@ -41,16 +41,28 @@
 .sort {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
 
   > button {
     flex: 1;
   }
 
+  > a {
+    margin: 0 0.5rem;
+  }
+
   > input {
     border-radius: 0.2rem;
     font-size: 0.875rem;
-    margin-left: 0.5rem;
     padding: 0.25rem 0.5rem;
+    margin-top: 0.5rem;
+    width: 100%;
+
+    @media (min-width: $breakpoint-lg) {
+      margin-top: 0;
+      width: 16rem;
+    }
   }
 }
 

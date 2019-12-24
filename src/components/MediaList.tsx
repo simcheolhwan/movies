@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, Link } from 'react-router-dom'
 import classNames from 'classnames'
 import { helpers } from '../api/tmdb'
 import { useAuth, useDatabase } from '../api/hooks'
@@ -128,6 +128,10 @@ const Component = ({ selectedGenre }: { selectedGenre: string }) => {
             </button>
 
             <Ratings buttons={filters} />
+
+            <Link to="/signin">
+              <strong>검색결과 {filtered.length}개</strong>
+            </Link>
 
             <input value={input} onChange={e => setInput(e.target.value)} />
           </section>
