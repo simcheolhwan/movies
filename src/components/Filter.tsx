@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
-import { useFilter, useDatabase } from '../api/hooks'
+import { useAuth, useFilter, useDatabase } from '../api/hooks'
 import Ratings from './Ratings'
 import styles from './Filter.module.scss'
 
 const Filter = () => {
+  const [authenticated] = useAuth()
   const [, indexes] = useDatabase()
   const { selected, count, toggle, set } = useFilter()
 
@@ -40,6 +41,9 @@ const Filter = () => {
     bookmark: setRating('watchlist', true)
   }
 
+  /* count */
+  const link = `검색결과 ${count}개`
+
   return (
     <header className={styles.header}>
       <section className={styles.tabs}>
@@ -48,18 +52,23 @@ const Filter = () => {
 
       <section className={styles.sort}>
         <button onClick={toggle.groupWith}>
-          {selected.groupWith ? '그룹 해제' : '평가별 그룹'}
+          {selected.groupWith ? '☑︎' : '☒'} 평가별 그룹
         </button>
 
         <button onClick={toggle.asc}>
-          {selected.asc ? '최신영화부터' : '개봉 순서'}
+          정렬: 개봉일
+          {selected.asc ? '↑' : '↓'}
         </button>
 
         <Ratings buttons={ratingFilters} />
 
-        <Link to="/signin">
-          <strong>검색결과 {count}개</strong>
-        </Link>
+        <strong>
+          {authenticated ? (
+            <a href="/">{link}</a>
+          ) : (
+            <Link to="/signin">{link}</Link>
+          )}
+        </strong>
 
         <input
           value={selected.title}
