@@ -4,15 +4,26 @@ import { useDatabase } from '../api/hooks'
 import reducer, { initial } from './reducer'
 import select from './select'
 
-export const useFilterReducer = (): FilterContext => {
-  /* state - url */
+export const useURLParams = () => {
   const { genre } = useParams()
   const { search } = useLocation()
   const watched_at =
     Number(new URLSearchParams(search).get('watched_at')) || undefined
 
+  return { genre, watched_at }
+}
+
+export const useFilterReducer = (): FilterContext => {
+  /* state - url */
+  const { genre, watched_at } = useURLParams()
+
   /* state - reducer */
-  const [state, dispatch] = useReducer(reducer, initial)
+  const init = (initial: State) => ({
+    ...initial,
+    ratings: !genre && !watched_at ? { best: true } : undefined
+  })
+
+  const [state, dispatch] = useReducer(reducer, initial, init)
 
   /* actions */
   const toggle = {
