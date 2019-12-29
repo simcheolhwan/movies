@@ -20,7 +20,7 @@ export default (selected: Selected, collection: MediaCollection): Filtered => {
   const results = values.filter(filter).sort(sort)
 
   return selected.groupWith === 'ratings'
-    ? RatingsOrder.map(sort => results.filter(({ ratings }) => sort(ratings)))
+    ? RatingsOrder.map(f => results.filter(({ ratings = {} }) => f(ratings)))
     : [results]
 }
 
@@ -33,7 +33,7 @@ const matchTitle = (tmdb: TMDB, selected: string) => {
 }
 
 /* ratings */
-const matchRatings = (r: Ratings, selected: Ratings) =>
+const matchRatings = (r: Ratings = {}, selected: Ratings) =>
   Object.entries(r).some(
     ([k, v]) => !!selected && selected[k as keyof Ratings] === v
   )
