@@ -16,7 +16,9 @@ const App = () => {
   const [initiated, setInitiated] = useState(false)
   const [hydrated, setHydrated] = useState(false)
   const [database, setDatabase] = useState(initial)
-  const [authenticated, setAuthenticated] = useState(false)
+  const [authenticated, setAuthenticated] = useState(
+    () => !!localStorage.getItem('authenticated')
+  )
 
   useEffect(() => {
     const init = (local: string) => {
@@ -31,7 +33,12 @@ const App = () => {
 
   useEffect(() => {
     const hydrate = () => {
-      auth.onAuthStateChanged(user => setAuthenticated(!!user))
+      auth.onAuthStateChanged(user => {
+        setAuthenticated(!!user)
+        user
+          ? localStorage.setItem('authenticated', 'true')
+          : localStorage.removeItem('authenticated')
+      })
 
       db.ref().on('value', s => {
         const v: DB = s.val()
