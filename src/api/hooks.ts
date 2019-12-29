@@ -33,6 +33,7 @@ const createCtx = <A>() => {
 export const [useApp, AppProvider] = createCtx<App>()
 export const [useAuth, AuthProvider] = createCtx<Auth>()
 export const [useDatabase, DatabaseProvider] = createCtx<Database>()
+export const [useFilter, FilterProvider] = createCtx<FilterContext>()
 
 /* Hooks */
 export const useActions = () => {

@@ -1,72 +1,5 @@
 @import '../variables';
 
-.header {
-  font-size: 0.75rem;
-  margin-bottom: $gutter;
-}
-
-/* tabs */
-.tabs {
-  text-align: center;
-  display: flex;
-  overflow-x: scroll;
-
-  @media (min-width: $breakpoint-lg) {
-    justify-content: center;
-  }
-}
-
-.tab {
-  background: transparent;
-  border-radius: 0.2rem;
-
-  margin: 0 5px;
-  padding: 5px;
-
-  &:first-child {
-    margin-left: 0;
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  &:hover,
-  &.active {
-    background: $dark;
-  }
-}
-
-/* sort */
-.sort {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 0.25rem;
-
-  > button {
-    flex: 1;
-  }
-
-  > a {
-    margin: 0 0.5rem;
-  }
-
-  > input {
-    border-radius: 0.2rem;
-    font-size: 0.875rem;
-    padding: 0.25rem 0.5rem;
-    margin-top: 0.5rem;
-    width: 100%;
-
-    @media (min-width: $breakpoint-lg) {
-      margin-top: 0;
-      width: 16rem;
-    }
-  }
-}
-
-/* main */
 .content {
   flex: 1;
   display: flex;
@@ -100,34 +33,4 @@
     flex-direction: column;
     overflow: hidden;
   }
-}
-
-/* grid */
-.grid {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.list {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-}
-
-.item {
-  margin-bottom: ($gutter * 2);
-  padding: 0 ($gutter / 2);
-  width: (100% / 3);
-
-  @media (min-width: $breakpoint-lg) {
-    margin-bottom: ($gutter-lg * 2);
-    width: (100% / 4);
-  }
-
-  @media (min-width: $breakpoint-xl) {
-    width: (100% / 5);
-  }
-}
-
-.empty {
-  text-align: center;
 }

@@ -49,6 +49,9 @@ export const helpers = {
   getYear: (tmdb: TMDB) => new Date(getDate(tmdb)).getFullYear() || '',
 
   getTitle: (tmdb: TMDB) => ('title' in tmdb ? tmdb.title : tmdb.name) || '',
+  getOriginal: (tmdb: TMDB) =>
+    ('original_title' in tmdb ? tmdb.original_title : tmdb.original_name) || '',
+
   getType: (tmdb: TMDB) =>
     tmdb.media_type && tmdb.media_type !== 'movie'
       ? tmdb.media_type.toUpperCase()

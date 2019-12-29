@@ -1,0 +1,30 @@
+@import '../variables';
+
+.container {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  margin-bottom: ($gutter * 2);
+  padding: 0 ($gutter / 2);
+  width: (100% / 3);
+
+  @media (min-width: $breakpoint-lg) {
+    margin-bottom: ($gutter-lg * 2);
+    width: (100% / 4);
+  }
+
+  @media (min-width: $breakpoint-xl) {
+    width: (100% / 5);
+  }
+}
+
+.empty {
+  text-align: center;
+}

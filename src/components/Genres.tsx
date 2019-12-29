@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames'
 import Octicon, { OcticonProps } from '@primer/octicons-react'
 import { Home, Inbox, Plus } from '@primer/octicons-react'
-import { useAuth, useDatabase, useActions } from '../api/hooks'
+import { useAuth, useDatabase, useActions, useFilter } from '../api/hooks'
 import Genre from './Genre'
 import styles from './Genre.module.scss'
 
-const Genres = ({ selected }: { selected: string }) => {
+const Genres = () => {
+  const { selected } = useFilter()
   const [authenticated] = useAuth()
   const [{ movie, tv }, indexes] = useDatabase()
   const actions = useActions()
@@ -26,13 +27,13 @@ const Genres = ({ selected }: { selected: string }) => {
   return (
     <>
       {menu.map(({ name, label }) => {
-        const attrs = {
-          to: name,
-          className: classNames(styles.link, selected === name && styles.active)
-        }
+        const className = classNames(
+          styles.link,
+          name === selected.genre && styles.active
+        )
 
         return (
-          <Link {...attrs} key={name}>
+          <Link to={name} className={className} key={name}>
             {label}
           </Link>
         )
@@ -44,7 +45,7 @@ const Genres = ({ selected }: { selected: string }) => {
 
         return (
           <Genre
-            isSelected={genre === selected}
+            isSelected={genre === selected.genre}
             count={getLength(movie) + getLength(tv)}
             key={genre}
           >

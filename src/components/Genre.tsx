@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, LinkProps } from 'react-router-dom'
+import { Link, LinkProps, useLocation } from 'react-router-dom'
 import { useDrop } from 'react-dnd'
 import classNames from 'classnames'
 import { useActions } from '../api/hooks'
@@ -13,6 +13,7 @@ interface Props {
 
 const Genre = ({ isSelected, count, children: genre }: Props) => {
   const { changeGenre } = useActions()
+  const { search } = useLocation()
   const [{ isOver }, drop] = useDrop({
     accept: 'media',
     drop: () => ({ genre }),
@@ -20,7 +21,7 @@ const Genre = ({ isSelected, count, children: genre }: Props) => {
   })
 
   const attrs: LinkProps = {
-    to: genre,
+    to: { pathname: genre, search },
     innerRef: drop,
     className: classNames(
       styles.link,

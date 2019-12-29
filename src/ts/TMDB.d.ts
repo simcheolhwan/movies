@@ -10,10 +10,12 @@ interface DefaultTMDB {
 
 interface MovieTMDB extends DefaultTMDB {
   title: string
+  original_title: string
   release_date: string
 }
 
 interface TvTMDB extends DefaultTMDB {
   name: string
+  original_name: string
   first_air_date: string
 }

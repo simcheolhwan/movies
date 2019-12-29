@@ -11,7 +11,7 @@ interface Tv extends Meta {
 interface Meta {
   watched_at: number
   genre: string
-  ratings?: Ratings
+  ratings: Ratings
 }
 
 interface Ratings {
