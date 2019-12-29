@@ -13,23 +13,16 @@ const initial: Database = [
 ]
 
 const App = () => {
-  const [initiated, setInitiated] = useState(false)
   const [hydrated, setHydrated] = useState(false)
-  const [database, setDatabase] = useState(initial)
+
+  const [database, setDatabase] = useState(() => {
+    const local = localStorage.getItem('db')
+    return local ? JSON.parse(local) : initial
+  })
+
   const [authenticated, setAuthenticated] = useState(
     () => !!localStorage.getItem('authenticated')
   )
-
-  useEffect(() => {
-    const init = (local: string) => {
-      const parsed: Database = JSON.parse(local)
-      setDatabase(parsed)
-    }
-
-    const local = localStorage.getItem('db')
-    local && init(local)
-    setInitiated(true)
-  }, [])
 
   useEffect(() => {
     const hydrate = () => {
@@ -49,8 +42,8 @@ const App = () => {
       })
     }
 
-    initiated && !hydrated && hydrate()
-  }, [initiated, hydrated, database])
+    !hydrated && hydrate()
+  }, [hydrated, database])
 
   return (
     <Router>
