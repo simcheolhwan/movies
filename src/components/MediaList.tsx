@@ -11,8 +11,9 @@ const Component = () => {
   const { hydrated } = useApp()
   const [authenticated] = useAuth()
   const value = useFilterReducer()
+  const isLoading = !value.selected.title && !value.count && !hydrated
 
-  return !value.count && !hydrated ? (
+  return isLoading ? (
     <div className={styles.loading}>Loading...</div>
   ) : (
     <FilterProvider value={value}>
