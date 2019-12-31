@@ -1,7 +1,7 @@
 export const initial: State = {
-  groupWith: 'ratings',
+  groupWith: 'best',
   asc: false,
-  ratings: undefined,
+  best: false,
   title: ''
 }
 

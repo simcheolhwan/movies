@@ -18,22 +18,18 @@ export const useFilterReducer = (): FilterContext => {
   const { genre, watched_at } = useURLParams()
 
   /* state - reducer */
-  const init = (initial: State) => ({
-    ...initial,
-    ratings: !genre && !watched_at ? { best: true } : undefined
-  })
-
+  const init = (initial: State) => ({ ...initial, best: !genre && !watched_at })
   const [state, dispatch] = useReducer(reducer, initial, init)
 
   /* actions */
   const toggle = {
+    best: () => dispatch({ best: !state.best }),
     asc: () => dispatch({ asc: !state.asc }),
     groupWith: () =>
       dispatch({ groupWith: state.groupWith ? undefined : initial.groupWith })
   }
 
   const set = {
-    ratings: (ratings?: Ratings) => dispatch({ ratings }),
     title: (title: string) => dispatch({ title })
   }
 

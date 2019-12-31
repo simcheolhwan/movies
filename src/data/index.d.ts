@@ -9,7 +9,7 @@ interface FilterContext {
 interface State {
   asc: boolean
   groupWith?: keyof Meta
-  ratings?: Ratings
+  best: boolean
   title: string
 }
 

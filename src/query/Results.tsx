@@ -24,7 +24,7 @@ const Results = ({ q }: { q: Q }) => {
       ) : (
         data.map(({ id, name, filmography }) => {
           const count = [
-            filmography.filter(id => movie[id].ratings?.best).length,
+            filmography.filter(id => movie[id].best).length,
             filmography.length
           ]
 

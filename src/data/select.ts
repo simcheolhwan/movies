@@ -4,12 +4,12 @@ export default (selected: Selected, collection: MediaCollection): Filtered => {
   const { movie, tv } = collection
   const values: Media[] = [...Object.values(movie), ...Object.values(tv)]
 
-  const filter = ({ watched_at, genre, ratings, tmdb }: Media) =>
+  const filter = ({ watched_at, genre, best, tmdb }: Media) =>
     selected.title
       ? matchTitle(tmdb, selected.title)
       : (!selected.watched_at || watched_at === selected.watched_at) &&
         (!selected.genre || (genre || 'inbox') === selected.genre) &&
-        (!selected.ratings || matchRatings(selected.ratings, ratings))
+        (!selected.best || selected.best === best)
 
   const sort = ({ tmdb: tmdbA }: Media, { tmdb: tmdbB }: Media) => {
     const a = helpers.getDate(tmdbA)
@@ -19,8 +19,8 @@ export default (selected: Selected, collection: MediaCollection): Filtered => {
 
   const results = values.filter(filter).sort(sort)
 
-  return selected.groupWith === 'ratings'
-    ? RatingsOrder.map(f => results.filter(({ ratings = {} }) => f(ratings)))
+  return selected.groupWith === 'best'
+    ? [true, false].map(d => results.filter(({ best }) => d === !!best))
     : [results]
 }
 
@@ -31,15 +31,3 @@ const matchTitle = (tmdb: TMDB, selected: string) => {
   const input = selected.toLowerCase()
   return title.includes(input) || original.includes(input)
 }
-
-/* ratings */
-const matchRatings = (selected: Ratings, r?: Ratings) =>
-  !selected ||
-  (r && Object.entries(r).some(([k, v]) => selected[k as keyof Ratings] === v))
-
-const RatingsOrder: ((p: Ratings) => boolean)[] = [
-  /* Best */ ({ best }) => !!best,
-  /* Good */ ({ good }) => !!good,
-  /* Quality */ ({ best, good, quality }) => !best && !good && !!quality,
-  /* Watched */ ({ best, good, quality }) => !best && !good && !quality
-]

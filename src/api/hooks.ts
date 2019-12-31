@@ -63,11 +63,11 @@ export const useActions = () => {
     },
 
     updateMedia,
+    rateMedia: (tmdb: TMDB, best: Best) =>
+      updateMedia(tmdb, ['best', best]),
+
     moveMedia: (tmdb: TMDB, genre: string) =>
       updateMedia(tmdb, ['genre', genre]),
-
-    rateMedia: (tmdb: TMDB, ratings: Ratings) =>
-      updateMedia(tmdb, ['ratings', ratings]),
 
     refreshMedia: (tmdb: TMDB, updated: TMDB) =>
       updateMedia(tmdb, ['tmdb', pick(Metadata, updated)]),

@@ -42,7 +42,7 @@ const Search = ({ location }: RouteComponentProps) => {
   const add = (index: number) => {
     const pathname = location.pathname.slice(1)
     const genre = pathname === 'inbox' ? '' : pathname
-    addMedia(list[index], { genre, ratings: {} })
+    addMedia(list[index], { genre })
     reset()
     inputRef.current.focus()
   }

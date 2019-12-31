@@ -11,11 +11,7 @@ interface Tv extends Meta {
 interface Meta {
   watched_at: number
   genre: string
-  ratings?: Ratings
+  best?: Best
 }
 
-interface Ratings {
-  good?: boolean | null
-  best?: boolean | null
-  quality?: boolean | null
-}
+type Best = boolean | null

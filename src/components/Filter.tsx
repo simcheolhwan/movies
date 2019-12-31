@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { equals } from 'ramda'
 import classNames from 'classnames'
 import { useAuth, useFilter, useDatabase } from '../api/hooks'
 import Ratings from './Ratings'
@@ -26,18 +25,6 @@ const Filter = () => {
     )
   }
 
-  /* ratings */
-  const setRating = (next: Ratings) => {
-    const active = equals(selected.ratings, next)
-    return { active, onClick: () => set.ratings!(active ? undefined : next) }
-  }
-
-  const ratingFilters = {
-    best: setRating({ best: true }),
-    good: setRating({ good: true }),
-    quality: setRating({ quality: true })
-  }
-
   /* count */
   const link = `검색결과 ${count}개`
 
@@ -57,7 +44,7 @@ const Filter = () => {
           {selected.asc ? '↑' : '↓'}
         </button>
 
-        <Ratings buttons={ratingFilters} />
+        <Ratings active={selected.best} onClick={toggle.best} />
 
         <strong>
           {authenticated ? (
