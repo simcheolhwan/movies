@@ -9,7 +9,7 @@ export default (selected: Selected, collection: MediaCollection): Filtered => {
       ? matchTitle(tmdb, selected.title)
       : (!selected.watched_at || watched_at === selected.watched_at) &&
         (!selected.genre || (genre || 'inbox') === selected.genre) &&
-        (!selected.ratings || matchRatings(ratings, selected.ratings))
+        (!selected.ratings || matchRatings(selected.ratings, ratings))
 
   const sort = ({ tmdb: tmdbA }: Media, { tmdb: tmdbB }: Media) => {
     const a = helpers.getDate(tmdbA)
@@ -33,16 +33,13 @@ const matchTitle = (tmdb: TMDB, selected: string) => {
 }
 
 /* ratings */
-const matchRatings = (r: Ratings = {}, selected: Ratings) =>
-  Object.entries(r).some(
-    ([k, v]) => !!selected && selected[k as keyof Ratings] === v
-  )
+const matchRatings = (selected: Ratings, r?: Ratings) =>
+  !selected ||
+  (r && Object.entries(r).some(([k, v]) => selected[k as keyof Ratings] === v))
 
 const RatingsOrder: ((p: Ratings) => boolean)[] = [
-  /* No ratings */ ratings => !Object.values(ratings).length,
   /* Best */ ({ best }) => !!best,
-  /* Good */ ({ grade }) => grade === 1,
-  /* Watched */ ({ grade }) => grade === 0,
-  /* Forgotten */ ({ forgotten }) => !!forgotten,
-  /* Worst */ ({ grade }) => grade === -1
+  /* Good */ ({ good }) => !!good,
+  /* Quality */ ({ best, good, quality }) => !best && !good && !!quality,
+  /* Watched */ ({ best, good, quality }) => !best && !good && !quality
 ]

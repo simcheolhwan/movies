@@ -4,41 +4,33 @@ import Ratings from './Ratings'
 import styles from './RateMedia.module.scss'
 
 const RateMedia = ({ tmdb, ratings = {} }: Media) => {
-  const { best, forgotten, watchlist, grade } = ratings
+  const { best, good, quality } = ratings
   const { rateMedia } = useActions()
 
-  const withWatchlist = (ratings: Ratings) =>
-    Object.assign({}, ratings, typeof watchlist === 'boolean' && { watchlist })
+  const withQuality = (ratings: Ratings) =>
+    Object.assign({}, ratings, typeof quality === 'boolean' && { quality })
 
   const buttons = {
     best: {
       active: !!best,
-      onClick: () => rateMedia(tmdb, withWatchlist({ best: true }))
+      onClick: () => rateMedia(tmdb, withQuality({ best: true }))
     },
 
-    increase: {
-      active: grade === 1,
-      onClick: () => rateMedia(tmdb, withWatchlist({ grade: 1 }))
-    },
-
-    decrease: {
-      active: grade === -1,
-      onClick: () => rateMedia(tmdb, withWatchlist({ grade: -1 }))
+    good: {
+      active: !!good,
+      onClick: () => rateMedia(tmdb, withQuality({ good: true }))
     },
 
     reset: {
-      active: grade === 0,
-      onClick: () => rateMedia(tmdb, withWatchlist({ grade: 0 }))
+      active: !best && !good,
+      onClick: () =>
+        rateMedia(tmdb, withQuality({ best: null, good: null }))
     },
 
-    forget: {
-      active: !!forgotten,
-      onClick: () => rateMedia(tmdb, withWatchlist({ forgotten: true }))
-    },
-
-    bookmark: {
-      active: !!watchlist,
-      onClick: () => rateMedia(tmdb, { ...ratings, watchlist: !watchlist })
+    quality: {
+      active: !!quality,
+      onClick: () =>
+        rateMedia(tmdb, { ...ratings, quality: quality ? null : true })
     }
   }
 

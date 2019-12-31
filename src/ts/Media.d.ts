@@ -15,8 +15,7 @@ interface Meta {
 }
 
 interface Ratings {
-  grade?: -1 | 0 | 1
-  best?: boolean
-  watchlist?: boolean
-  forgotten?: boolean
+  good?: boolean | null
+  best?: boolean | null
+  quality?: boolean | null
 }

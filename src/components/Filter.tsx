@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { equals } from 'ramda'
 import classNames from 'classnames'
 import { useAuth, useFilter, useDatabase } from '../api/hooks'
 import Ratings from './Ratings'
@@ -26,19 +27,15 @@ const Filter = () => {
   }
 
   /* ratings */
-  const setRating = (k: keyof Ratings, p: number | boolean) => {
-    const active = selected.ratings?.[k] === p
-    const next = active ? undefined : { [k]: p }
-    return { active, onClick: () => set.ratings!(next) }
+  const setRating = (next: Ratings) => {
+    const active = equals(selected.ratings, next)
+    return { active, onClick: () => set.ratings!(active ? undefined : next) }
   }
 
   const ratingFilters = {
-    increase: setRating('grade', 1),
-    decrease: setRating('grade', -1),
-    reset: setRating('grade', 0),
-    best: setRating('best', true),
-    forget: setRating('forgotten', true),
-    bookmark: setRating('watchlist', true)
+    best: setRating({ best: true }),
+    good: setRating({ good: true }),
+    quality: setRating({ quality: true })
   }
 
   /* count */
