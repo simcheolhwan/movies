@@ -31,7 +31,7 @@
     margin-right: 0;
   }
 
-  &:hover,
+  &:hover:not(:focus),
   &.active {
     background: $dark;
   }
