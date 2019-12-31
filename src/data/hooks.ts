@@ -4,7 +4,7 @@ import { useDatabase } from '../api/hooks'
 import reducer, { initial } from './reducer'
 import select from './select'
 
-export const useURLParams = () => {
+export const useURLParams = (): URLParams => {
   const { genre } = useParams()
   const { search } = useLocation()
   const watched_at =

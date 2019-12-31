@@ -13,10 +13,11 @@ interface State {
   title: string
 }
 
-interface Selected extends State {
+interface URLParams {
   genre?: string
   watched_at?: number
 }
 
+type Selected = State & URLParams
 type Filtered = Group[]
 type Group = Media[]
