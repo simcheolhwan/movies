@@ -34,8 +34,7 @@ const Component = () => {
 }
 
 const MediaList = () => {
-  const { genre, watched_at } = useURLParams()
-  const isFront = !genre && !watched_at
+  const { isFront } = useURLParams()
   return <Component key={isFront ? 'front' : undefined} />
 }
 

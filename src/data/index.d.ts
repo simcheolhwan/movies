@@ -15,7 +15,8 @@ interface State {
 
 interface URLParams {
   genre?: string
-  watched_at?: number
+  watched_at: number[]
+  isFront: boolean
 }
 
 type Selected = State & URLParams

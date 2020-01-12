@@ -7,18 +7,16 @@ import select from './select'
 export const useURLParams = (): URLParams => {
   const { genre } = useParams()
   const { search } = useLocation()
-  const watched_at =
-    Number(new URLSearchParams(search).get('watched_at')) || undefined
-
-  return { genre, watched_at }
+  const watched_at = parseWatchedAt(new URLSearchParams(search))
+  return { genre, watched_at, isFront: !genre && !watched_at.length }
 }
 
 export const useFilterReducer = (): FilterContext => {
   /* state - url */
-  const { genre, watched_at } = useURLParams()
+  const urlParams = useURLParams()
 
   /* state - reducer */
-  const init = (initial: State) => ({ ...initial, best: !genre && !watched_at })
+  const init = (initial: State) => ({ ...initial, best: urlParams.isFront })
   const [state, dispatch] = useReducer(reducer, initial, init)
 
   /* actions */
@@ -35,7 +33,7 @@ export const useFilterReducer = (): FilterContext => {
 
   /* results */
   const [collection] = useDatabase()
-  const selected = { ...state, genre, watched_at }
+  const selected = { ...state, ...urlParams }
   const filtered = useMemo(() => select(selected, collection), [
     selected,
     collection
@@ -44,4 +42,20 @@ export const useFilterReducer = (): FilterContext => {
   const count = filtered.reduce((acc, cur) => acc + cur.length, 0)
 
   return { selected, filtered, count, toggle, set }
+}
+
+/* helpers */
+const parseWatchedAt = (p: URLSearchParams): number[] => {
+  const SEP = '-'
+  const watched_at = p.get('watched_at') ?? ''
+  const [start, end] = watched_at?.split(SEP).map(getNumber)
+  return start && end ? getBetween(start, end) : start ? [start] : []
+}
+
+const getNumber = (s: string) => (s ? Number(s) : NaN)
+const getBetween = (start: number, end: number): number[] => {
+  const re = (acc: number[], cur: number, end: number): number[] =>
+    cur === end ? [...acc, cur] : re([...acc, cur], cur + 1, end)
+
+  return re([], start, end)
 }
