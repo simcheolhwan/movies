@@ -1,35 +1,31 @@
 @import '../variables';
 
-.header {
+.component {
   font-size: 0.75rem;
   margin-bottom: $gutter;
 }
 
-/* sort */
-.sort {
+.main {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
   margin-top: 0.25rem;
 
-  > button {
-    flex: 1;
+  .footer {
+    display: flex;
+    align-items: center;
+    margin-left: 0.5rem;
   }
+}
 
-  > strong {
-    margin: 0 0.5rem;
-  }
+.link {
+  flex: none;
+  margin: 0 0.5rem;
+}
 
-  > input {
-    border-radius: 0.2rem;
-    font-size: 0.875rem;
-    padding: 0.25rem 0.5rem;
-    margin-top: 0.5rem;
-    width: 100%;
-
-    @media (min-width: $breakpoint-lg) {
-      margin-top: 0;
-      width: 16rem;
-    }
-  }
+.input {
+  border-radius: 0.2rem;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+  width: 10rem;
 }

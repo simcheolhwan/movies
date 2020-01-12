@@ -32,7 +32,7 @@ const GenreLink = ({ to, count, className, children: genre }: Props) => {
   return (
     <Link {...attrs}>
       <span>{genre}</span>
-      <small>{count}</small>
+      <small className={styles.small}>{count}</small>
     </Link>
   )
 }

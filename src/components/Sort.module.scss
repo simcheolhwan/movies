@@ -1,0 +1,10 @@
+@import '../variables';
+
+.button {
+  border-radius: 0.2rem;
+  padding: 5px 10px;
+
+  &:hover {
+    background: $dark;
+  }
+}

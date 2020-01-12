@@ -1,18 +1,42 @@
 @import '../variables';
 
-.link {
+.list {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-wrap: wrap;
 
-  font-size: 0.875rem;
+  @media (min-width: $breakpoint-lg) {
+    display: block;
+  }
+}
+
+.item {
+  flex: none;
+  width: (100% / 2);
+
+  @media (min-width: $breakpoint-lg) {
+    width: 100%;
+  }
+}
+
+.link {
+  display: block;
   border-radius: 0.2rem;
   margin-bottom: 0.25rem;
-  padding: 0.25rem 0.5rem;
-
-  text-align: left;
-  white-space: nowrap;
+  font-size: 1rem;
+  padding: 0.5rem;
+  text-align: center;
   width: 100%;
+
+  @media (min-width: $breakpoint-lg) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+    text-align: left;
+    white-space: nowrap;
+  }
 
   &:hover:not(:focus),
   &.active {

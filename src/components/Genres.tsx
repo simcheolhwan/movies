@@ -19,33 +19,37 @@ const Genres = () => {
   }
 
   return (
-    <>
-      {genres.map((genre) => {
+    <ul className={styles.list}>
+      {genres.map(genre => {
         const { to, icon, label, isSelected, isMenu } = genre
         const className = classNames(styles.link, isSelected && styles.active)
-        const props = { to, className, key: label }
+        const props = { to, className }
 
-        return isMenu ? (
-          <Link {...props}>
-            <span>
-              {icon} {label}
-            </span>
-          </Link>
-        ) : (
-          <GenreLink {...genre} {...props}>
-            {label}
-          </GenreLink>
+        return (
+          <li className={styles.item} key={label}>
+            {isMenu ? (
+              <Link {...props}>
+                <span>
+                  {icon} {label}
+                </span>
+              </Link>
+            ) : (
+              <GenreLink {...genre} {...props}>
+                {label}
+              </GenreLink>
+            )}
+          </li>
         )
       })}
 
       {authenticated && (
         <button onClick={addGenre} className={styles.link}>
           <span>
-          <Octicon icon={Plus} /> 새 장르 추가
+            <Octicon icon={Plus} /> 새 장르 추가
           </span>
         </button>
       )}
-    </>
+    </ul>
   )
 }
 

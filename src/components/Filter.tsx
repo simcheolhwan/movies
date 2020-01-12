@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth, useFilter } from '../api/hooks'
-import Ratings from './Ratings'
 import Years from './Years'
+import Sort from './Sort'
+import Ratings from './Ratings'
+import MobileNav from './MobileNav'
 import styles from './Filter.module.scss'
 
 const Filter = () => {
@@ -12,35 +14,37 @@ const Filter = () => {
   const link = `검색결과 ${count}개`
 
   return (
-    <header className={styles.header}>
-      <Years />
+    <div className={styles.component}>
+      <header className="desktop">
+        <Years />
+      </header>
 
-      <section className={styles.sort}>
-        <button onClick={toggle.groupWith}>
-          {selected.groupWith ? '☑︎' : '☒'} 평가별 그룹
-        </button>
+      <main className={styles.main}>
+        <MobileNav />
 
-        <button onClick={toggle.asc}>
-          정렬: 개봉일
-          {selected.asc ? '↑' : '↓'}
-        </button>
+        <section className="desktop">
+          <Sort />
+        </section>
 
-        <Ratings active={selected.best} onClick={toggle.best} />
+        <footer className={styles.footer}>
+          <Ratings active={selected.best} onClick={toggle.best} />
 
-        <strong>
-          {authenticated ? (
-            <a href="/">{link}</a>
-          ) : (
-            <Link to="/signin">{link}</Link>
-          )}
-        </strong>
+          <strong className={styles.link}>
+            {authenticated ? (
+              <a href="/">{link}</a>
+            ) : (
+              <Link to="/signin">{link}</Link>
+            )}
+          </strong>
 
-        <input
-          value={selected.title}
-          onChange={e => set.title!(e.target.value)}
-        />
-      </section>
-    </header>
+          <input
+            value={selected.title}
+            onChange={e => set.title!(e.target.value)}
+            className={styles.input}
+          />
+        </footer>
+      </main>
+    </div>
   )
 }
 

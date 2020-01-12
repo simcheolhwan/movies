@@ -8,3 +8,11 @@
 .development {
   background: hsl(0, 10%, 20%);
 }
+
+.desktop {
+  display: none;
+
+  @media (min-width: $breakpoint-lg) {
+    display: block;
+  }
+}
