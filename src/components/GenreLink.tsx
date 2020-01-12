@@ -1,19 +1,17 @@
 import React from 'react'
-import { Link, LinkProps, useLocation } from 'react-router-dom'
+import { Link, LinkProps } from 'react-router-dom'
 import { useDrop } from 'react-dnd'
 import classNames from 'classnames'
 import { useActions } from '../api/hooks'
-import styles from './Genre.module.scss'
+import styles from './GenreLink.module.scss'
 
-interface Props {
-  isSelected: boolean
-  count: number
+interface Props extends Genre {
+  className: string
   children: string
 }
 
-const Genre = ({ isSelected, count, children: genre }: Props) => {
+const GenreLink = ({ to, count, className, children: genre }: Props) => {
   const { changeGenre } = useActions()
-  const { search } = useLocation()
   const [{ isOver }, drop] = useDrop({
     accept: 'media',
     drop: () => ({ genre }),
@@ -21,14 +19,9 @@ const Genre = ({ isSelected, count, children: genre }: Props) => {
   })
 
   const attrs: LinkProps = {
-    to: { pathname: genre, search },
+    to,
     innerRef: drop,
-    className: classNames(
-      styles.link,
-      Number.isFinite(count) && styles.flex,
-      isOver && styles.isOver,
-      isSelected && styles.active
-    ),
+    className: classNames(className, isOver && styles.isOver),
     onContextMenu: e => {
       e.preventDefault()
       const next = (window.prompt(`장르 이름 변경: ${genre}`) || '').trim()
@@ -44,4 +37,4 @@ const Genre = ({ isSelected, count, children: genre }: Props) => {
   )
 }
 
-export default Genre
+export default GenreLink

@@ -1,7 +1,9 @@
 @import '../variables';
 
 .link {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   font-size: 0.875rem;
   border-radius: 0.2rem;
@@ -17,13 +19,8 @@
     background: $muted;
   }
 
-  &.isOver {
-    background: $over;
+  svg {
+    width: 1rem;
+    margin-right: 0.25rem;
   }
-}
-
-.flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
