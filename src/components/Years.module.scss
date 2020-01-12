@@ -1,0 +1,32 @@
+@import '../variables';
+
+.tabs {
+  text-align: center;
+  display: flex;
+  overflow-x: scroll;
+
+  @media (min-width: $breakpoint-lg) {
+    justify-content: center;
+  }
+}
+
+.tab {
+  background: transparent;
+  border-radius: 0.2rem;
+
+  margin: 0 5px;
+  padding: 5px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover:not(:focus),
+  &.active {
+    background: $dark;
+  }
+}

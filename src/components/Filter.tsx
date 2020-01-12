@@ -1,38 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import classNames from 'classnames'
-import { useAuth, useFilter, useDatabase } from '../api/hooks'
+import { useAuth, useFilter } from '../api/hooks'
 import Ratings from './Ratings'
+import Years from './Years'
 import styles from './Filter.module.scss'
 
 const Filter = () => {
   const [authenticated] = useAuth()
-  const [, indexes] = useDatabase()
   const { selected, count, toggle, set } = useFilter()
 
-  /* watched_at */
-  const renderYearLink = (year: number) => {
-    const isSelected = year === selected.watched_at
-    const attrs = {
-      className: classNames(styles.tab, isSelected && styles.active),
-      to: { search: isSelected ? '' : `?watched_at=${year}` }
-    }
-
-    return (
-      <Link {...attrs} key={year}>
-        {year}
-      </Link>
-    )
-  }
-
-  /* count */
   const link = `검색결과 ${count}개`
 
   return (
     <header className={styles.header}>
-      <section className={styles.tabs}>
-        {indexes.watched_at.map(renderYearLink)}
-      </section>
+      <Years />
 
       <section className={styles.sort}>
         <button onClick={toggle.groupWith}>
