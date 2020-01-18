@@ -19,5 +19,5 @@
 
 .item {
   flex: none;
-  width: (342px / 2 + 10px);
+  width: (342px / 2 + $gutter);
 }

@@ -3,18 +3,18 @@
 .results {
   > .title {
     font-weight: bold;
-    padding: 5px;
+    padding: ($gutter / 2);
   }
 
   .list {
     display: flex;
     overflow-x: scroll;
-    padding-bottom: 15px;
+    padding-bottom: 1rem;
   }
 
   .item {
     flex: none;
-    margin-right: 15px;
+    margin-right: 1rem;
   }
 }
 
@@ -24,10 +24,10 @@
   text-align: left;
 
   border-radius: 0.3rem;
-  padding: 5px;
+  padding: ($gutter / 2);
 
   .poster {
-    margin-right: 5px;
+    margin-right: ($gutter / 2);
   }
 
   .meta {
@@ -43,6 +43,6 @@
 .already {
   color: $yellow;
   display: block;
-  padding: 0 5px;
+  padding: 0 ($gutter / 2);
   text-align: center;
 }

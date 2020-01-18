@@ -10,9 +10,7 @@
 }
 
 .desktop {
-  display: none;
-
-  @media (min-width: $breakpoint-lg) {
-    display: block;
+  @media (max-width: ($breakpoint-lg - 1)) {
+    display: none !important;
   }
 }

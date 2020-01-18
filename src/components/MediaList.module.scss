@@ -16,16 +16,12 @@
   }
 
   > nav {
-    display: none;
-
-    @media (min-width: $breakpoint-lg) {
-      flex: none;
-      display: flex;
-      flex-direction: column;
-      min-width: 200px;
-      overflow-x: scroll;
-      overflow-y: scroll;
-    }
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    overflow-x: scroll;
+    overflow-y: scroll;
   }
 
   > main {

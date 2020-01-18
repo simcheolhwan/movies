@@ -4,6 +4,7 @@ import { useFilterReducer, useURLParams } from '../data/hooks'
 import Search from './Search'
 import Genres from './Genres'
 import Filter from './Filter'
+import MobileNav from './MobileNav'
 import List from './List'
 import styles from './MediaList.module.scss'
 
@@ -13,15 +14,23 @@ const Component = () => {
 
   return (
     <FilterProvider value={value}>
-      {authenticated && <Search />}
+      {authenticated && (
+        <header className="desktop">
+          <Search />
+        </header>
+      )}
 
       <section className={styles.content}>
-        <nav>
+        <nav className="desktop">
           <Genres />
         </nav>
 
         <main>
-          <Filter />
+          <div className="desktop">
+            <Filter />
+          </div>
+
+          <MobileNav />
           <List />
         </main>
       </section>

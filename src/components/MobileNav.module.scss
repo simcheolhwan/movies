@@ -7,12 +7,13 @@
 }
 
 .toggle {
-  padding: 5px;
-  margin-right: 10px;
+  padding: ($gutter / 2);
+  margin-right: $gutter;
 }
 
 .header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -21,13 +22,25 @@
 
 .container {
   position: fixed;
-  top: 0;
+  top: ($gutter + ($line-height * $font-size + $gutter));
   bottom: 0;
   left: 0;
   right: 0;
   z-index: 9999;
 
   background-color: fade-out($bg, 0.03);
-  padding: 1rem;
-  overflow-y: scroll;
+  padding: $gutter;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    margin-bottom: ($gutter / 2);
+  }
+
+  footer {
+    flex: 1;
+    overflow-y: scroll;
+  }
 }

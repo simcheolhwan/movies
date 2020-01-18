@@ -2,9 +2,23 @@
 
 .button {
   border-radius: 0.2rem;
-  padding: 5px 10px;
+  padding: ($gutter / 2);
+
+  @media (min-width: $breakpoint-lg) {
+    padding: ($gutter / 2) $gutter;
+  }
 
   &:hover {
     background: $dark;
   }
+}
+
+.checkbox {
+  border: 2px solid fade-out(white, 0.5);
+  margin-right: ($gutter / 2);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
 }

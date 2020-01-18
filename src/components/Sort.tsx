@@ -8,12 +8,15 @@ const Sort = () => {
   return (
     <section className={styles.container}>
       <button onClick={toggle.groupWith} className={styles.button}>
-        {selected.groupWith ? '☑︎' : '☒'} 평가별 그룹
+        <span className={styles.checkbox}>
+          {selected.groupWith ? '✓' : '✗'}
+        </span>
+        평가별 그룹
       </button>
 
       <button onClick={toggle.asc} className={styles.button}>
+        <span className={styles.checkbox}>{selected.asc ? '↑' : '↓'}</span>
         정렬: 개봉일
-        {selected.asc ? '↑' : '↓'}
       </button>
     </section>
   )

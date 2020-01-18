@@ -1,9 +1,6 @@
 @import '../variables';
 
 .form {
-  padding: $gutter;
-  padding-bottom: 0;
-
   @media (min-width: $breakpoint-lg) {
     padding: $gutter-lg;
     padding-bottom: 0;

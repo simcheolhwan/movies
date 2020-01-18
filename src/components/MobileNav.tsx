@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import Octicon, { ThreeBars } from '@primer/octicons-react'
 import { useFilter } from '../api/hooks'
+import Search from './Search'
 import Years from './Years'
 import Sort from './Sort'
 import Genres from './Genres'
+import FilterFooter from './FilterFooter'
 import styles from './MobileNav.module.scss'
 
 const MobileNav = () => {
@@ -18,27 +20,25 @@ const MobileNav = () => {
     setIsOpen(false)
   }, [pathname])
 
-  const button = (
-    <button onClick={toggle} className={styles.toggle}>
-      <Octicon icon={ThreeBars} />
-    </button>
-  )
-
   return (
     <div className={styles.component}>
-      {!isOpen ? (
-        <header className={styles.header}>
-          {button}
-          {selected.genre}
-        </header>
-      ) : (
+      <header className={styles.header}>
+        <button onClick={toggle} className={styles.toggle}>
+          <Octicon icon={ThreeBars} />
+        </button>
+        {selected.genre}
+        <FilterFooter />
+      </header>
+
+      {isOpen && (
         <div className={styles.container}>
-          <header className={styles.header}>
-            {button}
-            <Years />
-          </header>
+          <Search />
+          <Years />
           <Sort />
-          <Genres />
+
+          <footer>
+            <Genres />
+          </footer>
         </div>
       )}
     </div>
