@@ -1,11 +1,9 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
 import Octicon, { OcticonProps } from '@primer/octicons-react'
 import { Home, Inbox } from '@primer/octicons-react'
 import { useDatabase, useFilter } from '../api/hooks'
 
 export default (): Genre[] => {
-  const { search } = useLocation()
   const { selected } = useFilter()
   const [{ movie, tv }, indexes] = useDatabase()
 
@@ -17,7 +15,10 @@ export default (): Genre[] => {
   ]
 
   return [
-    ...menu.map(item => ({ ...item, isSelected: item.to === selected.genre })),
+    ...menu.map(item => ({
+      ...item,
+      isSelected: item.to === (selected.genre ?? '')
+    })),
     ...indexes.genre.map(genre => {
       const getLength = (media: MediaDB) =>
         Object.values(media).filter(m => m.genre === genre).length
@@ -25,7 +26,7 @@ export default (): Genre[] => {
       const count = getLength(movie) + getLength(tv)
 
       return {
-        to: { pathname: genre, search },
+        to: genre,
         label: genre,
         count: count,
         isSelected: genre === selected.genre

@@ -1,13 +1,17 @@
 import React from 'react'
-import { useFilter } from '../api/hooks'
+import { useApp, useFilter } from '../api/hooks'
 import Media from './Media'
 import styles from './List.module.scss'
 
 const List = () => {
-  const { filtered, count } = useFilter()
+  const { hydrated } = useApp()
+  const { selected, filtered, count } = useFilter()
+  const isLoading = !selected.title && !count && !hydrated
 
-  return !count ? (
-    <p className={styles.empty}>Empty</p>
+  return isLoading ? (
+    <div className={styles.state}>Loading...</div>
+  ) : !count ? (
+    <p className={styles.state}>Empty</p>
   ) : (
     <section className={styles.container}>
       {filtered.map((group, index) => (
