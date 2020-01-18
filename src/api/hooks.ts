@@ -63,14 +63,13 @@ export const useActions = () => {
     },
 
     updateMedia,
-    rateMedia: (tmdb: TMDB, best: Best) =>
-      updateMedia(tmdb, ['best', best]),
+    rateMedia: (tmdb: TMDB, best: Best) => updateMedia(tmdb, ['best', best]),
 
     moveMedia: (tmdb: TMDB, genre: string) =>
       updateMedia(tmdb, ['genre', genre]),
 
-    refreshMedia: (tmdb: TMDB, updated: TMDB) =>
-      updateMedia(tmdb, ['tmdb', pick(Metadata, updated)]),
+    refreshMedia: (tmdb: TMDB, updated: Partial<TMDB>) =>
+      updateMedia(tmdb, ['tmdb', { ...tmdb, ...pick(Metadata, updated) }]),
 
     removeMedia: (tmdb: TMDB) =>
       authenticated && app.child(`${tmdb.media_type}/${tmdb.id}`).remove(),

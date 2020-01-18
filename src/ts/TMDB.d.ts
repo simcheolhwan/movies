@@ -6,6 +6,7 @@ interface DefaultTMDB {
   media_type: MediaType
   poster_path: string
   vote_count: number
+  original_language: string
 }
 
 interface MovieTMDB extends DefaultTMDB {

@@ -6,7 +6,7 @@ const language = 'ko-KR'
 const api = <T>(url: string, params?: AxiosRequestConfig['params']) => {
   const config = {
     baseURL: 'https://api.themoviedb.org/3',
-    params: Object.assign({ api_key, language }, params)
+    params: Object.assign({ api_key }, params)
   }
 
   return axios.get<T>(url, config)
@@ -14,7 +14,8 @@ const api = <T>(url: string, params?: AxiosRequestConfig['params']) => {
 
 /* Multi */
 export const searchMulti = async (query: string) => {
-  const { data } = await api<{ results: TMDB[] }>('search/multi', { query })
+  const config = { query, language }
+  const { data } = await api<{ results: TMDB[] }>('search/multi', config)
   const { results } = data
   return results
     .filter(result => ['movie', 'tv'].includes(result.media_type))
@@ -23,9 +24,10 @@ export const searchMulti = async (query: string) => {
 
 /* Media */
 export const fetchMedia = async (tmdb: TMDB): Promise<TMDB> => {
-  const { id, media_type } = tmdb
   type Details = Omit<MovieTMDB, 'media_type'> | Omit<TvTMDB, 'media_type'>
-  const { data: detail } = await api<Details>(`${media_type}/${id}`)
+  const { id, media_type, original_language } = tmdb
+  const config = original_language === 'ko' ? { language } : undefined
+  const { data: detail } = await api<Details>(`${media_type}/${id}`, config)
   return { ...detail, media_type }
 }
 
