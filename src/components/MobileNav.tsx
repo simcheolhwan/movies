@@ -2,11 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import Octicon, { ThreeBars } from '@primer/octicons-react'
 import { useFilter } from '../api/hooks'
-import Search from './Search'
-import Years from './Years'
-import Sort from './Sort'
-import Genres from './Genres'
 import FilterFooter from './FilterFooter'
+import MobileFilter from './MobileFilter'
 import styles from './MobileNav.module.scss'
 
 const MobileNav = () => {
@@ -30,17 +27,7 @@ const MobileNav = () => {
         <FilterFooter />
       </header>
 
-      {isOpen && (
-        <div className={styles.container}>
-          <Search />
-          <Years />
-          <Sort />
-
-          <footer>
-            <Genres />
-          </footer>
-        </div>
-      )}
+      {isOpen && <MobileFilter />}
     </div>
   )
 }

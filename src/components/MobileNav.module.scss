@@ -19,28 +19,3 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
-
-.container {
-  position: fixed;
-  top: ($gutter + ($line-height * $font-size + $gutter));
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
-
-  background-color: fade-out($bg, 0.03);
-  padding: $gutter;
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: column;
-
-  > * {
-    margin-bottom: ($gutter / 2);
-  }
-
-  footer {
-    flex: 1;
-    overflow-y: scroll;
-  }
-}
