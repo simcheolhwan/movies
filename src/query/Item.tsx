@@ -9,10 +9,10 @@ interface Props {
   tmdb: TMDB
   hasCredits: boolean
   shouldUpdate: boolean
-  onAddCredits: (data: Credits) => void
+  onFetchCredits: (data: Credits) => void
 }
 
-const Item = ({ tmdb, hasCredits, shouldUpdate, onAddCredits }: Props) => {
+const Item = ({ tmdb, hasCredits, shouldUpdate, onFetchCredits }: Props) => {
   const { refreshMedia } = useActions()
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Item = ({ tmdb, hasCredits, shouldUpdate, onAddCredits }: Props) => {
         const media = await fetchMedia(tmdb)
         const credits = await fetchCredits(tmdb)
         refreshMedia(tmdb, omit(['title', 'name'], media))
-        onAddCredits(credits)
+        onFetchCredits(credits)
       } catch (error) {
         setTimeout(() => update(), 250)
       }

@@ -1,9 +1,9 @@
 interface CreditsCollection {
-  movie: CreditDB
-  tv: CreditDB
+  movie: CreditsDB
+  tv: CreditsDB
 }
 
-interface CreditDB {
+interface CreditsDB {
   [id: string]: Credits
 }
 

@@ -3,7 +3,7 @@ import L from 'localforage'
 
 L.config({ name: 'credits' })
 
-export default () => {
+export default (): IndexedCredits => {
   const initial = { movie: {}, tv: {} }
   const [isFetched, setIsFetched] = useState(false)
   const [collection, setCollection] = useState<CreditsCollection>(initial)
@@ -17,8 +17,8 @@ export default () => {
     storeCredits()
   }, [])
 
-  const collect = ({ id, media_type }: TMDB) => async (credits: Credits) => {
-    const next = { ...collection[media_type], [id]: credits }
+  const collect = async (media_type: MediaType, creditsDB: CreditsDB) => {
+    const next = { ...collection[media_type], ...creditsDB }
     await L.setItem(media_type, next)
     setCollection({ ...collection, [media_type]: next })
   }
@@ -28,7 +28,7 @@ export default () => {
 
 /* helpers */
 const getIndexedCredits = async (): Promise<CreditsCollection> => {
-  const movie = (await L.getItem<CreditDB>('movie')) || {}
-  const tv = (await L.getItem<CreditDB>('tv')) || {}
+  const movie = (await L.getItem<CreditsDB>('movie')) || {}
+  const tv = (await L.getItem<CreditsDB>('tv')) || {}
   return { movie, tv }
 }
