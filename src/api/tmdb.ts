@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
 const api_key = '1f65910a7e34c5d109daa353a4cf53ab'
-const language = 'ko-KR'
 
 const api = <T>(url: string, params?: AxiosRequestConfig['params']) => {
   const config = {
@@ -14,7 +13,7 @@ const api = <T>(url: string, params?: AxiosRequestConfig['params']) => {
 
 /* Multi */
 export const searchMulti = async (query: string) => {
-  const config = { query, language }
+  const config = { query, language: 'ko-KR' }
   const { data } = await api<{ results: TMDB[] }>('search/multi', config)
   const { results } = data
   return results
@@ -25,8 +24,8 @@ export const searchMulti = async (query: string) => {
 /* Media */
 export const fetchMedia = async (tmdb: TMDB): Promise<TMDB> => {
   type Details = Omit<MovieTMDB, 'media_type'> | Omit<TvTMDB, 'media_type'>
-  const { id, media_type, original_language } = tmdb
-  const config = original_language === 'ko' ? { language } : undefined
+  const { id, media_type, original_language: language } = tmdb
+  const config = { language }
   const { data: detail } = await api<Details>(`${media_type}/${id}`, config)
   return { ...detail, media_type }
 }
