@@ -1,18 +1,22 @@
 import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { equals } from 'ramda'
+import { equals, Dictionary } from 'ramda'
 import { useDatabase } from '../api/hooks'
 import useIndexedCredits from './useIndexedCredits'
 import styles from './Results.module.scss'
 import Media from '../components/Media'
 
-const Results = ({ q }: { q: Q }) => {
+const Results = ({ crew, cast }: Q) => {
   const [media] = useDatabase()
   const { movie } = media
   const { isFetched, collection } = useIndexedCredits()
 
   const isCollectionValid = validateCollection(media, collection)
-  const data = useMemo(() => query(collection, q), [collection, q])
+  const data = useMemo(() => query(collection, { crew, cast }), [
+    collection,
+    crew,
+    cast
+  ])
 
   return !isFetched ? null : (
     <section className={styles.results}>
@@ -64,25 +68,40 @@ const validateCollection = (
   )
 
 /* query */
-type Result = { id: string; name: string; filmography: string[] }
+type Result = { id: number; name: string; filmography: string[] }
 type Results = Result[]
+type People = Dictionary<Result>
 
 const query = (collection: CreditsCollection, q: Q): Results => {
   const group = Object.entries(collection.movie).reduce(
-    (acc: { [id: string]: Result }, [id, { crew }]) => {
-      const getNext = (p: Crew) => {
-        const { filmography = [] } = acc[p.id] || {}
-        return { id: p.id, name: p.name, filmography: [...filmography, id] }
+    (acc: People, [movieId, { crew, cast }]) => {
+      const getNext = ({ id, name }: Person): People => {
+        const { filmography = [] } = acc[id] || {}
+        const result = { id, name, filmography: [...filmography, movieId] }
+        return { [String(id)]: result }
       }
 
-      const p = crew.find(c => c[q[0]].toLowerCase() === q[1].toLowerCase())
-      return Object.assign({}, acc, p && { [p.id]: getNext(p) })
+      const people = () =>
+        cast.reduce(
+          (people, person) => Object.assign({}, people, getNext(person)),
+          {}
+        )
+
+      const person = () => {
+        const person = crew.find(
+          c => c[q.crew[0]].toLowerCase() === q.crew[1].toLowerCase()
+        )
+
+        return person ? getNext(person) : {}
+      }
+
+      return Object.assign({}, acc, q.cast ? people() : person())
     },
     {}
   )
 
   const filtered = Object.values(group).filter(
-    ({ filmography }) => filmography.length > 2
+    ({ filmography }) => filmography.length > (q.cast ? 9 : 2)
   )
 
   const sorted = filtered.sort(({ filmography: a }, { filmography: b }) =>

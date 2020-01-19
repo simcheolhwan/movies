@@ -1,14 +1,28 @@
 import React, { useState } from 'react'
 import Form from './Form'
 import Results from './Results'
+import styles from './Query.module.scss'
 
 const Query = () => {
-  const [params, setParams] = useState<Q>(['job', ''])
+  const [crew, setCrew] = useState<Q['crew']>(['job', ''])
+  const [cast, setCast] = useState<Q['cast']>(false)
 
   return (
     <>
-      <Form onSubmit={setParams} />
-      <Results q={params} />
+      <header className={styles.header}>
+        <label>
+          <input
+            type="checkbox"
+            checked={cast}
+            onChange={() => setCast(!cast)}
+          />
+          Cast
+        </label>
+
+        <Form onSubmit={setCrew} />
+      </header>
+
+      <Results crew={crew} cast={cast} />
     </>
   )
 }

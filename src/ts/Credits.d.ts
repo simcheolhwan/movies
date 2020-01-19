@@ -8,16 +8,16 @@ interface CreditsDB {
 }
 
 interface Credits {
-  cast: People[]
+  cast: Person[]
   crew: Crew[]
 }
 
-interface People {
+interface Person {
   id: number
   name: string
   profile_path: string
 }
 
-interface Crew extends People {
+interface Crew extends Person {
   job: string
 }

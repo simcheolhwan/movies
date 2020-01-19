@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
 interface Props {
-  onSubmit: React.Dispatch<React.SetStateAction<Q>>
+  onSubmit: React.Dispatch<React.SetStateAction<Q['crew']>>
 }
 
 const Form = ({ onSubmit }: Props) => {
-  const [key, setKey] = useState<Q[0]>('job')
+  const [key, setKey] = useState<CrewID>('job')
   const [value, setValue] = useState('')
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = e => {
@@ -15,7 +15,7 @@ const Form = ({ onSubmit }: Props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <select value={key} onChange={e => setKey(e.target.value as Q[0])}>
+      <select value={key} onChange={e => setKey(e.target.value as CrewID)}>
         <option value="name">Name</option>
         <option value="job">Job</option>
       </select>
