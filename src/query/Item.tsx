@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import classNames from 'classnames'
-import { omit } from 'ramda'
 import { helpers, fetchMedia, fetchCredits } from '../api/tmdb'
 import { useActions } from '../api/hooks'
 import styles from './Item.module.scss'
@@ -20,7 +19,7 @@ const Item = ({ tmdb, hasCredits, shouldUpdate, onFetchCredits }: Props) => {
       try {
         const media = await fetchMedia(tmdb)
         const credits = await fetchCredits(tmdb)
-        refreshMedia(tmdb, omit(['title', 'name'], media))
+        refreshMedia(tmdb, media)
         onFetchCredits(credits)
       } catch (error) {
         setTimeout(() => update(), 250)

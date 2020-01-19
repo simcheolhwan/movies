@@ -1,5 +1,5 @@
 import { useContext, createContext } from 'react'
-import { pick, uniq } from 'ramda'
+import { pick, uniq, omit } from 'ramda'
 import { db } from './firebase'
 
 /* Constants */
@@ -68,8 +68,10 @@ export const useActions = () => {
     moveMedia: (tmdb: TMDB, genre: string) =>
       updateMedia(tmdb, ['genre', genre]),
 
-    refreshMedia: (tmdb: TMDB, updated: Partial<TMDB>) =>
-      updateMedia(tmdb, ['tmdb', { ...tmdb, ...pick(Metadata, updated) }]),
+    refreshMedia: (tmdb: TMDB, updated: TMDB) => {
+      const next = pick(Metadata, omit(['title', 'name'], updated))
+      updateMedia(tmdb, ['tmdb', { ...tmdb, ...next }])
+    },
 
     removeMedia: (tmdb: TMDB) =>
       authenticated && app.child(`${tmdb.media_type}/${tmdb.id}`).remove(),
