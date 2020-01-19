@@ -8,6 +8,7 @@ interface CreditsDB {
 }
 
 interface Credits {
+  id: number
   cast: Person[]
   crew: Crew[]
 }

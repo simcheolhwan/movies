@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { equals, Dictionary } from 'ramda'
+import { helpers } from '../api/tmdb'
 import { useDatabase } from '../api/hooks'
 import useIndexedCredits from './useIndexedCredits'
 import styles from './Results.module.scss'
@@ -12,11 +13,14 @@ const Results = ({ crew, cast }: Q) => {
   const { isFetched, collection } = useIndexedCredits()
 
   const isCollectionValid = validateCollection(media, collection)
-  const data = useMemo(() => query(collection, { crew, cast }), [
-    collection,
-    crew,
-    cast
-  ])
+  const withoutMarvel = useMemo(() => {
+    const values = Object.values<Credits>(collection.movie)
+    return values.filter(({ id }) => !helpers.getMarvel(movie[id].tmdb))
+  }, [collection, movie])
+
+  const data = useMemo(() => {
+    return query(withoutMarvel, { crew, cast })
+  }, [withoutMarvel, crew, cast])
 
   return !isFetched ? null : (
     <section className={styles.results}>
@@ -68,37 +72,34 @@ const validateCollection = (
   )
 
 /* query */
-type Result = { id: number; name: string; filmography: string[] }
+type Result = { id: number; name: string; filmography: number[] }
 type Results = Result[]
 type People = Dictionary<Result>
 
-const query = (collection: CreditsCollection, q: Q): Results => {
-  const group = Object.entries(collection.movie).reduce(
-    (acc: People, [movieId, { crew, cast }]) => {
-      const getNext = ({ id, name }: Person): People => {
-        const { filmography = [] } = acc[id] || {}
-        const result = { id, name, filmography: [...filmography, movieId] }
-        return { [String(id)]: result }
-      }
+const query = (values: Credits[], q: Q): Results => {
+  const group = values.reduce((acc: People, { id: movieId, crew, cast }) => {
+    const getNext = ({ id, name }: Person): People => {
+      const { filmography = [] } = acc[id] || {}
+      const result = { id, name, filmography: [...filmography, movieId] }
+      return { [String(id)]: result }
+    }
 
-      const people = () =>
-        cast.reduce(
-          (people, person) => Object.assign({}, people, getNext(person)),
-          {}
-        )
+    const people = () =>
+      cast.reduce(
+        (people, person) => Object.assign({}, people, getNext(person)),
+        {}
+      )
 
-      const person = () => {
-        const person = crew.find(
-          c => c[q.crew[0]].toLowerCase() === q.crew[1].toLowerCase()
-        )
+    const person = () => {
+      const person = crew.find(
+        c => c[q.crew[0]].toLowerCase() === q.crew[1].toLowerCase()
+      )
 
-        return person ? getNext(person) : {}
-      }
+      return person ? getNext(person) : {}
+    }
 
-      return Object.assign({}, acc, q.cast ? people() : person())
-    },
-    {}
-  )
+    return Object.assign({}, acc, q.cast ? people() : person())
+  }, {})
 
   const filtered = Object.values(group).filter(
     ({ filmography }) => filmography.length > (q.cast ? 9 : 2)

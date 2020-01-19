@@ -57,7 +57,10 @@ export const helpers = {
   getType: (tmdb: TMDB) =>
     tmdb.media_type && tmdb.media_type !== 'movie'
       ? tmdb.media_type.toUpperCase()
-      : ''
+      : '',
+
+  getMarvel: (tmdb: TMDB) =>
+    tmdb.production_companies?.some(({ name }) => name.startsWith('Marvel'))
 }
 
 /* utils */
