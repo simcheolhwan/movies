@@ -13,7 +13,8 @@ const Metadata = [
   'original_language',
   'poster_path',
   'release_date',
-  'first_air_date'
+  'first_air_date',
+  'production_companies'
 ]
 
 /* Helper */

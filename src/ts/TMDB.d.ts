@@ -7,6 +7,7 @@ interface DefaultTMDB {
   poster_path: string
   vote_count: number
   original_language: string
+  production_companies?: { name: string }[]
 }
 
 interface MovieTMDB extends DefaultTMDB {
