@@ -45,11 +45,17 @@ const Results = ({ crew, cast }: Q) => {
               </h1>
 
               <ul className={styles.filmography}>
-                {filmography.map(id => (
-                  <li className={styles.item} key={id}>
-                    <Media media={movie[id]} />
-                  </li>
-                ))}
+                {filmography
+                  .sort((idA, idB) => {
+                    const a = helpers.getDate(movie[idA].tmdb)
+                    const b = helpers.getDate(movie[idB].tmdb)
+                    return a === b ? 0 : a > b ? 1 : -1
+                  })
+                  .map(id => (
+                    <li className={styles.item} key={id}>
+                      <Media media={movie[id]} />
+                    </li>
+                  ))}
               </ul>
             </article>
           )
