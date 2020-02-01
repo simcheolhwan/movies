@@ -39,7 +39,9 @@ const Results = ({ crew, cast }: Q) => {
           return (
             <article key={id}>
               <h1 className={styles.name}>
-                {name} ({count.join('/')})
+                <a href={helpers.getPersonLink(id)}>
+                  {name} ({count.join('/')})
+                </a>
               </h1>
 
               <ul className={styles.filmography}>

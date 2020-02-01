@@ -45,6 +45,7 @@ export const helpers = {
     `https://www.themoviedb.org/${tmdb.media_type}/${tmdb.id}`,
   getPoster: (tmdb: TMDB, w: number) =>
     `https://image.tmdb.org/t/p/w${w}${tmdb.poster_path}`,
+  getPersonLink: (id: number) => `https://www.themoviedb.org/person/${id}`,
 
   getDate,
   getYear: (tmdb: TMDB) => new Date(getDate(tmdb)).getFullYear() || '',
