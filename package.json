@@ -46,8 +46,8 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,scss}": [
-      "prettier --single-quote --no-semi --write"
+    "src/**/*.{ts,tsx,json,scss}": [
+      "prettier --no-semi --write"
     ]
   },
   "browserslist": [
