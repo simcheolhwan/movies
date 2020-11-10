@@ -1,7 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import classNames from "classnames"
-import Octicon from "@primer/octicons-react"
 import { PlusIcon as Plus } from "@primer/octicons-react"
 import { useAuth, useActions } from "../api/hooks"
 import useGenres from "../hooks/useGenres"
@@ -45,7 +44,7 @@ const Genres = () => {
       {authenticated && (
         <button onClick={addGenre} className={styles.link}>
           <span>
-            <Octicon icon={Plus} /> 새 장르 추가
+            <Plus /> 새 장르 추가
           </span>
         </button>
       )}

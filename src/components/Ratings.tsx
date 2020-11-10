@@ -1,6 +1,5 @@
 import React, { HTMLAttributes } from "react"
 import classNames from "classnames"
-import Octicon from "@primer/octicons-react"
 import { StarFillIcon as Star } from "@primer/octicons-react"
 import styles from "./Ratings.module.scss"
 
@@ -14,7 +13,7 @@ const Ratings = ({ active, onClick, className }: Props) => (
       className={classNames(styles.button, active && styles.active)}
       onClick={onClick}
     >
-      <Octicon icon={Star} />
+      <Star />
     </button>
   </section>
 )

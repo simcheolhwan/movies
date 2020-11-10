@@ -1,5 +1,4 @@
 import React from "react"
-import Octicon, { OcticonProps } from "@primer/octicons-react"
 import { HomeIcon as Home, InboxIcon as Inbox } from "@primer/octicons-react"
 import { useDatabase, useFilter } from "../api/hooks"
 
@@ -7,11 +6,9 @@ export default (): Genre[] => {
   const { selected } = useFilter()
   const [{ movie, tv }, indexes] = useDatabase()
 
-  const getIcon = (icon: OcticonProps["icon"]) => <Octicon icon={icon} />
-
   const menu = [
-    { to: "", label: "전체보기", icon: getIcon(Home), isMenu: true },
-    { to: "inbox", label: "분류 없음", icon: getIcon(Inbox), isMenu: true },
+    { to: "", label: "전체보기", icon: <Home />, isMenu: true },
+    { to: "inbox", label: "분류 없음", icon: <Inbox />, isMenu: true },
   ]
 
   return [
