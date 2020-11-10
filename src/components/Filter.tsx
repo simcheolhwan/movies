@@ -1,8 +1,8 @@
-import React from 'react'
-import Years from './Years'
-import Sort from './Sort'
-import FilterFooter from './FilterFooter'
-import styles from './Filter.module.scss'
+import React from "react"
+import Years from "./Years"
+import Sort from "./Sort"
+import FilterFooter from "./FilterFooter"
+import styles from "./Filter.module.scss"
 
 const Filter = () => (
   <div className={styles.component}>

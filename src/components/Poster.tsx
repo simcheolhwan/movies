@@ -1,7 +1,7 @@
-import React from 'react'
-import classNames from 'classnames'
-import styles from './Poster.module.scss'
-import { helpers } from '../api/tmdb'
+import React from "react"
+import classNames from "classnames"
+import styles from "./Poster.module.scss"
+import { helpers } from "../api/tmdb"
 
 interface Props extends React.HTMLAttributes<HTMLImageElement> {
   media: TMDB
@@ -18,8 +18,8 @@ const Poster = ({ media, w, className, ...props }: Props) => {
     src,
     width,
     height,
-    loading: 'lazy',
-    className: classNames(styles.poster, className)
+    loading: "lazy" as const,
+    className: classNames(styles.poster, className),
   }
 
   return <img {...attrs} alt="" />

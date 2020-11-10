@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
-import classNames from 'classnames'
-import { helpers, fetchMedia, fetchCredits } from '../api/tmdb'
-import { useActions } from '../api/hooks'
-import styles from './Item.module.scss'
+import React, { useEffect } from "react"
+import classNames from "classnames"
+import { helpers, fetchMedia, fetchCredits } from "../api/tmdb"
+import { useActions } from "../api/hooks"
+import styles from "./Item.module.scss"
 
 interface Props {
   tmdb: TMDB
@@ -38,9 +38,9 @@ const Item = ({ tmdb, hasCredits, shouldUpdate, onFetchCredits }: Props) => {
       )}
     >
       {[
-        shouldUpdate ? '…' : hasCredits ? '✓' : '✗',
-        helpers.getTitle(tmdb)
-      ].join(' ')}
+        shouldUpdate ? "…" : hasCredits ? "✓" : "✗",
+        helpers.getTitle(tmdb),
+      ].join(" ")}
     </li>
   )
 }

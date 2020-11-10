@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { searchMulti } from '../api/tmdb'
-import { useActions } from '../api/hooks'
-import Results from './Results'
-import styles from './Search.module.scss'
+import React, { useState, useEffect, useRef } from "react"
+import { withRouter, RouteComponentProps } from "react-router-dom"
+import { searchMulti } from "../api/tmdb"
+import { useActions } from "../api/hooks"
+import Results from "./Results"
+import styles from "./Search.module.scss"
 
 const Search = ({ location }: RouteComponentProps) => {
   const inputRef = useRef<HTMLInputElement>(null!)
 
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState("")
   const [list, setList] = useState<TMDB[]>([])
-  const [error, setError] = useState()
+  const [error, setError] = useState<Error>()
 
   const { addMedia } = useActions()
 
@@ -18,7 +18,7 @@ const Search = ({ location }: RouteComponentProps) => {
     /* API */
     const request = async (query: string) => {
       // TODO: debounce, cancel
-      setError(null)
+      setError(undefined)
 
       try {
         const list = await searchMulti(query)
@@ -33,7 +33,7 @@ const Search = ({ location }: RouteComponentProps) => {
   }, [search])
 
   const reset = () => {
-    setSearch('')
+    setSearch("")
     setList([])
     setError(undefined)
   }
@@ -41,13 +41,13 @@ const Search = ({ location }: RouteComponentProps) => {
   /* actions */
   const add = (index: number) => {
     const pathname = location.pathname.slice(1)
-    const genre = pathname === 'inbox' ? '' : pathname
+    const genre = pathname === "inbox" ? "" : pathname
     addMedia(list[index], { genre })
     reset()
     inputRef.current.focus()
   }
 
-  const submit: React.FormEventHandler<HTMLFormElement> = e => {
+  const submit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     add(0)
   }
@@ -58,7 +58,7 @@ const Search = ({ location }: RouteComponentProps) => {
         type="search"
         name="search"
         value={search}
-        onChange={e => setSearch(e.target.value)}
+        onChange={(e) => setSearch(e.target.value)}
         autoComplete="off"
         autoFocus
         ref={inputRef}

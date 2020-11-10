@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import Form from './Form'
-import Results from './Results'
-import styles from './Query.module.scss'
+import React, { useState } from "react"
+import Form from "./Form"
+import Results from "./Results"
+import styles from "./Query.module.scss"
 
 const Query = () => {
-  const [crew, setCrew] = useState<Q['crew']>(['job', ''])
-  const [cast, setCast] = useState<Q['cast']>(false)
+  const [crew, setCrew] = useState<Q["crew"]>(["job", ""])
+  const [cast, setCast] = useState<Q["cast"]>(false)
 
   return (
     <>

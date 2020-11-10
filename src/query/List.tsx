@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import Item from './Item'
-import styles from './List.module.scss'
+import React, { useState, useEffect, useCallback } from "react"
+import Item from "./Item"
+import styles from "./List.module.scss"
 
 interface Props extends IndexedCredits {
   list: [string, Media][]
@@ -39,7 +39,9 @@ const List = ({ list, status, media_type, collect }: Props) => {
             tmdb={tmdb}
             hasCredits={collected || isCollected(id)}
             shouldUpdate={shouldUpdate}
-            onFetchCredits={credits => setBuffer({ ...buffer, [id]: credits })}
+            onFetchCredits={(credits) =>
+              setBuffer({ ...buffer, [id]: credits })
+            }
             key={id}
           />
         )

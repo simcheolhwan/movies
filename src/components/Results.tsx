@@ -1,8 +1,8 @@
-import React from 'react'
-import { helpers } from '../api/tmdb'
-import { useDatabase } from '../api/hooks'
-import Poster from './Poster'
-import styles from './Results.module.scss'
+import React from "react"
+import { helpers } from "../api/tmdb"
+import { useDatabase } from "../api/hooks"
+import Poster from "./Poster"
+import styles from "./Results.module.scss"
 
 const Item = ({ onClick, ...item }: { onClick: () => void } & TMDB) => {
   const { id, media_type } = item

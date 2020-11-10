@@ -1,6 +1,6 @@
-import React from 'react'
-import { useFilter } from '../api/hooks'
-import styles from './Sort.module.scss'
+import React from "react"
+import { useFilter } from "../api/hooks"
+import styles from "./Sort.module.scss"
 
 const Sort = () => {
   const { selected, toggle } = useFilter()
@@ -9,13 +9,13 @@ const Sort = () => {
     <section className={styles.container}>
       <button onClick={toggle.groupWith} className={styles.button}>
         <span className={styles.checkbox}>
-          {selected.groupWith ? '✓' : '✗'}
+          {selected.groupWith ? "✓" : "✗"}
         </span>
         평가별 그룹
       </button>
 
       <button onClick={toggle.asc} className={styles.button}>
-        <span className={styles.checkbox}>{selected.asc ? '↑' : '↓'}</span>
+        <span className={styles.checkbox}>{selected.asc ? "↑" : "↓"}</span>
         정렬: 개봉일
       </button>
     </section>

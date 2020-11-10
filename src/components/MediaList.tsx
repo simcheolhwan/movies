@@ -1,12 +1,12 @@
-import React from 'react'
-import { useAuth, FilterProvider } from '../api/hooks'
-import { useFilterReducer, useURLParams } from '../data/hooks'
-import Search from './Search'
-import Genres from './Genres'
-import Filter from './Filter'
-import MobileNav from './MobileNav'
-import List from './List'
-import styles from './MediaList.module.scss'
+import React from "react"
+import { useAuth, FilterProvider } from "../api/hooks"
+import { useFilterReducer, useURLParams } from "../data/hooks"
+import Search from "./Search"
+import Genres from "./Genres"
+import Filter from "./Filter"
+import MobileNav from "./MobileNav"
+import List from "./List"
+import styles from "./MediaList.module.scss"
 
 const Component = () => {
   const [authenticated] = useAuth()

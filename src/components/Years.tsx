@@ -1,8 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import classNames from 'classnames'
-import useYears from '../hooks/useYears'
-import styles from './Years.module.scss'
+import React from "react"
+import { Link } from "react-router-dom"
+import classNames from "classnames"
+import useYears from "../hooks/useYears"
+import styles from "./Years.module.scss"
 
 const Years = () => {
   const years = useYears()

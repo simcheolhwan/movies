@@ -1,12 +1,12 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import classNames from 'classnames'
-import Octicon from '@primer/octicons-react'
-import { Plus } from '@primer/octicons-react'
-import { useAuth, useActions } from '../api/hooks'
-import useGenres from '../hooks/useGenres'
-import GenreLink from './GenreLink'
-import styles from './Genres.module.scss'
+import React from "react"
+import { Link } from "react-router-dom"
+import classNames from "classnames"
+import Octicon from "@primer/octicons-react"
+import { PlusIcon as Plus } from "@primer/octicons-react"
+import { useAuth, useActions } from "../api/hooks"
+import useGenres from "../hooks/useGenres"
+import GenreLink from "./GenreLink"
+import styles from "./Genres.module.scss"
 
 const Genres = () => {
   const genres = useGenres()
@@ -14,13 +14,13 @@ const Genres = () => {
   const actions = useActions()
 
   const addGenre = () => {
-    const input = (prompt() || '').trim()
+    const input = (prompt() || "").trim()
     input && actions.addGenre(input)
   }
 
   return (
     <ul className={styles.list}>
-      {genres.map(genre => {
+      {genres.map((genre) => {
         const { to, icon, label, isSelected, isMenu } = genre
         const className = classNames(styles.link, isSelected && styles.active)
         const props = { to, className }

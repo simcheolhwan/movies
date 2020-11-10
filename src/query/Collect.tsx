@@ -1,8 +1,8 @@
-import React from 'react'
-import { useApp, useDatabase, useAuth } from '../api/hooks'
-import useIndexedCredits from './useIndexedCredits'
-import List from './List'
-import styles from './Collect.module.scss'
+import React from "react"
+import { useApp, useDatabase, useAuth } from "../api/hooks"
+import useIndexedCredits from "./useIndexedCredits"
+import List from "./List"
+import styles from "./Collect.module.scss"
 
 interface Props extends IndexedCredits {
   media: MediaDB
@@ -18,7 +18,7 @@ const Container = ({ media, media_type, ...indexed }: Props) => {
   const entries = Object.entries<Media>(media)
   const sorted = [
     ...entries.filter(isCollected),
-    ...entries.filter(isNotCollected)
+    ...entries.filter(isNotCollected),
   ]
 
   // N개씩 묶는다.
@@ -28,7 +28,9 @@ const Container = ({ media, media_type, ...indexed }: Props) => {
   )
 
   // 수집하지 않은 항목이 하나라도 있는 첫 번째 인덱스를 찾는다. (지금 수행해야할 인덱스)
-  const currentIndex = group.findIndex(entries => entries.some(isNotCollected))
+  const currentIndex = group.findIndex((entries) =>
+    entries.some(isNotCollected)
+  )
 
   return (
     <div className={styles.container}>
@@ -53,12 +55,12 @@ const Collect = () => {
 
   const isMediaCollected = (media_type: MediaType) =>
     Object.keys(media[media_type]).every(
-      id => !!indexed.collection[media_type][id]
+      (id) => !!indexed.collection[media_type][id]
     )
 
   const isReady = authenticated && hydrated && indexed.isFetched
-  const isTvCollected = isMediaCollected('tv')
-  const isMovieCollected = isMediaCollected('movie')
+  const isTvCollected = isMediaCollected("tv")
+  const isMovieCollected = isMediaCollected("movie")
   const isCollected = isTvCollected && isMovieCollected
 
   return !isReady ? null : isCollected ? (
@@ -66,8 +68,8 @@ const Collect = () => {
   ) : (
     <Container
       {...indexed}
-      media={!isTvCollected ? media['tv'] : media['movie']}
-      media_type={!isTvCollected ? 'tv' : 'movie'}
+      media={!isTvCollected ? media["tv"] : media["movie"]}
+      media_type={!isTvCollected ? "tv" : "movie"}
       key={Number(isTvCollected)}
     />
   )

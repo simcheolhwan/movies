@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { useDrag, DragPreviewImage } from 'react-dnd'
-import classNames from 'classnames'
-import { helpers, fetchMedia } from '../api/tmdb'
-import { useActions } from '../api/hooks'
-import Poster from './Poster'
-import RateMedia from './RateMedia'
-import styles from './Media.module.scss'
+import React, { useState } from "react"
+import { useDrag, DragPreviewImage } from "react-dnd"
+import classNames from "classnames"
+import { helpers, fetchMedia } from "../api/tmdb"
+import { useActions } from "../api/hooks"
+import Poster from "./Poster"
+import RateMedia from "./RateMedia"
+import styles from "./Media.module.scss"
 
 const Media = ({ media }: { media: Media }) => {
   const { tmdb, watched_at } = media
@@ -13,12 +13,12 @@ const Media = ({ media }: { media: Media }) => {
 
   const { updateMedia, moveMedia, removeMedia, refreshMedia } = useActions()
   const [{ isDragging }, drag, preview] = useDrag({
-    item: { type: 'media' },
+    item: { type: "media" },
     end: (item, monitor) => {
       const result = monitor.getDropResult()
       result && moveMedia(tmdb, result.genre)
     },
-    collect: monitor => ({ isDragging: !!monitor.isDragging() })
+    collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   })
 
   const [isLoading, setIsLoading] = useState(false)
@@ -39,7 +39,7 @@ const Media = ({ media }: { media: Media }) => {
   const adjustWatchedAt = (e: React.MouseEvent) => {
     e.stopPropagation()
     window.confirm(`${released}년으로 변경합니다.`) &&
-      updateMedia(tmdb, ['watched_at', released])
+      updateMedia(tmdb, ["watched_at", released])
   }
 
   /* render */
@@ -71,7 +71,7 @@ const Media = ({ media }: { media: Media }) => {
         </a>
       </h1>
       <p className={yearClassName} onDoubleClick={adjustWatchedAt}>
-        {isLoading ? '새로 가져오는 중' : year + (type && ` (${type})`)}
+        {isLoading ? "새로 가져오는 중" : year + (type && ` (${type})`)}
       </p>
     </article>
   )

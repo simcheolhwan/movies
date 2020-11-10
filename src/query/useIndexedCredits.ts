@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
-import L from 'localforage'
+import { useState, useEffect } from "react"
+import L from "localforage"
 
-L.config({ name: 'credits' })
+L.config({ name: "credits" })
 
 export default (): IndexedCredits => {
   const initial = { movie: {}, tv: {} }
@@ -28,7 +28,7 @@ export default (): IndexedCredits => {
 
 /* helpers */
 const getIndexedCredits = async (): Promise<CreditsCollection> => {
-  const movie = (await L.getItem<CreditsDB>('movie')) || {}
-  const tv = (await L.getItem<CreditsDB>('tv')) || {}
+  const movie = (await L.getItem<CreditsDB>("movie")) || {}
+  const tv = (await L.getItem<CreditsDB>("tv")) || {}
   return { movie, tv }
 }

@@ -1,5 +1,5 @@
 type TMDB = MovieTMDB | TvTMDB
-type MediaType = 'movie' | 'tv'
+type MediaType = "movie" | "tv"
 
 interface DefaultTMDB {
   id: number

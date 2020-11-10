@@ -1,20 +1,20 @@
-import { useContext, createContext } from 'react'
-import { pick, uniq, omit } from 'ramda'
-import { db } from './firebase'
+import { useContext, createContext } from "react"
+import { pick, uniq, omit } from "ramda"
+import { db } from "./firebase"
 
 /* Constants */
 const Metadata = [
-  'media_type',
-  'id',
-  'title',
-  'name',
-  'original_title',
-  'original_name',
-  'original_language',
-  'poster_path',
-  'release_date',
-  'first_air_date',
-  'production_companies'
+  "media_type",
+  "id",
+  "title",
+  "name",
+  "original_title",
+  "original_name",
+  "original_language",
+  "poster_path",
+  "release_date",
+  "first_air_date",
+  "production_companies",
 ]
 
 /* Helper */
@@ -23,7 +23,7 @@ const createCtx = <A>() => {
 
   const useCtx = () => {
     const c = useContext(ctx)
-    if (!c) throw new Error('This must be inside a Provider with a value')
+    if (!c) throw new Error("This must be inside a Provider with a value")
     return c
   }
 
@@ -57,21 +57,21 @@ export const useActions = () => {
       const watched_at = new Date().getFullYear()
       const updates = {
         [`${tmdb.media_type}/${tmdb.id}`]: { ...meta, tmdb, watched_at },
-        [`indexes/watched_at`]: append('watched_at', watched_at)
+        [`indexes/watched_at`]: append("watched_at", watched_at),
       }
 
       authenticated && app.update(updates)
     },
 
     updateMedia,
-    rateMedia: (tmdb: TMDB, best: Best) => updateMedia(tmdb, ['best', best]),
+    rateMedia: (tmdb: TMDB, best: Best) => updateMedia(tmdb, ["best", best]),
 
     moveMedia: (tmdb: TMDB, genre: string) =>
-      updateMedia(tmdb, ['genre', genre]),
+      updateMedia(tmdb, ["genre", genre]),
 
     refreshMedia: (tmdb: TMDB, updated: TMDB) => {
-      const next = pick(Metadata, omit(['title', 'name'], updated))
-      updateMedia(tmdb, ['tmdb', { ...tmdb, ...next }])
+      const next = pick(Metadata, omit(["title", "name"], updated))
+      updateMedia(tmdb, ["tmdb", { ...tmdb, ...next }])
     },
 
     removeMedia: (tmdb: TMDB) =>
@@ -79,7 +79,7 @@ export const useActions = () => {
 
     /* Genre */
     addGenre: (genre: string) =>
-      authenticated && app.child(`indexes/genre`).set(append('genre', genre)),
+      authenticated && app.child(`indexes/genre`).set(append("genre", genre)),
 
     changeGenre: (genre: string, next: string) => {
       const getUpdates = (type: MediaType) =>
@@ -88,18 +88,20 @@ export const useActions = () => {
           .reduce(
             (acc, [id, media]) => ({
               ...acc,
-              [`${type}/${id}`]: { ...media, genre: next }
+              [`${type}/${id}`]: { ...media, genre: next },
             }),
             {}
           )
 
       const updates = {
-        ...getUpdates('movie'),
-        ...getUpdates('tv'),
-        'indexes/genre': sort(indexes.genre.map(g => (g === genre ? next : g)))
+        ...getUpdates("movie"),
+        ...getUpdates("tv"),
+        "indexes/genre": sort(
+          indexes.genre.map((g) => (g === genre ? next : g))
+        ),
       }
 
       authenticated && app.update(updates)
-    }
+    },
   }
 }

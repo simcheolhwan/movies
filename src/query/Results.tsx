@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react'
-import { Link } from 'react-router-dom'
-import { equals, Dictionary } from 'ramda'
-import { helpers } from '../api/tmdb'
-import { useDatabase } from '../api/hooks'
-import useIndexedCredits from './useIndexedCredits'
-import styles from './Results.module.scss'
-import Media from '../components/Media'
+import React, { useMemo } from "react"
+import { Link } from "react-router-dom"
+import { equals, Dictionary } from "ramda"
+import { helpers } from "../api/tmdb"
+import { useDatabase } from "../api/hooks"
+import useIndexedCredits from "./useIndexedCredits"
+import styles from "./Results.module.scss"
+import Media from "../components/Media"
 
 const Results = ({ crew, cast }: Q) => {
   const [media] = useDatabase()
@@ -32,15 +32,15 @@ const Results = ({ crew, cast }: Q) => {
       ) : (
         data.map(({ id, name, filmography }) => {
           const count = [
-            filmography.filter(id => movie[id].best).length,
-            filmography.length
+            filmography.filter((id) => movie[id].best).length,
+            filmography.length,
           ]
 
           return (
             <article key={id}>
               <h1 className={styles.name}>
                 <a href={helpers.getPersonLink(id)}>
-                  {name} ({count.join('/')})
+                  {name} ({count.join("/")})
                 </a>
               </h1>
 
@@ -51,7 +51,7 @@ const Results = ({ crew, cast }: Q) => {
                     const b = helpers.getDate(movie[idB].tmdb)
                     return a === b ? 0 : a > b ? 1 : -1
                   })
-                  .map(id => (
+                  .map((id) => (
                     <li className={styles.item} key={id}>
                       <Media media={movie[id]} />
                     </li>
@@ -72,7 +72,7 @@ const validateCollection = (
   media: MediaCollection,
   collection: CreditsCollection
 ) =>
-  Object.keys(media).every(k =>
+  Object.keys(media).every((k) =>
     equals(
       Object.keys(media[k as MediaType]),
       Object.keys(collection[k as MediaType])
@@ -81,10 +81,9 @@ const validateCollection = (
 
 /* query */
 type Result = { id: number; name: string; filmography: number[] }
-type Results = Result[]
 type People = Dictionary<Result>
 
-const query = (values: Credits[], q: Q): Results => {
+const query = (values: Credits[], q: Q): Result[] => {
   const group = values.reduce((acc: People, { id: movieId, crew, cast }) => {
     const getNext = ({ id, name }: Person): People => {
       const { filmography = [] } = acc[id] || {}
@@ -100,7 +99,7 @@ const query = (values: Credits[], q: Q): Results => {
 
     const person = () => {
       const person = crew.find(
-        c => c[q.crew[0]].toLowerCase() === q.crew[1].toLowerCase()
+        (c) => c[q.crew[0]].toLowerCase() === q.crew[1].toLowerCase()
       )
 
       return person ? getNext(person) : {}

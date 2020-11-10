@@ -1,4 +1,4 @@
-import { helpers } from '../api/tmdb'
+import { helpers } from "../api/tmdb"
 
 export default (s: Selected, collection: MediaCollection): Filtered => {
   const { movie, tv } = collection
@@ -8,7 +8,7 @@ export default (s: Selected, collection: MediaCollection): Filtered => {
     s.title
       ? matchTitle(tmdb, s.title)
       : (!s.watched_at.length || s.watched_at.includes(watched_at)) &&
-        (!s.genre || (genre || 'inbox') === s.genre) &&
+        (!s.genre || (genre || "inbox") === s.genre) &&
         (!s.best || s.best === best)
 
   const sort = ({ tmdb: tmdbA }: Media, { tmdb: tmdbB }: Media) => {
@@ -19,8 +19,8 @@ export default (s: Selected, collection: MediaCollection): Filtered => {
 
   const results = values.filter(filter).sort(sort)
 
-  return s.groupWith === 'best'
-    ? [true, false].map(d => results.filter(({ best }) => d === !!best))
+  return s.groupWith === "best"
+    ? [true, false].map((d) => results.filter(({ best }) => d === !!best))
     : [results]
 }
 

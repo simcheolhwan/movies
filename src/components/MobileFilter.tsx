@@ -1,10 +1,10 @@
-import React from 'react'
-import useLock from '../hooks/useLock'
-import Search from './Search'
-import Years from './Years'
-import Sort from './Sort'
-import Genres from './Genres'
-import styles from './MobileFilter.module.scss'
+import React from "react"
+import useLock from "../hooks/useLock"
+import Search from "./Search"
+import Years from "./Years"
+import Sort from "./Sort"
+import Genres from "./Genres"
+import styles from "./MobileFilter.module.scss"
 
 const MobileFilter = () => {
   useLock()

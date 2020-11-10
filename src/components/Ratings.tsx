@@ -1,8 +1,8 @@
-import React, { HTMLAttributes } from 'react'
-import classNames from 'classnames'
-import Octicon from '@primer/octicons-react'
-import { Star } from '@primer/octicons-react'
-import styles from './Ratings.module.scss'
+import React, { HTMLAttributes } from "react"
+import classNames from "classnames"
+import Octicon from "@primer/octicons-react"
+import { StarFillIcon as Star } from "@primer/octicons-react"
+import styles from "./Ratings.module.scss"
 
 interface Props extends HTMLAttributes<HTMLButtonElement> {
   active: boolean

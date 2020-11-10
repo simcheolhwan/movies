@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
-import Octicon, { ThreeBars } from '@primer/octicons-react'
-import { useFilter } from '../api/hooks'
-import FilterFooter from './FilterFooter'
-import MobileFilter from './MobileFilter'
-import styles from './MobileNav.module.scss'
+import React, { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
+import Octicon, { ThreeBarsIcon as ThreeBars } from "@primer/octicons-react"
+import { useFilter } from "../api/hooks"
+import FilterFooter from "./FilterFooter"
+import MobileFilter from "./MobileFilter"
+import styles from "./MobileNav.module.scss"
 
 const MobileNav = () => {
   const { pathname } = useLocation()

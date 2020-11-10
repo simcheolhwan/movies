@@ -1,7 +1,7 @@
-import React from 'react'
-import { useApp, useFilter } from '../api/hooks'
-import Media from './Media'
-import styles from './List.module.scss'
+import React from "react"
+import { useApp, useFilter } from "../api/hooks"
+import Media from "./Media"
+import styles from "./List.module.scss"
 
 const List = () => {
   const { hydrated } = useApp()
@@ -16,7 +16,7 @@ const List = () => {
     <section className={styles.container}>
       {filtered.map((group, index) => (
         <ul className={styles.list} key={index}>
-          {group.map(media => {
+          {group.map((media) => {
             const { media_type, id } = media.tmdb
             return (
               <li className={styles.item} key={media_type + id}>
