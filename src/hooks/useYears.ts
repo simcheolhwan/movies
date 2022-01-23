@@ -1,6 +1,6 @@
 import { useDatabase, useFilter } from "../api/hooks"
 
-export default (): Year[] => {
+const useYear = (): Year[] => {
   const [, indexes] = useDatabase()
   const { selected } = useFilter()
   const l = selected.watched_at.length === 1
@@ -13,3 +13,5 @@ export default (): Year[] => {
     return { year, isSelected, to: { search: next } }
   })
 }
+
+export default useYear

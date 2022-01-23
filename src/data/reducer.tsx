@@ -5,7 +5,9 @@ export const initial: State = {
   title: "",
 }
 
-export default (state: State, payload: Partial<State>): State => ({
+const reducer = (state: State, payload: Partial<State>): State => ({
   ...state,
   ...payload,
 })
+
+export default reducer

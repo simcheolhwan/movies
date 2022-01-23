@@ -1,6 +1,6 @@
 import { useLayoutEffect } from "react"
 
-export default () => {
+const useLock = () => {
   useLayoutEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow
     document.body.style.overflow = "hidden"
@@ -10,3 +10,5 @@ export default () => {
     }
   }, [])
 }
+
+export default useLock

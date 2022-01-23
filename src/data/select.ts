@@ -1,6 +1,6 @@
 import { helpers } from "../api/tmdb"
 
-export default (s: Selected, collection: MediaCollection): Filtered => {
+const select = (s: Selected, collection: MediaCollection): Filtered => {
   const { movie, tv } = collection
   const values: Media[] = [...Object.values(movie), ...Object.values(tv)]
 
@@ -23,6 +23,8 @@ export default (s: Selected, collection: MediaCollection): Filtered => {
     ? [true, false].map((d) => results.filter(({ best }) => d === !!best))
     : [results]
 }
+
+export default select
 
 /* title */
 const matchTitle = (tmdb: TMDB, s: string) => {

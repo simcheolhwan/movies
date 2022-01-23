@@ -3,7 +3,7 @@ import L from "localforage"
 
 L.config({ name: "credits" })
 
-export default (): IndexedCredits => {
+const useIndexedCredits = (): IndexedCredits => {
   const initial = { movie: {}, tv: {} }
   const [isFetched, setIsFetched] = useState(false)
   const [collection, setCollection] = useState<CreditsCollection>(initial)
@@ -25,6 +25,8 @@ export default (): IndexedCredits => {
 
   return { isFetched, collection, collect }
 }
+
+export default useIndexedCredits
 
 /* helpers */
 const getIndexedCredits = async (): Promise<CreditsCollection> => {

@@ -1,7 +1,7 @@
 import { HomeIcon as Home, InboxIcon as Inbox } from "@primer/octicons-react"
 import { useDatabase, useFilter } from "../api/hooks"
 
-export default (): Genre[] => {
+const useGenres = (): Genre[] => {
   const { selected } = useFilter()
   const [{ movie, tv }, indexes] = useDatabase()
 
@@ -30,3 +30,5 @@ export default (): Genre[] => {
     }),
   ]
 }
+
+export default useGenres
