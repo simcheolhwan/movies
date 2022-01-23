@@ -6,8 +6,8 @@ const useGenres = (): Genre[] => {
   const [{ movie, tv }, indexes] = useDatabase()
 
   const menu = [
-    { to: "", label: "전체보기", icon: <Home />, isMenu: true },
-    { to: "inbox", label: "분류 없음", icon: <Inbox />, isMenu: true },
+    { to: "/", label: "전체보기", icon: <Home />, isMenu: true },
+    { to: "/inbox", label: "분류 없음", icon: <Inbox />, isMenu: true },
   ]
 
   return [
@@ -22,7 +22,7 @@ const useGenres = (): Genre[] => {
       const count = getLength(movie) + getLength(tv)
 
       return {
-        to: genre,
+        to: "/" + genre,
         label: genre,
         count: count,
         isSelected: genre === selected.genre,

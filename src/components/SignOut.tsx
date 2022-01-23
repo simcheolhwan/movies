@@ -1,10 +1,11 @@
 import { useEffect } from "react"
-import { Redirect } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { auth } from "../api/firebase"
 import { useAuth } from "../api/hooks"
 
 const SignOut = () => {
-  const [authenticated, setAuthenticated] = useAuth()
+  const navigate = useNavigate()
+  const [, setAuthenticated] = useAuth()
 
   useEffect(() => {
     const signout = async () => {
@@ -13,10 +14,10 @@ const SignOut = () => {
     }
 
     signout()
-    // eslint-disable-next-line
-  }, [])
+    navigate("/", { replace: true })
+  }, [navigate, setAuthenticated])
 
-  return !authenticated ? <Redirect to="/" /> : null
+  return null
 }
 
 export default SignOut

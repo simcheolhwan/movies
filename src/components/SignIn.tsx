@@ -1,10 +1,11 @@
 import { useState } from "react"
-import { Redirect } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { auth } from "../api/firebase"
 import { useAuth } from "../api/hooks"
 
 const SignIn = () => {
-  const [authenticated, setAuthenticated] = useAuth()
+  const navigate = useNavigate()
+  const [, setAuthenticated] = useAuth()
   const [values, setValues] = useState({ email: "", password: "" })
   const { email, password } = values
 
@@ -18,14 +19,13 @@ const SignIn = () => {
     try {
       await auth.signInWithEmailAndPassword(email, password)
       setAuthenticated(true)
+      navigate("/", { replace: true })
     } catch (error) {
-      alert(error.message)
+      alert((error as Error).message)
     }
   }
 
-  return authenticated ? (
-    <Redirect to="/" />
-  ) : (
+  return (
     <form onSubmit={submit}>
       <input type="email" name="email" value={email} onChange={handleChange} />
       <input

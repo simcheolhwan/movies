@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react"
-import { withRouter, RouteComponentProps } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { searchMulti } from "../api/tmdb"
 import { useActions } from "../api/hooks"
 import Results from "./Results"
 import styles from "./Search.module.scss"
 
-const Search = ({ location }: RouteComponentProps) => {
+const Search = () => {
+  const location = useLocation()
   const inputRef = useRef<HTMLInputElement>(null!)
 
   const [search, setSearch] = useState("")
@@ -24,7 +25,7 @@ const Search = ({ location }: RouteComponentProps) => {
         const list = await searchMulti(query)
         list.length && setList(list)
       } catch (error) {
-        setError(error)
+        setError(error as Error)
       }
     }
 
@@ -73,4 +74,4 @@ const Search = ({ location }: RouteComponentProps) => {
   )
 }
 
-export default withRouter(Search)
+export default Search
