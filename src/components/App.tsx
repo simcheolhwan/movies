@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { equals } from "ramda"
+import { onValue, ref } from "firebase/database"
 import { auth, db } from "../api/firebase"
 import { AppProvider, AuthProvider, DatabaseProvider } from "../api/hooks"
 import routes from "../routes"
@@ -33,7 +34,7 @@ const App = () => {
           : localStorage.removeItem("authenticated")
       })
 
-      db.ref().on("value", (s) => {
+      onValue(ref(db), (s) => {
         const v: DB = s.val()
         const normalized = normalize(v)
         localStorage.setItem("db", JSON.stringify(normalized))

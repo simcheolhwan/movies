@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../api/firebase"
 import { useAuth } from "../api/hooks"
 
@@ -17,7 +18,7 @@ const SignIn = () => {
   const submit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     try {
-      await auth.signInWithEmailAndPassword(email, password)
+      await signInWithEmailAndPassword(auth, email, password)
       setAuthenticated(true)
       navigate("/", { replace: true })
     } catch (error) {

@@ -1,5 +1,6 @@
 import { useContext, createContext } from "react"
 import { pick, uniq, omit } from "ramda"
+import { ref, remove, set, update } from "firebase/database"
 import { db } from "./firebase"
 
 /* Constants */
@@ -40,7 +41,7 @@ export const [useFilter, FilterProvider] = createCtx<FilterContext>()
 export const useActions = () => {
   const [authenticated] = useAuth()
   const [collection, indexes] = useDatabase()
-  const app = db.ref()
+  const app = ref(db)
 
   const sort = (array: any[]) => uniq(array).sort()
   const append = (key: keyof Indexes, value: any) =>
@@ -48,7 +49,7 @@ export const useActions = () => {
 
   const updateMedia = (tmdb: TMDB, [key, updates]: [string, any]) =>
     authenticated &&
-    app.child(`${tmdb.media_type}/${tmdb.id}/${key}`).set(updates)
+    set(ref(db, `${tmdb.media_type}/${tmdb.id}/${key}`), updates)
 
   return {
     /* Media */
@@ -60,7 +61,7 @@ export const useActions = () => {
         [`indexes/watched_at`]: append("watched_at", watched_at),
       }
 
-      authenticated && app.update(updates)
+      authenticated && update(app, updates)
     },
 
     updateMedia,
@@ -75,11 +76,11 @@ export const useActions = () => {
     },
 
     removeMedia: (tmdb: TMDB) =>
-      authenticated && app.child(`${tmdb.media_type}/${tmdb.id}`).remove(),
+      authenticated && remove(ref(db, `${tmdb.media_type}/${tmdb.id}`)),
 
     /* Genre */
     addGenre: (genre: string) =>
-      authenticated && app.child(`indexes/genre`).set(append("genre", genre)),
+      authenticated && set(ref(db, `indexes/genre`), append("genre", genre)),
 
     changeGenre: (genre: string, next: string) => {
       const getUpdates = (type: MediaType) =>
@@ -101,7 +102,7 @@ export const useActions = () => {
         ),
       }
 
-      authenticated && app.update(updates)
+      authenticated && update(ref(db), updates)
     },
   }
 }
