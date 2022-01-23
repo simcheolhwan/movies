@@ -1,4 +1,3 @@
-import React from "react"
 import { helpers } from "../api/tmdb"
 import { useDatabase } from "../api/hooks"
 import Poster from "./Poster"

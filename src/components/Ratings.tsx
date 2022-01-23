@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from "react"
+import { HTMLAttributes } from "react"
 import classNames from "classnames"
 import { StarFillIcon as Star } from "@primer/octicons-react"
 import styles from "./Ratings.module.scss"

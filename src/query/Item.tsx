@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import classNames from "classnames"
 import { helpers, fetchMedia, fetchCredits } from "../api/tmdb"
 import { useActions } from "../api/hooks"

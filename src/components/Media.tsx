@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { useDrag, DragPreviewImage } from "react-dnd"
 import classNames from "classnames"
 import { helpers, fetchMedia } from "../api/tmdb"

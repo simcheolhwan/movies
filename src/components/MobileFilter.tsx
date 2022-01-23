@@ -1,4 +1,3 @@
-import React from "react"
 import useLock from "../hooks/useLock"
 import Search from "./Search"
 import Years from "./Years"

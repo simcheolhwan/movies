@@ -1,4 +1,3 @@
-import React from "react"
 import { useApp, useFilter } from "../api/hooks"
 import Media from "./Media"
 import styles from "./List.module.scss"

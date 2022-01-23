@@ -1,4 +1,3 @@
-import React from "react"
 import { useApp, useDatabase, useAuth } from "../api/hooks"
 import useIndexedCredits from "./useIndexedCredits"
 import List from "./List"

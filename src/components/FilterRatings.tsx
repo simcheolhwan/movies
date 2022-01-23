@@ -1,4 +1,3 @@
-import React from "react"
 import { useFilter } from "../api/hooks"
 import Ratings from "./Ratings"
 import styles from "./FilterRatings.module.scss"

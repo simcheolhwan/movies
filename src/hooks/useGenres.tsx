@@ -1,4 +1,3 @@
-import React from "react"
 import { HomeIcon as Home, InboxIcon as Inbox } from "@primer/octicons-react"
 import { useDatabase, useFilter } from "../api/hooks"
 

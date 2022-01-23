@@ -1,4 +1,3 @@
-import React from "react"
 import FilterRatings from "./FilterRatings"
 import FilterInput from "./FilterInput"
 import Count from "./Count"

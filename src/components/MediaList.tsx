@@ -1,4 +1,3 @@
-import React from "react"
 import { useAuth, FilterProvider } from "../api/hooks"
 import { useFilterReducer, useURLParams } from "../data/hooks"
 import Search from "./Search"

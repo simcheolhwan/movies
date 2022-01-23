@@ -1,4 +1,3 @@
-import React from "react"
 import { useActions } from "../api/hooks"
 import Ratings from "./Ratings"
 import styles from "./RateMedia.module.scss"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef } from "react"
 import { withRouter, RouteComponentProps } from "react-router-dom"
 import { searchMulti } from "../api/tmdb"
 import { useActions } from "../api/hooks"

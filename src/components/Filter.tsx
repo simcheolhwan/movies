@@ -1,4 +1,3 @@
-import React from "react"
 import Years from "./Years"
 import Sort from "./Sort"
 import FilterFooter from "./FilterFooter"

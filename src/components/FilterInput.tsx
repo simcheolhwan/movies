@@ -1,4 +1,3 @@
-import React from "react"
 import { useFilter } from "../api/hooks"
 import styles from "./FilterInput.module.scss"
 

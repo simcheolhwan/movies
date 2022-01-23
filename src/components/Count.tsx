@@ -1,4 +1,3 @@
-import React from "react"
 import { Link } from "react-router-dom"
 import { useAuth, useFilter } from "../api/hooks"
 import styles from "./Count.module.scss"
