@@ -64,5 +64,6 @@ export const helpers = {
 }
 
 /* utils */
-const sortByProp = <T>(p: keyof T) => (a: T, b: T) =>
-  a[p] === b[p] ? 0 : a[p] > b[p] ? -1 : 1
+const sortByProp = <T>(p: keyof T) => {
+  return (a: T, b: T) => (a[p] === b[p] ? 0 : a[p] > b[p] ? -1 : 1)
+}

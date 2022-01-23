@@ -19,7 +19,6 @@ const GenreLink = ({ to, count, className, children: genre }: Props) => {
 
   const attrs: LinkProps = {
     to,
-    innerRef: drop,
     className: classNames(className, isOver && styles.isOver),
     onContextMenu: (e) => {
       e.preventDefault()
@@ -29,7 +28,7 @@ const GenreLink = ({ to, count, className, children: genre }: Props) => {
   }
 
   return (
-    <Link {...attrs}>
+    <Link {...attrs} ref={drop}>
       <span>{genre}</span>
       <small className={styles.small}>{count}</small>
     </Link>
