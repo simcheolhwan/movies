@@ -10,6 +10,7 @@ interface State {
   asc: boolean
   groupWith?: keyof Meta
   best: boolean
+  shuffle: boolean
   title: string
 }
 

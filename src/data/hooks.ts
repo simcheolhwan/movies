@@ -22,6 +22,7 @@ export const useFilterReducer = (): FilterContext => {
   /* actions */
   const toggle = {
     best: () => dispatch({ best: !state.best }),
+    shuffle: () => dispatch({ shuffle: !state.shuffle }),
     asc: () => dispatch({ asc: !state.asc }),
     groupWith: () =>
       dispatch({ groupWith: state.groupWith ? undefined : initial.groupWith }),

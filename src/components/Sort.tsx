@@ -17,6 +17,11 @@ const Sort = () => {
         <span className={styles.checkbox}>{selected.asc ? "↑" : "↓"}</span>
         정렬: 개봉일
       </button>
+
+      <button onClick={toggle.shuffle} className={styles.button}>
+        <span className={styles.checkbox}>{selected.shuffle ? "✓" : "✗"}</span>
+        무작위
+      </button>
     </section>
   )
 }

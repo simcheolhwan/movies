@@ -2,6 +2,7 @@ export const initial: State = {
   groupWith: "best",
   asc: false,
   best: false,
+  shuffle: false,
   title: "",
 }
 

@@ -1,4 +1,5 @@
 import { helpers } from "../api/tmdb"
+import shuffle from "./shuffle"
 
 const select = (s: Selected, collection: MediaCollection): Filtered => {
   const { movie, tv } = collection
@@ -19,7 +20,9 @@ const select = (s: Selected, collection: MediaCollection): Filtered => {
 
   const results = values.filter(filter).sort(sort)
 
-  return s.groupWith === "best"
+  return s.shuffle
+    ? [shuffle(values)]
+    : s.groupWith === "best"
     ? [true, false].map((d) => results.filter(({ best }) => d === !!best))
     : [results]
 }
