@@ -22,7 +22,7 @@ const App = () => {
   })
 
   const [authenticated, setAuthenticated] = useState(
-    () => !!localStorage.getItem("authenticated")
+    () => !!localStorage.getItem("authenticated"),
   )
 
   useEffect(() => {

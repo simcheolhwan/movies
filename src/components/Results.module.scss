@@ -1,9 +1,10 @@
+@use "sass:math";
 @import "../variables";
 
 .results {
   > .title {
     font-weight: bold;
-    padding: ($gutter / 2);
+    padding: math.div($gutter, 2);
   }
 
   .list {
@@ -24,10 +25,10 @@
   text-align: left;
 
   border-radius: 0.3rem;
-  padding: ($gutter / 2);
+  padding: math.div($gutter, 2);
 
   .poster {
-    margin-right: ($gutter / 2);
+    margin-right: math.div($gutter, 2);
   }
 
   .meta {
@@ -43,6 +44,6 @@
 .already {
   color: $yellow;
   display: block;
-  padding: 0 ($gutter / 2);
+  padding: 0 math.div($gutter, 2);
   text-align: center;
 }

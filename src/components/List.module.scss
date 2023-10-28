@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "../variables";
 
 .container {
@@ -12,16 +13,16 @@
 
 .item {
   margin-bottom: ($gutter * 2);
-  padding: 0 ($gutter / 2);
-  width: (100% / 3);
+  padding: 0 math.div($gutter, 2);
+  width: math.div(100%, 3);
 
   @media (min-width: $breakpoint-lg) {
     margin-bottom: ($gutter-lg * 2);
-    width: (100% / 4);
+    width: math.div(100%, 4);
   }
 
   @media (min-width: $breakpoint-xl) {
-    width: (100% / 5);
+    width: math.div(100%, 5);
   }
 }
 

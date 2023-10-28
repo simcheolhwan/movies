@@ -1,11 +1,12 @@
+@use "sass:math";
 @import "../variables";
 
 .button {
   border-radius: 0.2rem;
-  padding: ($gutter / 2);
+  padding: math.div($gutter, 2);
 
   @media (min-width: $breakpoint-lg) {
-    padding: ($gutter / 2) $gutter;
+    padding: math.div($gutter, 2) $gutter;
   }
 
   &:hover {
@@ -15,7 +16,7 @@
 
 .checkbox {
   border: 2px solid fade-out(white, 0.5);
-  margin-right: ($gutter / 2);
+  margin-right: math.div($gutter, 2);
   display: inline-flex;
   justify-content: center;
   align-items: center;

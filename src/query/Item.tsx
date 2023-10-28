@@ -34,7 +34,7 @@ const Item = ({ tmdb, hasCredits, shouldUpdate, onFetchCredits }: Props) => {
     <li
       className={classNames(
         styles.item,
-        shouldUpdate ? styles.loading : !hasCredits && styles.idle
+        shouldUpdate ? styles.loading : !hasCredits && styles.idle,
       )}
     >
       {[

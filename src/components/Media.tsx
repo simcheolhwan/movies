@@ -12,14 +12,14 @@ const Media = ({ media }: { media: Media }) => {
   const title = helpers.getTitle(tmdb)
 
   const { updateMedia, moveMedia, removeMedia, refreshMedia } = useActions()
-  const [{ isDragging }, drag, preview] = useDrag({
-    item: { type: "media" },
+  const [{ isDragging }, drag, preview] = useDrag(() => ({
+    type: "media",
     end: (item, monitor) => {
       const result = monitor.getDropResult()
       result && moveMedia(tmdb, result.genre)
     },
     collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
-  })
+  }))
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -52,7 +52,7 @@ const Media = ({ media }: { media: Media }) => {
 
   const yearClassName = classNames(
     styles.year,
-    (released > watched_at || isLoading) && styles.danger
+    (released > watched_at || isLoading) && styles.danger,
   )
 
   return (

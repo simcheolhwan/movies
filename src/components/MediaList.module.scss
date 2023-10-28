@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "../variables";
 
 .content {
@@ -11,7 +12,7 @@
 
   @media (min-width: $breakpoint-lg) {
     flex-direction: unset;
-    margin-top: ($gutter-lg / 2);
+    margin-top: math.div($gutter-lg, 2);
     padding: 0 $gutter-lg;
   }
 

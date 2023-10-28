@@ -1,5 +1,6 @@
+@use "sass:math";
 @import "../variables";
 
 .ratings {
-  padding: ($gutter / 2);
+  padding: math.div($gutter, 2);
 }

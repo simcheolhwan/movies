@@ -1,5 +1,7 @@
+@use "sass:math";
+
 .ratings {
   margin-bottom: 2px;
-  max-width: (342px / 2);
+  max-width: math.div(342px, 2);
   width: 100%;
 }

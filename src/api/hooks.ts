@@ -91,14 +91,14 @@ export const useActions = () => {
               ...acc,
               [`${type}/${id}`]: { ...media, genre: next },
             }),
-            {}
+            {},
           )
 
       const updates = {
         ...getUpdates("movie"),
         ...getUpdates("tv"),
         "indexes/genre": sort(
-          indexes.genre.map((g) => (g === genre ? next : g))
+          indexes.genre.map((g) => (g === genre ? next : g)),
         ),
       }
 

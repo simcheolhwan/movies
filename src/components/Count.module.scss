@@ -1,7 +1,8 @@
+@use "sass:math";
 @import "../variables";
 
 .link {
   flex: none;
-  padding: ($gutter / 2);
-  margin-right: ($gutter / 2);
+  padding: math.div($gutter, 2);
+  margin-right: math.div($gutter, 2);
 }

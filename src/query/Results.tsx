@@ -1,6 +1,6 @@
 import { useMemo } from "react"
 import { Link } from "react-router-dom"
-import { equals, Dictionary } from "ramda"
+import { equals } from "ramda"
 import { helpers } from "../api/tmdb"
 import { useDatabase } from "../api/hooks"
 import useIndexedCredits from "./useIndexedCredits"
@@ -70,18 +70,18 @@ export default Results
 /* validate */
 const validateCollection = (
   media: MediaCollection,
-  collection: CreditsCollection
+  collection: CreditsCollection,
 ) =>
   Object.keys(media).every((k) =>
     equals(
       Object.keys(media[k as MediaType]),
-      Object.keys(collection[k as MediaType])
-    )
+      Object.keys(collection[k as MediaType]),
+    ),
   )
 
 /* query */
 type Result = { id: number; name: string; filmography: number[] }
-type People = Dictionary<Result>
+type People = Record<string, Result>
 
 const query = (values: Credits[], q: Q): Result[] => {
   const group = values.reduce((acc: People, { id: movieId, crew, cast }) => {
@@ -94,12 +94,12 @@ const query = (values: Credits[], q: Q): Result[] => {
     const people = () =>
       cast.reduce(
         (people, person) => Object.assign({}, people, getNext(person)),
-        {}
+        {},
       )
 
     const person = () => {
       const person = crew.find(
-        (c) => c[q.crew[0]].toLowerCase() === q.crew[1].toLowerCase()
+        (c) => c[q.crew[0]].toLowerCase() === q.crew[1].toLowerCase(),
       )
 
       return person ? getNext(person) : {}
@@ -109,11 +109,11 @@ const query = (values: Credits[], q: Q): Result[] => {
   }, {})
 
   const filtered = Object.values(group).filter(
-    ({ filmography }) => filmography.length > (q.cast ? 9 : 2)
+    ({ filmography }) => filmography.length > (q.cast ? 9 : 2),
   )
 
   const sorted = filtered.sort(({ filmography: a }, { filmography: b }) =>
-    a.length === b.length ? 0 : a.length > b.length ? -1 : 1
+    a.length === b.length ? 0 : a.length > b.length ? -1 : 1,
   )
 
   return sorted

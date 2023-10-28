@@ -48,7 +48,7 @@ export const helpers = {
   getPersonLink: (id: number) => `https://www.themoviedb.org/person/${id}`,
 
   getDate,
-  getYear: (tmdb: TMDB) => new Date(getDate(tmdb)).getFullYear() || "",
+  getYear: (tmdb: TMDB) => new Date(getDate(tmdb)).getFullYear(),
 
   getTitle: (tmdb: TMDB) => ("title" in tmdb ? tmdb.title : tmdb.name) || "",
   getOriginal: (tmdb: TMDB) =>
