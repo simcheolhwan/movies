@@ -44,12 +44,10 @@ export const useActions = () => {
   const app = ref(db)
 
   const sort = (array: any[]) => uniq(array).sort()
-  const append = (key: keyof Indexes, value: any) =>
-    sort([...indexes[key], value])
+  const append = (key: keyof Indexes, value: any) => sort([...indexes[key], value])
 
   const updateMedia = (tmdb: TMDB, [key, updates]: [string, any]) =>
-    authenticated &&
-    set(ref(db, `${tmdb.media_type}/${tmdb.id}/${key}`), updates)
+    authenticated && set(ref(db, `${tmdb.media_type}/${tmdb.id}/${key}`), updates)
 
   return {
     /* Media */
@@ -67,20 +65,17 @@ export const useActions = () => {
     updateMedia,
     rateMedia: (tmdb: TMDB, best: Best) => updateMedia(tmdb, ["best", best]),
 
-    moveMedia: (tmdb: TMDB, genre: string) =>
-      updateMedia(tmdb, ["genre", genre]),
+    moveMedia: (tmdb: TMDB, genre: string) => updateMedia(tmdb, ["genre", genre]),
 
     refreshMedia: (tmdb: TMDB, updated: TMDB) => {
       const next = pick(Metadata, omit(["title", "name"], updated))
       updateMedia(tmdb, ["tmdb", { ...tmdb, ...next }])
     },
 
-    removeMedia: (tmdb: TMDB) =>
-      authenticated && remove(ref(db, `${tmdb.media_type}/${tmdb.id}`)),
+    removeMedia: (tmdb: TMDB) => authenticated && remove(ref(db, `${tmdb.media_type}/${tmdb.id}`)),
 
     /* Genre */
-    addGenre: (genre: string) =>
-      authenticated && set(ref(db, `indexes/genre`), append("genre", genre)),
+    addGenre: (genre: string) => authenticated && set(ref(db, `indexes/genre`), append("genre", genre)),
 
     changeGenre: (genre: string, next: string) => {
       const getUpdates = (type: MediaType) =>
@@ -97,9 +92,7 @@ export const useActions = () => {
       const updates = {
         ...getUpdates("movie"),
         ...getUpdates("tv"),
-        "indexes/genre": sort(
-          indexes.genre.map((g) => (g === genre ? next : g)),
-        ),
+        "indexes/genre": sort(indexes.genre.map((g) => (g === genre ? next : g))),
       }
 
       authenticated && update(ref(db), updates)

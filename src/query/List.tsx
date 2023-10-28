@@ -31,17 +31,14 @@ const List = ({ list, status, media_type, collect }: Props) => {
         const [prevId] = list[index - 1] ?? []
         const prevHasCredits = isCollected(prevId)
         const hasCredits = isCollected(id)
-        const shouldUpdate =
-          active && !index ? !hasCredits : prevHasCredits && !hasCredits
+        const shouldUpdate = active && !index ? !hasCredits : prevHasCredits && !hasCredits
 
         return (
           <Item
             tmdb={tmdb}
             hasCredits={collected || isCollected(id)}
             shouldUpdate={shouldUpdate}
-            onFetchCredits={(credits) =>
-              setBuffer({ ...buffer, [id]: credits })
-            }
+            onFetchCredits={(credits) => setBuffer({ ...buffer, [id]: credits })}
             key={id}
           />
         )

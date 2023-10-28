@@ -7,9 +7,7 @@ const Sort = () => {
   return (
     <section className={styles.container}>
       <button onClick={toggle.groupWith} className={styles.button}>
-        <span className={styles.checkbox}>
-          {selected.groupWith ? "✓" : "✗"}
-        </span>
+        <span className={styles.checkbox}>{selected.groupWith ? "✓" : "✗"}</span>
         평가별 그룹
       </button>
 

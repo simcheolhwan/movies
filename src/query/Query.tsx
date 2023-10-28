@@ -11,11 +11,7 @@ const Query = () => {
     <>
       <header className={styles.header}>
         <label>
-          <input
-            type="checkbox"
-            checked={cast}
-            onChange={() => setCast(!cast)}
-          />
+          <input type="checkbox" checked={cast} onChange={() => setCast(!cast)} />
           Cast
         </label>
 

@@ -21,17 +21,13 @@ const App = () => {
     return local ? JSON.parse(local) : initial
   })
 
-  const [authenticated, setAuthenticated] = useState(
-    () => !!localStorage.getItem("authenticated"),
-  )
+  const [authenticated, setAuthenticated] = useState(() => !!localStorage.getItem("authenticated"))
 
   useEffect(() => {
     const hydrate = () => {
       auth.onAuthStateChanged((user) => {
         setAuthenticated(!!user)
-        user
-          ? localStorage.setItem("authenticated", "true")
-          : localStorage.removeItem("authenticated")
+        user ? localStorage.setItem("authenticated", "true") : localStorage.removeItem("authenticated")
       })
 
       onValue(ref(db), (s) => {

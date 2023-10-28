@@ -32,9 +32,7 @@ const Item = ({ onClick, ...item }: { onClick: () => void } & TMDB) => {
         </main>
       </a>
 
-      <small className={styles.already}>
-        {added && `이미 추가함: ${genre} (${watched_at})`}
-      </small>
+      <small className={styles.already}>{added && `이미 추가함: ${genre} (${watched_at})`}</small>
     </li>
   )
 }

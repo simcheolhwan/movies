@@ -38,8 +38,7 @@ const Media = ({ media }: { media: Media }) => {
 
   const adjustWatchedAt = (e: React.MouseEvent) => {
     e.stopPropagation()
-    window.confirm(`${released}년으로 변경합니다.`) &&
-      updateMedia(tmdb, ["watched_at", released])
+    window.confirm(`${released}년으로 변경합니다.`) && updateMedia(tmdb, ["watched_at", released])
   }
 
   /* render */
@@ -47,13 +46,9 @@ const Media = ({ media }: { media: Media }) => {
   const type = helpers.getType(tmdb)
   const released = helpers.getYear(tmdb)
 
-  const year =
-    released === watched_at ? released : `${released} → ${watched_at}`
+  const year = released === watched_at ? released : `${released} → ${watched_at}`
 
-  const yearClassName = classNames(
-    styles.year,
-    (released > watched_at || isLoading) && styles.danger,
-  )
+  const yearClassName = classNames(styles.year, (released > watched_at || isLoading) && styles.danger)
 
   return (
     <article

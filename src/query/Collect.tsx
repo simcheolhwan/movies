@@ -15,21 +15,14 @@ const Container = ({ media, media_type, ...indexed }: Props) => {
 
   // 수집한 항목을 앞으로 정렬시키고 그루핑한다.
   const entries = Object.entries<Media>(media)
-  const sorted = [
-    ...entries.filter(isCollected),
-    ...entries.filter(isNotCollected),
-  ]
+  const sorted = [...entries.filter(isCollected), ...entries.filter(isNotCollected)]
 
   // N개씩 묶는다.
   const N = 100
-  const group = Array.from({ length: Math.ceil(sorted.length / N) }, (_, i) =>
-    sorted.slice(i * N, (i + 1) * N),
-  )
+  const group = Array.from({ length: Math.ceil(sorted.length / N) }, (_, i) => sorted.slice(i * N, (i + 1) * N))
 
   // 수집하지 않은 항목이 하나라도 있는 첫 번째 인덱스를 찾는다. (지금 수행해야할 인덱스)
-  const currentIndex = group.findIndex((entries) =>
-    entries.some(isNotCollected),
-  )
+  const currentIndex = group.findIndex((entries) => entries.some(isNotCollected))
 
   return (
     <div className={styles.container}>
@@ -53,9 +46,7 @@ const Collect = () => {
   const indexed = useIndexedCredits()
 
   const isMediaCollected = (media_type: MediaType) =>
-    Object.keys(media[media_type]).every(
-      (id) => !!indexed.collection[media_type][id],
-    )
+    Object.keys(media[media_type]).every((id) => !!indexed.collection[media_type][id])
 
   const isReady = authenticated && hydrated && indexed.isFetched
   const isTvCollected = isMediaCollected("tv")

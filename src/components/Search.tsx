@@ -65,9 +65,7 @@ const Search = () => {
         ref={inputRef}
       />
 
-      {error
-        ? error.message
-        : !!list.length && <Results results={list} onAdd={add} />}
+      {error ? error.message : !!list.length && <Results results={list} onAdd={add} />}
 
       <button type="submit" disabled={!list.length} />
     </form>

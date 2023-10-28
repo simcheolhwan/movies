@@ -20,11 +20,7 @@ const Form = ({ onSubmit }: Props) => {
         <option value="job">Job</option>
       </select>
 
-      <input
-        type="search"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
+      <input type="search" value={value} onChange={(e) => setValue(e.target.value)} />
       <button type="submit">Submit</button>
     </form>
   )

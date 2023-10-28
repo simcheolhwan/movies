@@ -16,9 +16,7 @@ export const searchMulti = async (query: string) => {
   const config = { query, language: "ko-KR" }
   const { data } = await api<{ results: TMDB[] }>("search/multi", config)
   const { results } = data
-  return results
-    .filter((result) => ["movie", "tv"].includes(result.media_type))
-    .sort(sortByProp<TMDB>("vote_count"))
+  return results.filter((result) => ["movie", "tv"].includes(result.media_type)).sort(sortByProp<TMDB>("vote_count"))
 }
 
 /* Media */
@@ -37,30 +35,22 @@ export const fetchCredits = async (tmdb: TMDB): Promise<Credits> => {
 }
 
 /* helpers */
-const getDate = (tmdb: TMDB) =>
-  ("release_date" in tmdb ? tmdb.release_date : tmdb.first_air_date) || ""
+const getDate = (tmdb: TMDB) => ("release_date" in tmdb ? tmdb.release_date : tmdb.first_air_date) || ""
 
 export const helpers = {
-  getLink: (tmdb: TMDB) =>
-    `https://www.themoviedb.org/${tmdb.media_type}/${tmdb.id}`,
-  getPoster: (tmdb: TMDB, w: number) =>
-    `https://image.tmdb.org/t/p/w${w}${tmdb.poster_path}`,
+  getLink: (tmdb: TMDB) => `https://www.themoviedb.org/${tmdb.media_type}/${tmdb.id}`,
+  getPoster: (tmdb: TMDB, w: number) => `https://image.tmdb.org/t/p/w${w}${tmdb.poster_path}`,
   getPersonLink: (id: number) => `https://www.themoviedb.org/person/${id}`,
 
   getDate,
   getYear: (tmdb: TMDB) => new Date(getDate(tmdb)).getFullYear(),
 
   getTitle: (tmdb: TMDB) => ("title" in tmdb ? tmdb.title : tmdb.name) || "",
-  getOriginal: (tmdb: TMDB) =>
-    ("original_title" in tmdb ? tmdb.original_title : tmdb.original_name) || "",
+  getOriginal: (tmdb: TMDB) => ("original_title" in tmdb ? tmdb.original_title : tmdb.original_name) || "",
 
-  getType: (tmdb: TMDB) =>
-    tmdb.media_type && tmdb.media_type !== "movie"
-      ? tmdb.media_type.toUpperCase()
-      : "",
+  getType: (tmdb: TMDB) => (tmdb.media_type && tmdb.media_type !== "movie" ? tmdb.media_type.toUpperCase() : ""),
 
-  getMarvel: (tmdb: TMDB) =>
-    tmdb.production_companies?.some(({ name }) => name.startsWith("Marvel")),
+  getMarvel: (tmdb: TMDB) => tmdb.production_companies?.some(({ name }) => name.startsWith("Marvel")),
 }
 
 /* utils */

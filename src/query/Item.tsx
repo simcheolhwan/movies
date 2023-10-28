@@ -31,16 +31,8 @@ const Item = ({ tmdb, hasCredits, shouldUpdate, onFetchCredits }: Props) => {
   }, [shouldUpdate])
 
   return (
-    <li
-      className={classNames(
-        styles.item,
-        shouldUpdate ? styles.loading : !hasCredits && styles.idle,
-      )}
-    >
-      {[
-        shouldUpdate ? "…" : hasCredits ? "✓" : "✗",
-        helpers.getTitle(tmdb),
-      ].join(" ")}
+    <li className={classNames(styles.item, shouldUpdate ? styles.loading : !hasCredits && styles.idle)}>
+      {[shouldUpdate ? "…" : hasCredits ? "✓" : "✗", helpers.getTitle(tmdb)].join(" ")}
     </li>
   )
 }

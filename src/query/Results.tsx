@@ -31,10 +31,7 @@ const Results = ({ crew, cast }: Q) => {
         </article>
       ) : (
         data.map(({ id, name, filmography }) => {
-          const count = [
-            filmography.filter((id) => movie[id].best).length,
-            filmography.length,
-          ]
+          const count = [filmography.filter((id) => movie[id].best).length, filmography.length]
 
           return (
             <article key={id}>
@@ -68,16 +65,8 @@ const Results = ({ crew, cast }: Q) => {
 export default Results
 
 /* validate */
-const validateCollection = (
-  media: MediaCollection,
-  collection: CreditsCollection,
-) =>
-  Object.keys(media).every((k) =>
-    equals(
-      Object.keys(media[k as MediaType]),
-      Object.keys(collection[k as MediaType]),
-    ),
-  )
+const validateCollection = (media: MediaCollection, collection: CreditsCollection) =>
+  Object.keys(media).every((k) => equals(Object.keys(media[k as MediaType]), Object.keys(collection[k as MediaType])))
 
 /* query */
 type Result = { id: number; name: string; filmography: number[] }
@@ -91,16 +80,10 @@ const query = (values: Credits[], q: Q): Result[] => {
       return { [String(id)]: result }
     }
 
-    const people = () =>
-      cast.reduce(
-        (people, person) => Object.assign({}, people, getNext(person)),
-        {},
-      )
+    const people = () => cast.reduce((people, person) => Object.assign({}, people, getNext(person)), {})
 
     const person = () => {
-      const person = crew.find(
-        (c) => c[q.crew[0]].toLowerCase() === q.crew[1].toLowerCase(),
-      )
+      const person = crew.find((c) => c[q.crew[0]].toLowerCase() === q.crew[1].toLowerCase())
 
       return person ? getNext(person) : {}
     }
@@ -108,9 +91,7 @@ const query = (values: Credits[], q: Q): Result[] => {
     return Object.assign({}, acc, q.cast ? people() : person())
   }, {})
 
-  const filtered = Object.values(group).filter(
-    ({ filmography }) => filmography.length > (q.cast ? 9 : 2),
-  )
+  const filtered = Object.values(group).filter(({ filmography }) => filmography.length > (q.cast ? 9 : 2))
 
   const sorted = filtered.sort(({ filmography: a }, { filmography: b }) =>
     a.length === b.length ? 0 : a.length > b.length ? -1 : 1,

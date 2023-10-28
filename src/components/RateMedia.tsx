@@ -4,13 +4,7 @@ import styles from "./RateMedia.module.scss"
 
 const RateMedia = ({ tmdb, best }: Media) => {
   const { rateMedia } = useActions()
-  return (
-    <Ratings
-      active={!!best}
-      onClick={() => rateMedia(tmdb, best ? null : true)}
-      className={styles.ratings}
-    />
-  )
+  return <Ratings active={!!best} onClick={() => rateMedia(tmdb, best ? null : true)} className={styles.ratings} />
 }
 
 export default RateMedia

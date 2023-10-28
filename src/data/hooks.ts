@@ -24,8 +24,7 @@ export const useFilterReducer = (): FilterContext => {
     best: () => dispatch({ best: !state.best }),
     shuffle: () => dispatch({ shuffle: !state.shuffle }),
     asc: () => dispatch({ asc: !state.asc }),
-    groupWith: () =>
-      dispatch({ groupWith: state.groupWith ? undefined : initial.groupWith }),
+    groupWith: () => dispatch({ groupWith: state.groupWith ? undefined : initial.groupWith }),
   }
 
   const set = {

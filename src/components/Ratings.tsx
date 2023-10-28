@@ -9,10 +9,7 @@ interface Props extends HTMLAttributes<HTMLButtonElement> {
 
 const Ratings = ({ active, onClick, className }: Props) => (
   <section className={className}>
-    <button
-      className={classNames(styles.button, active && styles.active)}
-      onClick={onClick}
-    >
+    <button className={classNames(styles.button, active && styles.active)} onClick={onClick}>
       <Star />
     </button>
   </section>

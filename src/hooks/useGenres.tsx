@@ -16,8 +16,7 @@ const useGenres = (): Genre[] => {
       isSelected: item.to === (selected.genre ?? ""),
     })),
     ...indexes.genre.map((genre) => {
-      const getLength = (media: MediaDB) =>
-        Object.values(media).filter((m) => m.genre === genre).length
+      const getLength = (media: MediaDB) => Object.values(media).filter((m) => m.genre === genre).length
 
       const count = getLength(movie) + getLength(tv)
 

@@ -29,12 +29,7 @@ const SignIn = () => {
   return (
     <form onSubmit={submit}>
       <input type="email" name="email" value={email} onChange={handleChange} />
-      <input
-        type="password"
-        name="password"
-        value={password}
-        onChange={handleChange}
-      />
+      <input type="password" name="password" value={password} onChange={handleChange} />
       <button type="submit" />
     </form>
   )
