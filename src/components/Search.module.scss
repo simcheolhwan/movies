@@ -2,8 +2,7 @@
 
 .form {
   @media (min-width: $breakpoint-lg) {
-    padding: $gutter-lg;
-    padding-bottom: 0;
+    flex: 1;
   }
 
   input {

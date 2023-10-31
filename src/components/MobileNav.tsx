@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
-import { ThreeBarsIcon as ThreeBars } from "@primer/octicons-react"
+import { ChevronDownIcon as ChevronDown } from "@primer/octicons-react"
 import { useFilter } from "../api/hooks"
 import FilterFooter from "./FilterFooter"
 import MobileFilter from "./MobileFilter"
@@ -21,7 +21,7 @@ const MobileNav = () => {
     <div className={styles.component}>
       <header className={styles.header}>
         <button onClick={toggle} className={styles.toggle}>
-          <ThreeBars />
+          <ChevronDown />
         </button>
         {selected.genre}
         <FilterFooter />

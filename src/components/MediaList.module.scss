@@ -1,6 +1,20 @@
 @use "sass:math";
 @import "../variables";
 
+.header {
+  display: flex;
+  align-items: center;
+
+  @media (min-width: $breakpoint-lg) {
+    padding: $gutter-lg;
+    padding-bottom: 0;
+  }
+
+  .menu {
+    padding: 1rem;
+  }
+}
+
 .content {
   flex: 1;
   display: flex;

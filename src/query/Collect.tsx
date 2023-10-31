@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useApp, useDatabase, useAuth } from "../api/hooks"
 import useIndexedCredits from "./useIndexedCredits"
 import List from "./List"
@@ -44,6 +45,7 @@ const Collect = () => {
   const [authenticated] = useAuth()
   const [media] = useDatabase()
   const indexed = useIndexedCredits()
+  const [idle, setIdle] = useState(true)
 
   const isMediaCollected = (media_type: MediaType) =>
     Object.keys(media[media_type]).every((id) => !!indexed.collection[media_type][id])
@@ -53,9 +55,11 @@ const Collect = () => {
   const isMovieCollected = isMediaCollected("movie")
   const isCollected = isTvCollected && isMovieCollected
 
-  return !isReady ? null : isCollected ? (
-    <>완료</>
-  ) : (
+  if (!isReady) return null
+  if (idle) return <button onClick={() => setIdle(false)}>시작하기</button>
+  if (isCollected) return <>완료</>
+
+  return (
     <Container
       {...indexed}
       media={!isTvCollected ? media["tv"] : media["movie"]}

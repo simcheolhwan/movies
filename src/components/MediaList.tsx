@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom"
+import classNames from "classnames"
+import { ThreeBarsIcon as ThreeBars } from "@primer/octicons-react"
 import { useAuth, FilterProvider } from "../api/hooks"
 import { useFilterReducer, useURLParams } from "../data/hooks"
 import Search from "./Search"
@@ -14,8 +17,11 @@ const Component = () => {
   return (
     <FilterProvider value={value}>
       {authenticated && (
-        <header className="desktop">
+        <header className={classNames("desktop", styles.header)}>
           <Search />
+          <Link to="/menu" className={styles.menu}>
+            <ThreeBars />
+          </Link>
         </header>
       )}
 
