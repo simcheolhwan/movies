@@ -7,6 +7,7 @@ interface DefaultTMDB {
   poster_path: string
   vote_count: number
   original_language: string
+  belongs_to_collection?: { name: string }
   production_companies?: { name: string }[]
 }
 

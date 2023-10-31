@@ -21,7 +21,7 @@ const Item = ({ onClick, ...item }: { onClick: () => void } & TMDB) => {
 
   return (
     <li className={styles.item}>
-      <a href={link} onClick={handleClick} className={styles.movie}>
+      <a href={link} onClick={handleClick} className={styles.movie} target="_blank" rel="noopener noreferrer">
         <Poster media={item} w={92} className={styles.poster} />
         <main>
           <h1>{title}</h1>

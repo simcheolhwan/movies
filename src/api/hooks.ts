@@ -15,6 +15,7 @@ const Metadata = [
   "poster_path",
   "release_date",
   "first_air_date",
+  "belongs_to_collection",
   "production_companies",
 ]
 

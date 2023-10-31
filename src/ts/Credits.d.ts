@@ -17,6 +17,7 @@ interface Person {
   id: number
   name: string
   profile_path: string
+  popularity: number
 }
 
 interface Crew extends Person {

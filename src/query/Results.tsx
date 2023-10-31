@@ -15,7 +15,10 @@ const Results = ({ crew, cast }: Q) => {
   const isCollectionValid = validateCollection(media, collection)
   const withoutMarvel = useMemo(() => {
     const values = Object.values<Credits>(collection.movie)
-    return values.filter(({ id }) => !helpers.getMarvel(movie[id].tmdb))
+    return values.filter(
+      ({ id }) =>
+        !helpers.getProductionCompany(movie[id].tmdb, "Marvel") && !helpers.getCollection(movie[id].tmdb, "X-Men"),
+    )
   }, [collection, movie])
 
   const data = useMemo(() => {
@@ -30,14 +33,14 @@ const Results = ({ crew, cast }: Q) => {
           <Link to="/collect">데이터 수집하기</Link>
         </article>
       ) : (
-        data.map(({ id, name, filmography }) => {
+        data.map(({ id, name, filmography, popularity }) => {
           const count = [filmography.filter((id) => movie[id].best).length, filmography.length]
 
           return (
             <article key={id}>
               <h1 className={styles.name}>
-                <a href={helpers.getPersonLink(id)}>
-                  {name} ({count.join("/")})
+                <a href={helpers.getPersonLink(id)} target="_blank" rel="noopener noreferrer">
+                  {name} ({count.join("/")}) <small>{popularity}</small>
                 </a>
               </h1>
 
@@ -69,22 +72,23 @@ const validateCollection = (media: MediaCollection, collection: CreditsCollectio
   Object.keys(media).every((k) => equals(Object.keys(media[k as MediaType]), Object.keys(collection[k as MediaType])))
 
 /* query */
-type Result = { id: number; name: string; filmography: number[] }
+type Result = { id: number; name: string; filmography: number[]; popularity: number }
 type People = Record<string, Result>
 
 const query = (values: Credits[], q: Q): Result[] => {
   const group = values.reduce((acc: People, { id: movieId, crew, cast }) => {
-    const getNext = ({ id, name }: Person): People => {
+    const getNext = ({ id, name, popularity }: Person): People => {
       const { filmography = [] } = acc[id] || {}
-      const result = { id, name, filmography: [...filmography, movieId] }
+      const result = { id, name, filmography: [...filmography, movieId], popularity }
       return { [String(id)]: result }
     }
 
-    const people = () => cast.reduce((people, person) => Object.assign({}, people, getNext(person)), {})
+    const people = () => {
+      return cast.reduce((acc, person) => Object.assign({}, acc, getNext(person)), {})
+    }
 
     const person = () => {
-      const person = crew.find((c) => c[q.crew[0]].toLowerCase() === q.crew[1].toLowerCase())
-
+      const person = crew.find((c) => String(c[q.crew[0]]).toLowerCase() === q.crew[1].toLowerCase())
       return person ? getNext(person) : {}
     }
 
@@ -93,9 +97,17 @@ const query = (values: Credits[], q: Q): Result[] => {
 
   const filtered = Object.values(group).filter(({ filmography }) => filmography.length > (q.cast ? 9 : 2))
 
-  const sorted = filtered.sort(({ filmography: a }, { filmography: b }) =>
-    a.length === b.length ? 0 : a.length > b.length ? -1 : 1,
-  )
+  const sorted = filtered.sort((a, b) => {
+    const getScore = ({ popularity, filmography }: Result) => {
+      const count = filmography.length
+      return popularity * count
+    }
+
+    const scoreA = getScore(a)
+    const scoreB = getScore(b)
+
+    return scoreA === scoreB ? 0 : scoreA > scoreB ? -1 : 1
+  })
 
   return sorted
 }
